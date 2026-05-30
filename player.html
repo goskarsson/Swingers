@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swingers – Leikmaður</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0d1117;
+      --surface:    #161b22;
+      --surface2:   #1c2128;
+      --border:     #30363d;
+      --gold:       #d97706;
+      --gold-light: #fbbf24;
+      --text:       #e6edf3;
+      --muted:      #8b949e;
+      --eldri:      #818cf8;
+      --yngri:      #34d399;
+      --green:      #34d399;
+      --red:        #f87171;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .header-inner {
+      max-width: 880px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 60px;
+    }
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .back-link:hover { color: var(--text); }
+    .logo {
+      width: 32px; height: 32px;
+      border-radius: 7px; object-fit: cover;
+    }
+    .site-title {
+      font-size: 1.1rem; font-weight: 800;
+      color: var(--gold-light);
+    }
+    .player-selector {
+      margin-left: auto;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .player-selector:focus { outline: none; border-color: var(--gold); }
+
+    /* ── Main ── */
+    main { max-width: 880px; margin: 0 auto; padding: 24px 20px; }
+
+    /* ── Player hero ── */
+    .player-hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hero-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      flex-shrink: 0;
+    }
+    .hero-info { flex: 1; min-width: 160px; }
+    .hero-nick {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-full {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .tag-eldri { background: rgba(129,140,248,.15); color: var(--eldri); }
+    .tag-yngri { background: rgba(52,211,153,.15);  color: var(--yngri); }
+    .tag-hcp   { background: rgba(251,191,36,.12);  color: var(--gold-light); }
+
+    .hero-stats {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .hstat { text-align: center; }
+    .hstat-val { font-size: 1.5rem; font-weight: 800; color: var(--gold-light); line-height: 1; }
+    .hstat-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .hstat-val.muted-val { color: var(--muted); font-size: 1.1rem; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .card-header {
+      padding: 13px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* ── Empty 2026 ── */
+    .empty {
+      text-align: center;
+      padding: 44px 20px;
+      color: var(--muted);
+    }
+    .empty h3 { color: var(--text); font-size: 1rem; margin-bottom: 6px; }
+    .empty p  { font-size: 0.85rem; }
+
+    /* ── Week rows ── */
+    .week-rows { padding: 4px 0; }
+    .week-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-bottom: 1px solid #21262d;
+      gap: 12px;
+    }
+    .week-row:last-child { border-bottom: none; }
+    .week-row.counting { background: rgba(217,119,6,.04); }
+    .wr-label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      width: 70px;
+      flex-shrink: 0;
+    }
+    .wr-date {
+      font-size: 0.78rem;
+      color: var(--muted);
+      width: 90px;
+      flex-shrink: 0;
+    }
+    .wr-bar-wrap {
+      flex: 1;
+      height: 8px;
+      background: var(--surface2);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .wr-bar {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .wr-bar.counting-bar { background: var(--gold-light); }
+    .wr-pts {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      width: 32px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .wr-star {
+      font-size: 0.75rem;
+      width: 16px;
+      text-align: center;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .wr-note {
+      font-size: 0.7rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ── 2025 summary card ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .sum-cell {
+      background: var(--surface);
+      padding: 16px;
+      text-align: center;
+    }
+    .sum-val { font-size: 1.3rem; font-weight: 800; color: var(--gold-light); }
+    .sum-lbl { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
+    .sum-val.rank-val { color: var(--text); }
+
+    /* ── No player state ── */
+    .no-player {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+    .no-player h2 { color: var(--text); font-size: 1.2rem; margin-bottom: 8px; }
+
+    @media (max-width: 580px) {
+      main { padding: 12px; }
+      .player-hero { padding: 16px; }
+      .hero-nick { font-size: 1.3rem; }
+      .wr-date { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="back-link" href="index.html">← Stigatafla</a>
+    <img src="SwingersLogo.jpg" class="logo" alt="Swingers">
+    <span class="site-title">Swingers</span>
+    <select class="player-selector" id="player-sel" onchange="goToPlayer(this.value)">
+      <option value="">— Velja leikmann —</option>
+    </select>
+  </div>
+</header>
+
+<main id="main-content">
+  <div class="no-player">
+    <h2>Enginn leikmaður valinn</h2>
+    <p>Veldu leikmann úr fellivalmyndinni eða opnaðu síðu með ?p=Nafn</p>
+  </div>
+</main>
+
+<script>
+// ============================================================
+// ⚙️  STILLINGAR
+// ============================================================
+const BEST_OF = 8;
+
+// ============================================================
+// 👥  LEIKMENN
+// ============================================================
+const PLAYERS = [
+  {id: 1, nick:"Biggi",      full:"Erlingur Birgir Kjartansson",  hcp26:10,   hcp25:10,   group:"Eldri"},
+  {id: 2, nick:"Heisi",      full:"Heiðar Bergmann Heiðarsson",   hcp26:14.1, hcp25:14.1, group:"Eldri"},
+  {id: 3, nick:"Helgi",      full:"Helgi Ásgeir Harðarson",       hcp26:26.5, hcp25:26.5, group:"Eldri"},
+  {id: 4, nick:"Kiddi",      full:"Kristinn Eiríksson",           hcp26:8.1,  hcp25:8.1,  group:"Eldri"},
+  {id: 5, nick:"Öddi",       full:"Örn Svarfdal Hauksson",        hcp26:17,   hcp25:17,   group:"Eldri", nick25:"Örn"},
+  {id: 6, nick:"Pétur",      full:"Pétur Vilberg Guðnason",       hcp26:28,   hcp25:28,   group:"Eldri"},
+  {id: 7, nick:"Þorvaldur",  full:"Þorvaldur Ólafsson",           hcp26:21.3, hcp25:21.3, group:"Eldri"},
+  {id: 8, nick:"Valdi",      full:"Valdimar Óskarsson",           hcp26:18.7, hcp25:18.7, group:"Eldri"},
+  {id: 9, nick:"Böddi",      full:"Björn Þorfinnsson",            hcp26:10.6, hcp25:10.6, group:"Yngri"},
+  {id:10, nick:"Ægir",       full:"Ægir Örn Sigurgeirsson",       hcp26:18,   hcp25:18,   group:"Yngri"},
+  {id:11, nick:"Gísli",      full:"Gísli Magnússon",              hcp26:28.1, hcp25:28.1, group:"Yngri"},
+  {id:12, nick:"Gummi",      full:"Guðmundur Óskarsson",          hcp26:10,   hcp25:10,   group:"Yngri"},
+  {id:13, nick:"Hebbi",      full:"Herbert Ingi Sigfússon",       hcp26:17.5, hcp25:17.5, group:"Yngri"},
+  {id:14, nick:"Maggi",      full:"Magnús Óskarsson",             hcp26:21.5, hcp25:21.5, group:"Yngri"},
+  {id:15, nick:"Rósant",     full:"Rósant Már Torfason",          hcp26:20.6, hcp25:20.6, group:"Yngri"},
+  {id:16, nick:"Matti",      full:"Sigurgeir M Sigurgeirsson",    hcp26:12.6, hcp25:12.6, group:"Yngri"},
+];
+
+// ============================================================
+// 📅  2026 — VIKUR OG STIG  ← UPPFÆRA HÉR eftir hverja viku
+// ============================================================
+const WEEKS_2026 = [
+  {id:"V1", label:"Vika 1", date:"21.5.2026", course:"Hvaleyrarvöllur"},
+  {id:"V2", label:"Vika 2", date:"28.5.2026", course:"Hvaleyrarvöllur"},
+];
+
+const SCORES_2026 = {
+  "Biggi":     {V1:19, V2:26},
+  "Heisi":     {V1:25, V2:28},
+  "Helgi":     {V1:18, V2:28},
+  "Kiddi":     {V1:38},
+  "Öddi":      {V1:26, V2:28},
+  "Pétur":     {V1:29, V2:23},
+  "Þorvaldur": {V1:33},
+  "Valdi":     {V1:33, V2:21},
+  "Böddi":     {V1:36, V2:33},
+  "Ægir":      {V1:30, V2:34},
+  "Gísli":     {V1:34, V2:36},
+  "Gummi":     {V1:31, V2:33},
+  "Hebbi":     {V1:32, V2:35},
+  "Maggi":     {V2:32},
+  "Rósant":    {V1:34, V2:27},
+  "Matti":     {V1:33},
+};
+
+// ============================================================
+// 📅  2025 — SÖGULEG GÖGN
+// ============================================================
+const WEEKS_2025 = [
+  {id:"V1",  label:"Vika 1",  date:"15.5.2025"},
+  {id:"V2",  label:"Vika 2",  date:"29.5.2025"},
+  {id:"V3",  label:"Vika 3",  date:"5.6.2025"},
+  {id:"V4",  label:"Vika 4",  date:"12.6.2025"},
+  {id:"V5",  label:"Vika 5",  date:"18.6.2025"},
+  {id:"V6",  label:"Vika 6",  date:"26.6.2025"},
+  {id:"V7",  label:"Vika 7",  date:"3.7.2025"},
+  {id:"V8",  label:"Vika 8",  date:"17.7.2025"},
+  {id:"V9",  label:"Vika 9",  date:"24.7.2025"},
+  {id:"V10", label:"Vika 10", date:"31.7.2025"},
+  {id:"V11", label:"Vika 11", date:"14.8.2025"},
+  {id:"V12", label:"Vika 12", date:"21.8.2025"},
+  {id:"V13", label:"Vika 13", date:"29.8.2025"},
+  {id:"V14", label:"Vika 14", date:"6.9.2025"},
+  {id:"V15", label:"Vika 15", date:"7.9.2025",  note:"Vestmannaeyjar"},
+  {id:"V16", label:"Vika 16", date:"18.9.2025", note:"Vestmannaeyjar"},
+];
+
+const SCORES_2025 = {
+  "Ægir":      {V1:28, V2:32, V4:31, V5:26, V6:25, V7:31, V8:25, V11:33, V12:26, V14:43},
+  "Biggi":     {V1:19, V2:28, V4:36, V5:29, V6:30, V7:19, V8:27, V9:28, V11:33, V14:30},
+  "Böddi":     {V8:26, V9:36, V11:35, V12:39},
+  "Gísli":     {V2:41, V3:34, V6:23, V8:39, V9:34, V10:22, V11:34, V12:34, V14:33},
+  "Gummi":     {V2:39, V3:27, V4:25, V5:26, V7:30, V8:24, V9:32, V10:30, V11:35, V12:31, V13:34},
+  "Hebbi":     {V1:30, V2:32, V4:34, V8:36, V9:33, V11:33, V12:24, V13:28, V14:30},
+  "Heisi":     {V2:26, V3:27, V4:38, V5:29, V7:35, V8:30, V9:35, V13:34},
+  "Helgi":     {V2:30, V4:38, V8:27, V11:28, V12:19, V13:22, V14:32},
+  "Kiddi":     {V1:25, V6:31, V7:18, V8:33, V12:42, V13:31, V14:32},
+  "Maggi":     {V1:37, V2:26, V3:28, V4:36, V5:23, V6:25, V8:25, V9:22, V12:36, V13:21},
+  "Matti":     {V5:27, V6:26, V7:32, V9:33, V10:36, V11:36, V12:28, V14:38},
+  "Örn":       {V1:30, V2:24, V3:18, V4:34, V6:31, V7:30, V8:34, V9:28, V10:33, V11:40, V12:37, V13:30},
+  "Pétur":     {V1:26, V3:27, V4:30, V5:26, V6:24, V7:13, V8:21, V9:28, V11:26, V12:28, V14:23},
+  "Rósant":    {V1:30, V2:34, V3:28, V5:27, V7:28, V11:23, V12:29, V13:25, V14:25},
+  "Þorvaldur": {V2:42, V4:31, V6:31, V8:27, V12:32, V14:32},
+  "Valdi":     {V1:28, V2:24, V3:27, V5:26, V7:25, V8:31, V11:27, V12:39},
+};
+
+const RESULTS_2025 = [
+  {rank: 1, nick:"Örn",       best8:263, avg:32.9, rounds:12},
+  {rank: 2, nick:"Gísli",     best8:260, avg:32.5, rounds: 9},
+  {rank: 3, nick:"Gummi",     best8:258, avg:32.3, rounds:11},
+  {rank: 4, nick:"Matti",     best8:256, avg:32.0, rounds: 8},
+  {rank: 5, nick:"Hebbi",     best8:250, avg:31.3, rounds: 9},
+  {rank: 6, nick:"Ægir",      best8:249, avg:31.1, rounds:10},
+  {rank: 7, nick:"Heisi",     best8:247, avg:30.9, rounds: 8},
+  {rank: 8, nick:"Biggi",     best8:241, avg:30.1, rounds:10},
+  {rank: 9, nick:"Maggi",     best8:233, avg:29.1, rounds:10},
+  {rank:10, nick:"Valdi",     best8:227, avg:28.4, rounds: 8},
+  {rank:11, nick:"Rósant",    best8:226, avg:28.3, rounds: 9},
+  {rank:12, nick:"Kiddi",     best8:212, avg:30.3, rounds: 7},
+  {rank:13, nick:"Pétur",     best8:210, avg:26.3, rounds:11},
+  {rank:14, nick:"Helgi",     best8:196, avg:28.0, rounds: 7},
+  {rank:15, nick:"Þorvaldur", best8:195, avg:32.5, rounds: 6},
+  {rank:16, nick:"Böddi",     best8:136, avg:34.0, rounds: 4},
+];
+
+// ============================================================
+// 🔧  HJÁLPARFÖLL
+// ============================================================
+function calcBest8(scores) {
+  const vals = Object.values(scores).filter(v => typeof v === 'number').sort((a,b)=>b-a);
+  const top  = vals.slice(0, BEST_OF);
+  return { best8: top.reduce((t,v)=>t+v,0), rounds: vals.length, topVals: top };
+}
+
+function goToPlayer(nick) {
+  if (nick) window.location = 'player.html?p=' + encodeURIComponent(nick);
+}
+
+// ============================================================
+// 🖥️  RENDER PLAYER PAGE
+// ============================================================
+function renderPlayer(player) {
+  const main = document.getElementById('main-content');
+  const nick25 = player.nick25 || player.nick;
+
+  // ── 2026 data ──
+  const scores26 = SCORES_2026[player.nick] || {};
+  const { best8: b8_26, rounds: r26, topVals: top26 } = calcBest8(scores26);
+  const avg26 = r26 > 0 ? (b8_26 / Math.min(r26, BEST_OF)).toFixed(1) : null;
+
+  // ── 2025 data ──
+  const scores25 = SCORES_2025[nick25] || {};
+  const res25    = RESULTS_2025.find(r => r.nick === nick25);
+  const { best8: b8_25, rounds: r25, topVals: top25 } = calcBest8(scores25);
+
+  const initials = player.nick.slice(0,2).toUpperCase();
+  const grpClass = player.group.toLowerCase();
+  const grpBadge = `<span class="tag tag-${grpClass}">${player.group}</span>`;
+
+  // ── Hero ──
+  let heroStats = '';
+  if (r26 > 0) {
+    heroStats = `
+      <div class="hstat"><div class="hstat-val">${b8_26}</div><div class="hstat-lbl">Bestu 8 — 2026</div></div>
+      <div class="hstat"><div class="hstat-val">${avg26}</div><div class="hstat-lbl">Meðaltal 2026</div></div>
+      <div class="hstat"><div class="hstat-val">${r26}</div><div class="hstat-lbl">Vikur 2026</div></div>`;
+  } else {
+    heroStats = `<div class="hstat"><div class="hstat-val muted-val">—</div><div class="hstat-lbl">Engar vikur 2026</div></div>`;
+  }
+  if (res25) {
+    heroStats += `<div class="hstat"><div class="hstat-val">${res25.rank}.</div><div class="hstat-lbl">Sæti 2025</div></div>
+      <div class="hstat"><div class="hstat-val">${res25.best8}</div><div class="hstat-lbl">Bestu 8 — 2025</div></div>`;
+  }
+
+  let html = `
+    <div class="player-hero">
+      <div class="hero-avatar">${initials}</div>
+      <div class="hero-info">
+        <div class="hero-nick">${player.nick}</div>
+        <div class="hero-full">${player.full}</div>
+        <div class="hero-tags">
+          ${grpBadge}
+          <span class="tag tag-hcp">HCP ${player.hcp26}</span>
+        </div>
+      </div>
+      <div class="hero-stats">${heroStats}</div>
+    </div>`;
+
+  // ── 2026 season card ──
+  html += `<div class="card"><div class="card-header">📅 2026 Tímabilið</div>`;
+
+  if (WEEKS_2026.length === 0 || r26 === 0) {
+    html += `<div class="empty"><h3>Engar vikur spilað enn</h3><p>Stigin birtast hér eftir fyrstu viku.</p></div>`;
+  } else {
+    const topSet = new Set(top26);
+    const maxPts = Math.max(...Object.values(scores26).filter(v=>typeof v==='number'), 1);
+    html += `<div class="week-rows">`;
+    WEEKS_2026.forEach(w => {
+      const pts = scores26[w.id];
+      if (pts === undefined) return;
+      const isCounting = topSet.has(pts); // approximate
+      const barPct = Math.round((pts / maxPts) * 100);
+      html += `<div class="week-row ${isCounting?'counting':''}">
+        <span class="wr-label">${w.label}</span>
+        <span class="wr-date">${w.date}</span>
+        <div class="wr-bar-wrap"><div class="wr-bar ${isCounting?'counting-bar':''}" style="width:${barPct}%"></div></div>
+        <span class="wr-pts">${pts}</span>
+        <span class="wr-star">${isCounting?'★':''}</span>
+      </div>`;
+    });
+    html += `</div>
+    <div style="padding:10px 20px;font-size:0.78rem;color:var(--muted)">
+      ★ = telur í bestu 8
+    </div>`;
+  }
+  html += `</div>`;
+
+  // ── 2025 summary card ──
+  if (res25 || r25 > 0) {
+    const official25 = res25 || { best8: b8_25, avg: null, rounds: r25, rank: '—' };
+    html += `<div class="card">
+      <div class="card-header">📊 2025 Tímabilið — Lokastaða</div>
+      <div class="summary-grid">
+        <div class="sum-cell"><div class="sum-val rank-val">${official25.rank}${typeof official25.rank==='number'?'.':''}</div><div class="sum-lbl">Sæti</div></div>
+        <div class="sum-cell"><div class="sum-val">${official25.best8}</div><div class="sum-lbl">Bestu 8 stig</div></div>
+        <div class="sum-cell"><div class="sum-val">${official25.avg ? official25.avg.toFixed(1) : '—'}</div><div class="sum-lbl">Meðaltal</div></div>
+        <div class="sum-cell"><div class="sum-val">${official25.rounds}</div><div class="sum-lbl">Vikur</div></div>
+        <div class="sum-cell"><div class="sum-val">${player.hcp25}</div><div class="sum-lbl">HCP 2025</div></div>
+      </div>
+    </div>`;
+
+    // 2025 week breakdown
+    if (r25 > 0) {
+      const maxPts25 = Math.max(...Object.values(scores25).filter(v=>typeof v==='number'), 1);
+      const sortedVals25 = Object.values(scores25).filter(v=>typeof v==='number').sort((a,b)=>b-a);
+      const cutoff25 = sortedVals25[BEST_OF - 1] ?? 0;
+
+      html += `<div class="card">
+        <div class="card-header">📅 2025 Vika fyrir viku</div>
+        <div class="week-rows">`;
+      WEEKS_2025.forEach(w => {
+        const pts = scores25[w.id];
+        if (pts === undefined) return;
+        const isCounting = pts >= cutoff25 && sortedVals25.indexOf(pts) < BEST_OF;
+        const barPct = Math.round((pts / maxPts25) * 100);
+        html += `<div class="week-row ${isCounting?'counting':''}">
+          <span class="wr-label">${w.label}</span>
+          <span class="wr-date">${w.date}</span>
+          <div class="wr-bar-wrap"><div class="wr-bar ${isCounting?'counting-bar':''}" style="width:${barPct}%"></div></div>
+          <span class="wr-pts">${pts}</span>
+          <span class="wr-star">${isCounting?'★':''}</span>
+          ${w.note ? `<span class="wr-note">✈</span>` : ''}
+        </div>`;
+      });
+      html += `</div>
+        <div style="padding:10px 20px;font-size:0.78rem;color:var(--muted)">★ = taldi í bestu 8</div>
+      </div>`;
+    }
+  } else {
+    html += `<div class="card"><div class="card-header">📊 2025 Tímabilið</div>
+      <div class="empty"><h3>Enginn þátttaka 2025</h3><p>Þessi leikmaður tók ekki þátt í 2025 tímabilinu.</p></div>
+    </div>`;
+  }
+
+  main.innerHTML = html;
+}
+
+// ============================================================
+// 🚀  INIT
+// ============================================================
+// Populate selector
+const sel = document.getElementById('player-sel');
+PLAYERS.forEach(p => {
+  const opt = document.createElement('option');
+  opt.value = p.nick;
+  opt.textContent = p.nick + ' — ' + p.full;
+  sel.appendChild(opt);
+});
+
+// Read URL param
+const urlNick = new URLSearchParams(window.location.search).get('p');
+if (urlNick) {
+  const player = PLAYERS.find(p => p.nick.toLowerCase() === urlNick.toLowerCase());
+  if (player) {
+    sel.value = player.nick;
+    renderPlayer(player);
+  } else {
+    document.getElementById('main-content').innerHTML =
+      `<div class="no-player"><h2>Leikmaður ekki fundinn: "${urlNick}"</h2><p>Athugaðu stafsetningu eða veldu úr listanum.</p></div>`;
+  }
+}
+</script>
+</body>
+</html>
