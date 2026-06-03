@@ -941,6 +941,64 @@ function renderStatCards() {
       <span class="sc-sub">${grossSubLabel}</span>
     </div>`).join('')) : '';
 
+  // ── Form: last 3 weeks avg vs season avg ──────────────────
+  const nFormWks = Math.min(3, WEEKS_2026.length);
+  let formCard = '';
+  if (nFormWks >= 1) {
+    const lastN = WEEKS_2026.slice(-nFormWks);
+    const formData = PLAYERS.map(p => {
+      const last = lastN.map(w=>(SCORES_2026[p.nick]||{})[w.id]).filter(s=>s!==undefined);
+      if (!last.length) return null;
+      const fAvg = last.reduce((a,b)=>a+b,0)/last.length;
+      const all  = Object.values(SCORES_2026[p.nick]||{}).filter(s=>typeof s==='number');
+      const sAvg = all.length ? all.reduce((a,b)=>a+b,0)/all.length : fAvg;
+      return { nick:p.nick, fAvg, sAvg, diff:fAvg-sAvg };
+    }).filter(Boolean).sort((a,b)=>b.fAvg-a.fAvg).slice(0,5);
+    if (formData.length) {
+      const formLabel = nFormWks===1?'Síðasta vika':nFormWks===2?'Síðustu 2 vikur':'Síðustu 3 vikur';
+      formCard = card('📊', 'Form — '+formLabel, wkBadge, formData.map((x,i)=>{
+        const d = x.diff, dp = d>0.09?'+'+d.toFixed(1):d<-0.09?d.toFixed(1):'±0';
+        const dc = d>0.09?'var(--green)':d<-0.09?'var(--red)':'var(--muted)';
+        return `<div class="sc-row">
+          <span class="sc-medal">${medals[i]||((i+1)+'.')}</span>
+          <span class="sc-name">${plink(x.nick)}</span>
+          <span class="sc-val">${x.fAvg.toFixed(1)}</span>
+          <span class="sc-sub" style="color:${dc}">${dp} vs meðaltal</span>
+        </div>`;
+      }).join(''));
+    }
+  }
+
+  // ── Þrýstimælir: score needed to improve best-8 ─────────────
+  let pressureCard = '';
+  {
+    const pRows = standing.map((p,i) => {
+      const all = Object.values(SCORES_2026[p.nick]||{}).filter(s=>typeof s==='number').sort((a,b)=>b-a);
+      if (!all.length) return null;
+      const cutoff = all.length >= BEST_OF ? all[BEST_OF-1] : null;
+      return { nick:p.nick, cutoff, rounds:all.length, rank:i+1 };
+    }).filter(Boolean);
+    if (pRows.length) {
+      const sorted = [...pRows.filter(r=>r.cutoff!==null).sort((a,b)=>b.cutoff-a.cutoff),
+                      ...pRows.filter(r=>r.cutoff===null)];
+      const rowsHtml = sorted.slice(0,8).map(r => {
+        const val  = r.cutoff!==null ? `>${r.cutoff}` : '—';
+        const sub  = r.cutoff!==null
+          ? `til að bæta (${r.rounds} vikur)`
+          : `allar vikur telja (${r.rounds})`;
+        const vc   = r.cutoff!==null ? 'var(--gold-light)' : 'var(--muted)';
+        return `<div class="sc-row">
+          <span class="sc-medal" style="color:var(--muted)">${r.rank}.</span>
+          <span class="sc-name">${plink(r.nick)}</span>
+          <span class="sc-val" style="color:${vc}">${val}</span>
+          <span class="sc-sub">${sub}</span>
+        </div>`;
+      }).join('');
+      pressureCard = card('🎯', 'Þrýstimælir', wkBadge,
+        pRows.some(r=>r.cutoff!==null) ? rowsHtml : EMPTY('Bíður eftir 8 vikum'));
+    }
+  }
+
   el.innerHTML = [
     card('🏆', 'Sigurvegari', wkBadge,
       sigurvegariRows || EMPTY('Engar vikur enn')),
@@ -963,6 +1021,8 @@ function renderStatCards() {
         : EMPTY('Engin g\xf6gn enn')),
     movementCard,
     grossCard,
+    formCard,
+    pressureCard,
   ].filter(Boolean).join('');
 }
 

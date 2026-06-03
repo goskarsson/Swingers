@@ -251,6 +251,31 @@
       background: var(--border);
     }
     @media (max-width: 480px) { .par-compare-grid { grid-template-columns: 1fr; } }
+
+    /* Season progression chart */
+    .prog-chart { padding: 12px 16px 4px; }
+    .prog-legend { display:flex; gap:16px; padding:4px 16px 12px; font-size:0.72rem; color:var(--muted); }
+    .prog-legend span { display:flex; align-items:center; gap:5px; }
+    .prog-dot-gold { width:9px;height:9px;border-radius:50%;background:var(--gold);border:2px solid var(--gold-light);flex-shrink:0; }
+    .prog-dot-grey { width:9px;height:9px;border-radius:50%;background:#444;border:2px solid #666;flex-shrink:0; }
+
+    /* Hole statistics */
+    .hole-grid { display:grid; grid-template-columns:repeat(9,1fr); border-top:1px solid var(--border); }
+    @media (max-width:600px) { .hole-grid { grid-template-columns:repeat(6,1fr); } }
+    .hole-cell { padding:10px 4px; text-align:center; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .hole-cell:nth-child(9n) { border-right:none; }
+    .hole-cell.half-break { border-left:2px solid var(--gold); }
+    .hc-num  { font-size:0.68rem; color:var(--muted); font-weight:700; margin-bottom:2px; }
+    .hc-par  { font-size:0.62rem; color:#555; margin-bottom:4px; }
+    .hc-avg  { font-size:0.95rem; font-weight:800; }
+    .hc-diff { font-size:0.68rem; margin-top:2px; }
+    .hc-best { font-size:0.62rem; color:#555; margin-top:3px; }
+    .hc-pos  { color:var(--green); }
+    .hc-neg  { color:var(--red); }
+    .hc-neu  { color:var(--muted); }
+    .hole-section-hdr { grid-column:1/-1; padding:6px 12px; font-size:0.68rem; color:var(--muted);
+                        text-transform:uppercase; letter-spacing:.06em; font-weight:700;
+                        background:var(--surface2); border-bottom:1px solid var(--border); }
     .pc-cell {
       background: var(--surface);
       padding: 16px 18px;
@@ -577,6 +602,59 @@ function renderPlayer(player) {
     <div style="padding:10px 20px;font-size:0.78rem;color:var(--muted)">
       ★ = telur í bestu 8
     </div>`;
+
+    // ── Progression chart ──
+    const chartWeeks  = WEEKS_2026.filter(w => scores26[w.id] !== undefined);
+    if (chartWeeks.length >= 2) {
+      const chartVals = chartWeeks.map(w => scores26[w.id]);
+      const cMin = Math.min(...chartVals), cMax = Math.max(...chartVals);
+      const cAvg = chartVals.reduce((a,b)=>a+b,0)/chartVals.length;
+      const padT=24, padB=28, padL=8, padR=36;
+      const W=520, H=170;
+      const iW=W-padL-padR, iH=H-padT-padB;
+      const yRange = Math.max(cMax-cMin, 8);
+      const xP = i => padL + (chartWeeks.length===1?iW/2:i/(chartWeeks.length-1)*iW);
+      const yP = v => padT + (1-(v-(cMin-2))/(yRange+4))*iH;
+      const avgY = yP(cAvg);
+
+      // Grid lines every 5 pts
+      let gridLines='';
+      for (let g=Math.ceil((cMin-2)/5)*5; g<=cMax+2; g+=5) {
+        const gy=yP(g);
+        gridLines+=`<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="#21262d" stroke-width="1"/>
+          <text x="${W-padR+4}" y="${gy+4}" font-size="9" fill="#555">${g}</text>`;
+      }
+
+      // Polyline
+      const pts = chartWeeks.map((w,i)=>`${xP(i)},${yP(scores26[w.id])}`).join(' ');
+
+      // Dots + labels
+      let dots='';
+      chartWeeks.forEach((w,i) => {
+        const v=scores26[w.id], x=xP(i), y=yP(v);
+        const cnt=topSet.has(v);
+        const fill=cnt?'#d97706':'#374151', stroke=cnt?'#fbbf24':'#4b5563';
+        dots+=`<circle cx="${x}" cy="${y}" r="5.5" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>
+          <text x="${x}" y="${y-10}" font-size="10" fill="${cnt?'#fbbf24':'#6b7280'}" text-anchor="middle">${v}</text>
+          <text x="${x}" y="${H-5}" font-size="8" fill="#555" text-anchor="middle">${w.label.replace('Vika ','V')}</text>`;
+      });
+
+      html += `<div class="prog-chart">
+        <svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+          ${gridLines}
+          <line x1="${padL}" y1="${avgY}" x2="${W-padR}" y2="${avgY}"
+                stroke="#d97706" stroke-dasharray="5 4" stroke-width="1.5" opacity=".6"/>
+          <text x="${W-padR+4}" y="${avgY+4}" font-size="9" fill="#d97706">${cAvg.toFixed(1)}</text>
+          <polyline points="${pts}" fill="none" stroke="#4b5563" stroke-width="1.5"/>
+          ${dots}
+        </svg>
+      </div>
+      <div class="prog-legend">
+        <span><span class="prog-dot-gold"></span>Telur í bestu 8</span>
+        <span><span class="prog-dot-grey"></span>Telur ekki</span>
+        <span style="margin-left:auto;color:#d97706">--- Meðaltal (${cAvg.toFixed(1)})</span>
+      </div>`;
+    }
   }
   html += `</div>`;
 
@@ -661,6 +739,47 @@ function renderPlayer(player) {
         ${pcCell('Par 5', p5player, p5group, 5)}
       </div>
     </div>`;
+
+    // ── Hole statistics ──
+    {
+      const holeStats = COURSE_PARS.map((par, i) => {
+        const scores = [];
+        playerHoleWeeks.forEach(w => {
+          const hd = (HOLE_DATA[w.id]||{})[player.nick];
+          if (hd && hd.s) scores.push(hd.s[i]);
+        });
+        if (!scores.length) return null;
+        const avg   = scores.reduce((a,b)=>a+b,0)/scores.length;
+        const vspar = avg - par;
+        const best  = Math.min(...scores);
+        return { hole:i+1, par, avg, vspar, best, n:scores.length };
+      }).filter(Boolean);
+
+      if (holeStats.length) {
+        function hCell(hs) {
+          const cls  = hs.vspar < -0.15 ? 'hc-pos' : hs.vspar > 0.15 ? 'hc-neg' : 'hc-neu';
+          const sign = hs.vspar > 0 ? '+' : '';
+          return `<div class="hole-cell">` +
+            `<div class="hc-num">H${hs.hole}</div>` +
+            `<div class="hc-par">p${hs.par}</div>` +
+            `<div class="hc-avg ${cls}">${hs.avg.toFixed(1)}</div>` +
+            `<div class="hc-diff ${cls}">${sign}${hs.vspar.toFixed(1)}</div>` +
+            `<div class="hc-best">${hs.best}</div></div>`;
+        }
+        const front9 = holeStats.filter(h => h.hole <= 9).map(hCell).join('');
+        const back9  = holeStats.filter(h => h.hole >= 10).map(hCell).join('');
+        html += '<div class="card">' +
+          '<div class="card-header">⛳ Holutölfræði — meðaltal högg</div>' +
+          '<div style="padding:10px 16px 4px;font-size:0.75rem;color:var(--muted)">' +
+            'Liti: <span style="color:var(--green)">betra en par</span> · ' +
+            '<span style="color:var(--red)">verra en par</span> · neðst: besta högg' +
+          '</div>' +
+          '<div class="hole-grid">' +
+            '<div class="hole-section-hdr">Fyrri 9</div>' + front9 +
+            '<div class="hole-section-hdr">Seinni 9</div>' + back9 +
+          '</div></div>';
+      }
+    }
 
     if (birdieEntries.length > 0) {
       const chips = birdieEntries.map(e => {
