@@ -659,7 +659,10 @@ function renderPlayer(player) {
   html += `</div>`;
 
   // ── Par-type stats + group comparison (only if HOLE_DATA available) ──
-  const playerHoleWeeks = WEEKS_2026.filter(w => (HOLE_DATA[w.id] || {})[player.nick]);
+  const HOME_COURSE = 'Hvaleyrarvöllur';
+  const playerHoleWeeks = WEEKS_2026.filter(w =>
+    w.course === HOME_COURSE && (HOLE_DATA[w.id] || {})[player.nick]
+  );
   if (playerHoleWeeks.length > 0) {
     function parAvg(nick, idxArr) {
       const vals = [];
@@ -769,7 +772,7 @@ function renderPlayer(player) {
         const front9 = holeStats.filter(h => h.hole <= 9).map(hCell).join('');
         const back9  = holeStats.filter(h => h.hole >= 10).map(hCell).join('');
         html += '<div class="card">' +
-          '<div class="card-header">⛳ Holutölfræði — meðaltal högg</div>' +
+          '<div class="card-header">⛳ Holutölfræði — ' + HOME_COURSE + '</div>' +
           '<div style="padding:10px 16px 4px;font-size:0.75rem;color:var(--muted)">' +
             'Liti: <span style="color:var(--green)">betra en par</span> · ' +
             '<span style="color:var(--red)">verra en par</span> · neðst: besta högg' +
@@ -863,7 +866,7 @@ function renderPlayer(player) {
 // 🚀  INIT
 // ============================================================
 const sel = document.getElementById('player-sel');
-PLAYERS.forEach(p => {
+PLAYERS.slice().sort((a,b) => a.nick.localeCompare(b.nick, 'is')).forEach(p => {
   const opt = document.createElement('option');
   opt.value = p.nick;
   opt.textContent = p.nick + ' — ' + p.full;

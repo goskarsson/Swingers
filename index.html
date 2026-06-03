@@ -862,14 +862,18 @@ function renderStatCards() {
   const sigurvegariRows = WEEKS_2026.slice().reverse().map((w,i) => {
     const res = weekResults(w.id);
     if (!res.length) return '';
-    const winner = res[0];
-    return `<div class="sig-week ${i===0?'sig-week-featured':''}">
+    const topPts = res[0].pts;
+    const winners = res.filter(r => r.pts === topPts);
+    const featured = i === 0 ? 'sig-week-featured' : '';
+    const winnersHtml = winners.map((win, wi) => `
+      <div class="sig-winner" style="${wi>0?'margin-top:5px':''}">
+        <span class="sig-medal">${wi===0?'🥇':'🤝'}</span>
+        <span class="sig-name">${plink(win.nick)}</span>
+        <span class="sig-pts">${win.pts} <span class="sig-stig">pkt.</span></span>
+      </div>`).join('');
+    return `<div class="sig-week ${featured}">
       <div class="sig-week-meta">${w.label} \xb7 ${w.date}</div>
-      <div class="sig-winner">
-        <span class="sig-medal">🥇</span>
-        <span class="sig-name">${plink(winner.nick)}</span>
-        <span class="sig-pts">${winner.pts} <span class="sig-stig">pkt.</span></span>
-      </div>
+      ${winnersHtml}
     </div>`;
   }).join('');
 
@@ -945,33 +949,47 @@ function renderStatCards() {
   const nFormWks = Math.min(3, WEEKS_2026.length);
   let formCard = '';
   if (nFormWks >= 1) {
-    const lastN = WEEKS_2026.slice(-nFormWks);
+    const lastN    = WEEKS_2026.slice(-nFormWks);
+    const lastNIds = new Set(lastN.map(w=>w.id));
+    const FORM_MIN_ROUNDS = 3; // must have played at least this many rounds total
     const formData = PLAYERS.map(p => {
-      const last = lastN.map(w=>(SCORES_2026[p.nick]||{})[w.id]).filter(s=>s!==undefined);
+      const sc = SCORES_2026[p.nick] || {};
+      const all = Object.values(sc).filter(s=>typeof s==='number');
+      if (all.length < FORM_MIN_ROUNDS) return null; // skip players with too few rounds
+      const last = lastN.map(w=>sc[w.id]).filter(s=>s!==undefined);
       if (!last.length) return null;
-      const fAvg = last.reduce((a,b)=>a+b,0)/last.length;
-      const all  = Object.values(SCORES_2026[p.nick]||{}).filter(s=>typeof s==='number');
-      const sAvg = all.length ? all.reduce((a,b)=>a+b,0)/all.length : fAvg;
-      return { nick:p.nick, fAvg, sAvg, diff:fAvg-sAvg };
+      const fAvg = last.reduce((a,b)=>a+b,0) / last.length;
+      // Compare against rounds BEFORE the form window only
+      const prev = Object.entries(sc)
+        .filter(([wid,]) => !lastNIds.has(wid))
+        .map(([,s]) => s).filter(s=>typeof s==='number');
+      const hasPrev = prev.length > 0;
+      const sAvg = hasPrev ? prev.reduce((a,b)=>a+b,0)/prev.length : null;
+      const diff = sAvg !== null ? fAvg - sAvg : null;
+      return { nick:p.nick, fAvg, diff, hasPrev };
     }).filter(Boolean).sort((a,b)=>b.fAvg-a.fAvg).slice(0,5);
-    if (formData.length) {
-      const formLabel = nFormWks===1?'Síðasta vika':nFormWks===2?'Síðustu 2 vikur':'Síðustu 3 vikur';
-      formCard = card('📊', 'Form — '+formLabel, wkBadge, formData.map((x,i)=>{
-        const d = x.diff, dp = d>0.09?'+'+d.toFixed(1):d<-0.09?d.toFixed(1):'±0';
-        const dc = d>0.09?'var(--green)':d<-0.09?'var(--red)':'var(--muted)';
-        return `<div class="sc-row">
-          <span class="sc-medal">${medals[i]||((i+1)+'.')}</span>
-          <span class="sc-name">${plink(x.nick)}</span>
-          <span class="sc-val">${x.fAvg.toFixed(1)}</span>
-          <span class="sc-sub" style="color:${dc}">${dp} vs meðaltal</span>
-        </div>`;
-      }).join(''));
-    }
+    const formLabel = 'Síðustu 3 vikur';
+    const formContent = formData.length
+      ? formData.map((x,i)=>{
+          const d  = x.diff;
+          const dp = d===null ? '' : d>0.09 ? '+'+d.toFixed(1) : d<-0.09 ? d.toFixed(1) : '±0';
+          const dc = d===null ? 'var(--muted)' : d>0.09 ? 'var(--green)' : d<-0.09 ? 'var(--red)' : 'var(--muted)';
+          const sub = d===null ? 'fyrstu vikur' : dp+' vs meðaltal';
+          return `<div class="sc-row">
+            <span class="sc-medal">${medals[i]||((i+1)+'.')}</span>
+            <span class="sc-name">${plink(x.nick)}</span>
+            <span class="sc-val">${x.fAvg.toFixed(1)}</span>
+            <span class="sc-sub" style="color:${dc}">${sub}</span>
+          </div>`;
+        }).join('')
+      : EMPTY('Bíður eftir 3 vikur');
+    formCard = card('📊', 'Form — '+formLabel, wkBadge, formContent);
   }
 
   // ── Þrýstimælir: score needed to improve best-8 ─────────────
   let pressureCard = '';
   {
+    const standing = calcStandings(SCORES_2026, PLAYERS).filter(p=>p.rounds>0);
     const pRows = standing.map((p,i) => {
       const all = Object.values(SCORES_2026[p.nick]||{}).filter(s=>typeof s==='number').sort((a,b)=>b-a);
       if (!all.length) return null;
@@ -1006,10 +1024,6 @@ function renderStatCards() {
       rowsList(overall, p=>p.best8+' pkt.', p=>`(${p.rounds} vikur)`)),
     card('⭐', 'H\xe6stu einstaklingar', wkBadge,
       rowsList(topRounds, r=>r.pts+' pkt.', r=>r.wkLabel)),
-    card('🎖️', 'Flestir Vikusigrar', wkBadge,
-      winsList.length
-        ? rowsList(winsList, p=>p.wins+(p.wins===1?' sigur':' sigrar'), null)
-        : EMPTY('Engar vikur enn')),
     card('🦅', 'Fuglasöngur', wkBadge,
       birdieList.length
         ? birdieList.map((x,i)=>`<div class="sc-row">
