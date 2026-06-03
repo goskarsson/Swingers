@@ -243,6 +243,67 @@
     }
     .no-player h2 { color: var(--text); font-size: 1.2rem; margin-bottom: 8px; }
 
+    /* ── Par-type comparison ── */
+    .par-compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+    @media (max-width: 480px) { .par-compare-grid { grid-template-columns: 1fr; } }
+    .pc-cell {
+      background: var(--surface);
+      padding: 16px 18px;
+    }
+    .pc-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .pc-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 0.83rem;
+    }
+    .pc-who { color: var(--muted); width: 52px; flex-shrink: 0; font-size: 0.75rem; }
+    .pc-bar-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+    .pc-bar { height: 100%; border-radius: 3px; }
+    .pc-bar.player-bar { background: var(--gold); }
+    .pc-bar.group-bar  { background: var(--muted); opacity: 0.5; }
+    .pc-num { font-weight: 700; width: 38px; text-align: right; flex-shrink: 0; }
+    .pc-num.better { color: var(--green); }
+    .pc-num.worse  { color: var(--red); }
+    .pc-num.same   { color: var(--gold-light); }
+    .pc-diff { font-size: 0.72rem; color: var(--muted); width: 38px; text-align: right; flex-shrink: 0; }
+
+    /* ── Birdie strip ── */
+    .birdie-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 14px 20px;
+    }
+    .birdie-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .birdie-chip.eagle-chip {
+      border-color: rgba(251,191,36,.4);
+      background: rgba(217,119,6,.08);
+    }
+    .bc-wk { color: var(--muted); font-size: 0.7rem; }
+
     @media (max-width: 580px) {
       main { padding: 12px; }
       .player-hero { padding: 16px; }
@@ -255,7 +316,7 @@
 
 <header>
   <div class="header-inner">
-    <a class="back-link" href="index.html">← Stigatafla</a>
+    <a class="back-link" href="index.html">← Aðalmælaborð</a>
     <img src="SwingersLogo.jpg" class="logo" alt="Swingers">
     <span class="site-title">Swingers</span>
     <select class="player-selector" id="player-sel" onchange="goToPlayer(this.value)">
@@ -327,6 +388,49 @@ const SCORES_2026 = {
 };
 
 // ============================================================
+// ⛳  VÖLLUR OG HOLU-GÖGN
+// ============================================================
+const COURSE_PARS = [5,4,4,3,4,3,5,4,4, 4,4,3,5,4,4,5,3,4];
+const PAR3_IDX = [3,5,11,16];
+const PAR4_IDX = [1,2,4,7,8,9,10,13,14,17];
+const PAR5_IDX = [0,6,12,15];
+
+const HOLE_DATA = {
+  "V1": {
+    "Kiddi":     {s:[5,4,4,4,4,3,5,4,4,3,6,3,6,4,4,7,6,4], p:[3,3,2,1,3,2,2,2,3,3,1,2,2,2,3,1,0,3]},
+    "Böddi":     {s:[6,5,5,3,6,3,4,5,5,4,7,3,5,4,5,6,3,5], p:[2,2,2,2,1,2,3,2,2,2,0,3,3,2,2,2,2,2]},
+    "Rósant":    {s:[8,7,6,3,7,5,7,4,7,5,4,3,6,4,5,10,2,4], p:[0,1,1,3,1,1,1,3,0,2,3,3,3,3,2,0,4,3]},
+    "Gísli":     {s:[9,6,5,5,5,2,8,8,7,5,6,6,7,5,7,7,4,3], p:[0,2,3,1,3,4,0,0,1,2,2,1,2,2,1,2,3,5]},
+    "Matti":     {s:[6,6,4,5,5,4,6,5,5,5,4,4,8,5,4,5,3,4], p:[2,1,3,0,2,1,1,2,2,1,3,2,0,1,3,3,3,3]},
+    "Valdi":     {s:[6,5,5,4,5,3,6,5,6,4,7,6,7,4,5,6,4,7], p:[2,2,2,2,3,3,2,2,1,3,0,0,1,3,2,3,2,0]},
+    "Þorvaldur": {s:[6,6,5,6,6,3,5,4,5,5,6,4,7,6,6,7,6,5], p:[2,2,2,0,2,3,3,3,2,2,1,2,2,1,2,2,0,2]},
+    "Hebbi":     {s:[6,7,5,4,6,3,5,6,6,5,5,5,5,5,7,6,5,4], p:[2,0,2,2,1,3,3,1,1,2,2,1,3,2,0,3,1,3]},
+    "Gummi":     {s:[5,5,4,2,5,4,5,5,5,5,4,5,8,4,6,6,5,5], p:[3,2,2,3,2,1,2,2,2,1,3,1,0,2,1,2,0,2]},
+    "Ægir":      {s:[8,7,8,2,4,3,6,4,6,5,7,6,6,5,6,7,5,4], p:[0,0,0,4,4,3,2,3,1,2,0,0,2,2,1,2,1,3]},
+    "Pétur":     {s:[7,5,7,4,8,3,7,5,7,5,8,5,7,8,7,6,5,6], p:[2,3,1,2,0,3,1,3,1,2,0,2,2,0,1,3,1,2]},
+    "Öddi":      {s:[7,7,8,4,5,4,6,6,6,5,6,5,4,4,4,9,6,6], p:[1,0,0,2,2,2,2,1,1,2,1,1,4,3,3,0,0,1]},
+    "Heisi":     {s:[7,6,5,5,5,4,5,4,6,4,5,4,7,6,6,7,6,6], p:[1,1,2,0,2,1,3,3,1,2,2,2,1,1,1,1,0,1]},
+    "Biggi":     {s:[5,4,7,3,6,4,5,7,5,6,8,5,7,6,6,7,5,6], p:[3,3,0,2,1,1,2,0,2,0,0,1,1,0,1,1,0,1]},
+    "Helgi":     {s:[6,5,7,4,6,6,6,6,6,6,8,7,9,7,8,9,6,8], p:[3,3,1,2,2,0,2,2,2,1,0,0,0,0,0,0,0,0]},
+  },
+  "V2": {
+    "Gísli":     {s:[8,6,6,4,7,5,5,6,5,6,6,4,6,5,8,6,4,6], p:[1,2,2,2,1,1,3,2,3,1,2,3,3,2,0,3,3,2]},
+    "Hebbi":     {s:[5,7,5,4,6,5,7,4,5,4,4,2,6,6,5,7,4,6], p:[3,0,2,2,1,1,1,3,2,3,3,4,2,1,2,2,2,1]},
+    "Ægir":      {s:[6,5,6,4,5,3,7,4,4,6,6,2,7,5,7,9,3,5], p:[2,2,1,2,3,3,1,3,3,1,1,4,1,2,0,0,3,2]},
+    "Gummi":     {s:[6,4,6,5,6,3,7,4,5,3,4,3,8,5,4,6,2,5], p:[2,3,0,0,1,2,0,3,2,3,3,3,0,1,3,2,3,2]},
+    "Böddi":     {s:[6,5,3,2,8,3,5,5,5,4,4,4,6,5,5,7,4,6], p:[2,2,3,3,0,2,2,2,2,2,3,2,2,1,2,1,1,1]},
+    "Maggi":     {s:[7,5,5,3,7,5,6,6,6,5,6,4,6,6,6,7,3,7], p:[1,3,2,3,1,1,2,1,2,2,1,2,3,1,2,2,3,0]},
+    "Heisi":     {s:[5,7,4,4,7,4,7,4,5,6,4,4,7,5,6,6,5,5], p:[3,0,3,1,0,1,1,3,2,0,3,2,1,2,1,2,1,2]},
+    "Öddi":      {s:[8,5,5,4,5,4,7,5,5,6,7,4,5,3,6,8,4,7], p:[0,2,2,2,2,2,1,2,2,1,0,2,3,4,1,0,2,0]},
+    "Helgi":     {s:[6,8,8,3,7,5,8,4,8,4,5,8,9,6,6,7,4,5], p:[3,0,0,3,1,1,0,4,0,3,3,0,0,1,2,2,2,3]},
+    "Rósant":    {s:[7,5,5,4,5,6,7,6,6,6,4,6,7,5,5,9,6,4], p:[1,3,2,2,3,0,1,1,1,1,3,0,2,2,2,0,0,3]},
+    "Biggi":     {s:[6,6,5,4,5,2,7,6,5,5,5,5,6,3,6,7,5,5], p:[2,1,1,1,2,3,0,1,2,1,2,1,2,3,1,1,0,2]},
+    "Pétur":     {s:[6,6,6,4,7,5,7,6,8,6,9,6,7,5,7,8,6,8], p:[3,2,2,2,1,1,1,2,0,1,0,1,2,2,1,1,1,0]},
+    "Valdi":     {s:[6,5,7,4,5,5,7,4,6,6,8,7,7,8,5,9,6,5], p:[2,2,0,2,3,1,1,3,1,1,0,0,1,0,2,0,0,2]},
+  }
+};
+
+// ============================================================
 // 📅  2025 — SÖGULEG GÖGN
 // ============================================================
 const WEEKS_2025 = [
@@ -344,8 +448,6 @@ const WEEKS_2025 = [
   {id:"V12", label:"Vika 12", date:"21.8.2025"},
   {id:"V13", label:"Vika 13", date:"29.8.2025"},
   {id:"V14", label:"Vika 14", date:"6.9.2025"},
-  {id:"V15", label:"Vika 15", date:"7.9.2025",  note:"Vestmannaeyjar"},
-  {id:"V16", label:"Vika 16", date:"18.9.2025", note:"Vestmannaeyjar"},
 ];
 
 const SCORES_2025 = {
@@ -461,7 +563,7 @@ function renderPlayer(player) {
     WEEKS_2026.forEach(w => {
       const pts = scores26[w.id];
       if (pts === undefined) return;
-      const isCounting = topSet.has(pts); // approximate
+      const isCounting = topSet.has(pts);
       const barPct = Math.round((pts / maxPts) * 100);
       html += `<div class="week-row ${isCounting?'counting':''}">
         <span class="wr-label">${w.label}</span>
@@ -478,6 +580,117 @@ function renderPlayer(player) {
   }
   html += `</div>`;
 
+  // ── Par-type stats + group comparison (only if HOLE_DATA available) ──
+  const playerHoleWeeks = WEEKS_2026.filter(w => (HOLE_DATA[w.id] || {})[player.nick]);
+  if (playerHoleWeeks.length > 0) {
+    function parAvg(nick, idxArr) {
+      const vals = [];
+      playerHoleWeeks.forEach(w => {
+        const hd = (HOLE_DATA[w.id] || {})[nick];
+        if (!hd) return;
+        idxArr.forEach(i => vals.push(hd.s[i]));
+      });
+      return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+    }
+
+    function groupParAvg(idxArr) {
+      const vals = [];
+      playerHoleWeeks.forEach(w => {
+        PLAYERS.forEach(p => {
+          const hd = (HOLE_DATA[w.id] || {})[p.nick];
+          if (!hd) return;
+          idxArr.forEach(i => vals.push(hd.s[i]));
+        });
+      });
+      return vals.length ? vals.reduce((a,b)=>a+b,0)/vals.length : null;
+    }
+
+    const p3player = parAvg(player.nick, PAR3_IDX);
+    const p4player = parAvg(player.nick, PAR4_IDX);
+    const p5player = parAvg(player.nick, PAR5_IDX);
+    const p3group  = groupParAvg(PAR3_IDX);
+    const p4group  = groupParAvg(PAR4_IDX);
+    const p5group  = groupParAvg(PAR5_IDX);
+
+    const birdieEntries = [];
+    playerHoleWeeks.forEach(w => {
+      const hd = (HOLE_DATA[w.id] || {})[player.nick];
+      if (!hd || !hd.s) return;
+      hd.s.forEach((score, i) => {
+        const par = COURSE_PARS[i];
+        if (score <= par - 1) {
+          const isEagle = score <= par - 2;
+          birdieEntries.push({ wkLabel: w.label, hole: i+1, score, par, isEagle });
+        }
+      });
+    });
+    birdieEntries.sort((a,b) => (a.score - a.par) - (b.score - b.par));
+
+    function pcCell(label, playerVal, groupVal, parVal) {
+      if (playerVal === null) return `<div class="pc-cell"><div class="pc-label">${label}</div><div style="color:var(--muted);font-size:0.8rem">Engin gögn</div></div>`;
+      const pStr = playerVal.toFixed(2);
+      const gStr = groupVal ? groupVal.toFixed(2) : '—';
+      const diff = groupVal ? (playerVal - groupVal) : 0;
+      const maxVal = Math.max(playerVal, groupVal || playerVal, parVal) * 1.05;
+      const pPct = Math.round((playerVal / maxVal) * 100);
+      const gPct = groupVal ? Math.round((groupVal / maxVal) * 100) : 0;
+      const diffSign = diff < -0.05 ? 'better' : diff > 0.05 ? 'worse' : 'same';
+      const diffStr = diff === 0 || !groupVal ? '' : (diff > 0 ? '+' : '') + diff.toFixed(2);
+      return `<div class="pc-cell">
+        <div class="pc-label">${label} (par ${parVal})</div>
+        <div class="pc-row">
+          <span class="pc-who">Þú</span>
+          <div class="pc-bar-wrap"><div class="pc-bar player-bar" style="width:${pPct}%"></div></div>
+          <span class="pc-num ${diffSign}">${pStr}</span>
+          <span class="pc-diff">${diffStr}</span>
+        </div>
+        <div class="pc-row">
+          <span class="pc-who">Hópurinn</span>
+          <div class="pc-bar-wrap"><div class="pc-bar group-bar" style="width:${gPct}%"></div></div>
+          <span class="pc-num same">${gStr}</span>
+          <span class="pc-diff"></span>
+        </div>
+      </div>`;
+    }
+
+    html += `<div class="card">
+      <div class="card-header">📐 Högg að meðaltali eftir par-tegund — vs hópurinn</div>
+      <div class="par-compare-grid">
+        ${pcCell('Par 3', p3player, p3group, 3)}
+        ${pcCell('Par 4', p4player, p4group, 4)}
+        ${pcCell('Par 5', p5player, p5group, 5)}
+      </div>
+    </div>`;
+
+    if (birdieEntries.length > 0) {
+      const chips = birdieEntries.map(e => {
+        const label = e.isEagle ? `🦅 Örn — H${e.hole}` : `🐦 Fugl — H${e.hole}`;
+        return `<div class="birdie-chip ${e.isEagle?'eagle-chip':''}">
+          <span>${label}</span>
+          <span class="bc-wk">${e.wkLabel}</span>
+        </div>`;
+      }).join('');
+      html += `<div class="card">
+        <div class="card-header">🦅 Fuglar og ernir</div>
+        <div class="birdie-strip">${chips}</div>
+      </div>`;
+    }
+  }
+
+  // ── Season divider ──
+  html += `<div style="
+    margin: 28px 0 20px;
+    padding: 14px 20px 12px;
+    background: linear-gradient(135deg, rgba(217,119,6,.12), rgba(217,119,6,.04));
+    border-top: 2px solid var(--gold);
+    border-bottom: 1px solid var(--border);
+    border-radius: 8px;
+    text-align: center;
+  ">
+    <div style="font-size: 1.05rem; font-weight: 700; color: var(--gold-light); letter-spacing: 0.06em;">2025 TÍMABILIÐ</div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px;">Lokastaða og tölfræði</div>
+  </div>`;
+
   // ── 2025 summary card ──
   if (res25 || r25 > 0) {
     const official25 = res25 || { best8: b8_25, avg: null, rounds: r25, rank: '—' };
@@ -492,7 +705,6 @@ function renderPlayer(player) {
       </div>
     </div>`;
 
-    // 2025 week breakdown
     if (r25 > 0) {
       const maxPts25 = Math.max(...Object.values(scores25).filter(v=>typeof v==='number'), 1);
       const sortedVals25 = Object.values(scores25).filter(v=>typeof v==='number').sort((a,b)=>b-a);
@@ -531,7 +743,6 @@ function renderPlayer(player) {
 // ============================================================
 // 🚀  INIT
 // ============================================================
-// Populate selector
 const sel = document.getElementById('player-sel');
 PLAYERS.forEach(p => {
   const opt = document.createElement('option');
@@ -540,7 +751,6 @@ PLAYERS.forEach(p => {
   sel.appendChild(opt);
 });
 
-// Read URL param
 const urlNick = new URLSearchParams(window.location.search).get('p');
 if (urlNick) {
   const player = PLAYERS.find(p => p.nick.toLowerCase() === urlNick.toLowerCase());
