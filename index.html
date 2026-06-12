@@ -451,6 +451,12 @@
     .th-sort:hover { color: var(--text); }
     .th-sort.active-sort { color: var(--gold-light) !important; }
     /* ── Movement ── */
+    .ach-badge { font-size: 0.82rem; cursor: help; margin-left: 4px; }
+    .spark-col { width: 76px; padding: 6px 8px !important; text-align: center !important; }
+    .ghole-easy { color: #4ade80; }
+    .ghole-ok   { color: var(--muted); }
+    .ghole-hard { color: var(--red); }
+
     .mv-up { color: var(--green); font-size: 0.7rem; font-weight: 700; }
     .mv-dn { color: var(--red);   font-size: 0.7rem; font-weight: 700; }
     .mv-eq { color: #444;         font-size: 0.7rem; }
@@ -459,6 +465,22 @@
     /* ── Card player link ── */
     .sc-link { color: inherit; text-decoration: none; }
     .sc-link:hover { color: var(--gold-light); }
+
+    /* ── Hole grid (shared with player.html) ── */
+    .hole-grid { display:grid; grid-template-columns:repeat(9,1fr); border-top:1px solid var(--border); }
+    @media (max-width:600px) { .hole-grid { grid-template-columns:repeat(6,1fr); } }
+    .hole-cell { padding:8px 4px; text-align:center; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .hole-cell:nth-child(9n+2) { border-right:none; }
+    .hole-section-hdr { grid-column:1/-1; padding:6px 12px; font-size:0.68rem; color:var(--muted);
+                        text-transform:uppercase; letter-spacing:.06em; font-weight:700;
+                        background:var(--surface2); border-bottom:1px solid var(--border); }
+    .hc-num  { font-size:0.68rem; color:var(--muted); font-weight:700; margin-bottom:2px; }
+    .hc-par  { font-size:0.62rem; color:#555; margin-bottom:4px; }
+    .hc-avg  { font-size:0.95rem; font-weight:800; }
+    .hc-diff { font-size:0.68rem; margin-top:2px; }
+    .hc-pos  { color:var(--green); }
+    .hc-neg  { color:var(--red); }
+    .hc-neu  { color:var(--muted); }
   </style>
 </head>
 <body>
@@ -504,6 +526,11 @@
         <span class="meta-item">Regla: <strong>Bestu 8 vikur telja (fæstu högg)</strong></span>
       </div>
       <div id="gross-26"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">⛳ Hópur vs Hvaleyrarvöllur</div>
+      <div id="group-holes"></div>
     </div>
 
     <div class="card" id="bikar-card">
@@ -573,25 +600,26 @@ const WEEKS_2026 = [
   {id:"V1", label:"Vika 1", date:"21.5.2026", course:"Hvaleyrarvöllur"},
   {id:"V2", label:"Vika 2", date:"28.5.2026", course:"Hvaleyrarvöllur"},
   {id:"V3", label:"Vika 3", date:"4.6.2026",  course:"Hvaleyrarvöllur"},
+  {id:"V4", label:"Vika 4", date:"11.6.2026", course:"Hvaleyrarvöllur"},
 ];
 
 const SCORES_2026 = {
-  "Biggi":     {V1:19, V2:26, V3:35},
-  "Heisi":     {V1:25, V2:28, V3:31},
-  "Helgi":     {V1:18, V2:28, V3:36},
-  "Kiddi":     {V1:38, V3:23},
+  "Biggi":     {V1:19, V2:26, V3:35, V4:31},
+  "Heisi":     {V1:25, V2:28, V3:31, V4:34},
+  "Helgi":     {V1:18, V2:28, V3:36, V4:24},
+  "Kiddi":     {V1:38, V3:23, V4:27},
   "Öddi":      {V1:26, V2:28, V3:24},
-  "Pétur":     {V1:29, V2:23},
-  "Þorvaldur": {V1:33, V3:26},
+  "Pétur":     {V1:29, V2:23, V4:16},
+  "Þorvaldur": {V1:33, V3:26, V4:32},
   "Valdi":     {V1:33, V2:21, V3:27},
-  "Böddi":     {V1:36, V2:33, V3:28},
-  "Ægir":      {V1:30, V2:34, V3:31},
-  "Gísli":     {V1:34, V2:36},
+  "Böddi":     {V1:36, V2:33, V3:28, V4:35},
+  "Ægir":      {V1:30, V2:34, V3:31, V4:23},
+  "Gísli":     {V1:34, V2:36, V4:31},
   "Gummi":     {V1:31, V2:33, V3:34},
-  "Hebbi":     {V1:32, V2:35, V3:33},
-  "Maggi":     {V2:32, V3:30},
-  "Rósant":    {V1:34, V2:27, V3:37},
-  "Matti":     {V1:33, V3:38},
+  "Hebbi":     {V1:32, V2:35, V3:33, V4:27},
+  "Maggi":     {V2:32, V3:30, V4:26},
+  "Rósant":    {V1:34, V2:27, V3:37, V4:26},
+  "Matti":     {V1:33, V3:38, V4:28},
 };
 
 // ============================================================
@@ -652,6 +680,21 @@ const HOLE_DATA = {
     "Helgi":     {s:[8,6,5,3,5,4,7,5,5,5,6,5,7,6,7,9,3,5], p:[1,2,2,3,3,2,1,3,3,2,2,2,2,1,0,3,3,1]},
     "Rósant":     {s:[8,6,5,4,7,3,4,5,5,5,5,4,5,7,7,6,2,6], p:[0,2,2,2,1,3,4,2,2,2,2,2,4,0,1,3,4,1]},
     "Matti":     {s:[5,5,4,3,4,5,5,4,4,4,4,4,5,6,4,6,3,6], p:[3,2,2,2,3,0,2,3,3,2,3,2,3,0,3,2,2,1]},
+  },
+  "V4": {
+    "Böddi":     {s:[5,5,5,3,4,4,6,3,6,4,5,5,5,4,4,5,4,7], p:[3,2,1,2,3,1,1,4,1,2,2,1,3,2,3,3,1,0]},
+    "Heisi":     {s:[7,6,6,4,6,4,5,4,4,5,7,2,5,5,6,7,3,5], p:[1,1,1,2,1,1,3,3,3,2,0,4,3,2,1,1,3,2]},
+    "Þorvaldur":     {s:[6,6,5,5,6,4,6,7,5,7,5,4,6,6,5,6,4,6], p:[2,2,2,1,2,2,2,0,2,0,2,2,3,1,3,3,2,1]},
+    "Biggi":     {s:[6,5,5,3,6,4,6,5,4,6,4,4,6,5,4,6,4,5], p:[2,2,1,2,1,1,1,2,3,0,3,2,2,1,3,2,1,2]},
+    "Gísli":     {s:[9,5,4,5,6,4,8,7,6,6,5,6,6,8,6,7,5,6], p:[0,3,4,1,2,2,0,1,2,1,3,1,3,0,2,2,2,2]},
+    "Matti":     {s:[8,6,6,4,5,5,7,5,6,3,5,4,6,3,4,5,5,4], p:[0,1,0,1,2,0,0,2,1,3,2,2,2,3,3,3,0,3]},
+    "Kiddi":     {s:[5,5,5,5,6,6,6,4,3,6,4,3,6,5,4,8,4,5], p:[3,2,1,0,1,0,1,2,4,0,2,2,2,1,3,0,1,2]},
+    "Hebbi":     {s:[7,8,4,4,5,6,7,5,6,4,5,4,7,6,6,7,4,6], p:[1,0,3,2,2,0,1,2,1,3,2,2,1,1,1,2,2,1]},
+    "Rósant":     {s:[7,6,6,5,5,4,5,6,5,6,7,4,7,7,8,8,3,6], p:[1,2,1,1,3,2,3,1,2,1,0,2,2,0,0,1,3,1]},
+    "Maggi":     {s:[5,5,7,5,7,4,7,5,7,5,4,4,8,7,6,9,4,6], p:[3,3,0,1,1,2,1,2,0,2,3,2,1,0,2,0,2,1]},
+    "Helgi":     {s:[8,8,7,6,6,6,8,5,6,6,6,4,8,6,6,8,3,6], p:[1,0,0,0,2,0,0,3,2,1,2,3,1,1,2,1,3,2]},
+    "Ægir":     {s:[9,6,5,4,5,4,6,6,8,4,6,5,6,7,5,9,6,5], p:[0,1,2,2,2,2,2,1,0,3,1,1,2,0,2,0,0,2]},
+    "Pétur":     {s:[8,9,8,5,6,5,7,7,9,6,7,5,7,8,6,9,7,7], p:[1,0,0,1,2,1,1,1,0,1,1,2,2,0,2,0,0,1]},
   },
 };
 
@@ -1059,6 +1102,82 @@ function renderStatCards() {
 
 
 // ============================================================
+// SPARKLINE
+// ============================================================
+function sparkSvg(nick) {
+  const played = WEEKS_2026.map(w=>({w,s:(SCORES_2026[nick]||{})[w.id]})).filter(x=>x.s!==undefined);
+  if (played.length < 2) return played.length===1?'<span style="color:var(--muted);font-size:.72rem">'+played[0].s+'</span>':'';
+  const vals=played.map(x=>x.s);
+  const mn=Math.min(...vals),mx=Math.max(...vals),range=Math.max(mx-mn,4);
+  const W=68,H=24,pad=4;
+  const xP=i=>pad+(played.length<2?W/2:i/(played.length-1)*(W-2*pad));
+  const yP=v=>H-pad-(v-mn)/range*(H-2*pad);
+  // Color dots by direction vs previous round
+  const pts=played.map((x,i)=>{
+    const prev=i>0?played[i-1].s:null;
+    const fill=prev===null?'#d97706':x.s>prev?'#16a34a':x.s<prev?'#dc2626':'#6b7280';
+    const strk=prev===null?'#fbbf24':x.s>prev?'#4ade80':x.s<prev?'#f87171':'#9ca3af';
+    return {x:xP(i),y:yP(x.s),fill,strk};
+  });
+  const line=pts.map((p,i)=>(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');
+  const dots=pts.map(p=>'<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="2.5" fill="'+p.fill+'" stroke="'+p.strk+'" stroke-width="1"/>').join('');
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'"><path d="'+line+'" fill="none" stroke="#374151" stroke-width="1.5" stroke-linejoin="round"/>'+dots+'</svg>';
+}
+
+function playerBadges(nick, winsMap) {
+  const scores=Object.values(SCORES_2026[nick]||{}).filter(s=>typeof s==='number');
+  if (!scores.length) return '';
+  const badges=[];
+  const bestSeason=Math.max(...PLAYERS.flatMap(p=>Object.values(SCORES_2026[p.nick]||{}).filter(s=>typeof s==='number')).filter(s=>typeof s==='number'));
+  if (Math.max(...scores)===bestSeason&&bestSeason>0)
+    badges.push('<span class="ach-badge" title="Besta einstaklingsskor t\xedmabilsins">🔥</span>');
+  if (scores.length>=BEST_OF)
+    badges.push('<span class="ach-badge" title="Bestu 8 hringir full\xfana\xf0ar">🎯</span>');
+  if (scores.length>=3) {
+    const avg=scores.reduce((a,b)=>a+b,0)/scores.length;
+    const last2=WEEKS_2026.slice(-2).map(w=>(SCORES_2026[nick]||{})[w.id]).filter(s=>s!==undefined);
+    if (last2.length===2&&last2.every(s=>s>avg))
+      badges.push('<span class="ach-badge" title="\xcd uppgang">📈</span>');
+  }
+  if ((winsMap[nick]||0)>=2)
+    badges.push('<span class="ach-badge" title="'+winsMap[nick]+' vikuver\xf0laun">🏅</span>');
+  return badges.join('');
+}
+
+// ============================================================
+// GROUP HOLE DIFFICULTY
+// ============================================================
+function renderGroupHoles() {
+  const el=document.getElementById('group-holes');
+  if (!el) return;
+  const homeWeeks=WEEKS_2026.filter(w=>w.course==='Hvaleyrarvöllur');
+  if (!homeWeeks.length){el.innerHTML='<p style="color:var(--muted);padding:14px">Engin gögn enn.</p>';return;}
+  // Use net stableford points (p array) — handicap already accounted for
+  // Par = 2 pts, birdie = 3, eagle = 4, bogey = 1, double bogey = 0
+  const holeStats=COURSE_PARS.map((par,i)=>{
+    const netPts=[];
+    homeWeeks.forEach(w=>PLAYERS.forEach(p=>{const hd=(HOLE_DATA[w.id]||{})[p.nick];if(hd&&hd.p)netPts.push(hd.p[i]);}));
+    if(!netPts.length)return null;
+    const avg=netPts.reduce((a,b)=>a+b,0)/netPts.length;
+    // diff vs par (2 pts = par): positive = easier than par, negative = harder
+    const diff=avg-2;
+    return{hole:i+1,par,avg,diff};
+  }).filter(Boolean);
+  function hCell(h){
+    // avg > 2.15 = easier than par, avg < 1.85 = harder than par
+    const cls=h.diff>0.15?'ghole-easy':h.diff<-0.15?'ghole-hard':'ghole-ok';
+    const sign=h.diff>0?'+':'';
+    return '<div class="hole-cell"><div class="hc-num">H'+h.hole+'</div><div class="hc-par">p'+h.par+'</div><div class="hc-avg '+cls+'">'+h.avg.toFixed(1)+'</div><div class="hc-diff '+cls+'">'+sign+h.diff.toFixed(2)+'</div></div>';
+  }
+  const totalRounds=homeWeeks.reduce((t,w)=>t+PLAYERS.filter(p=>(HOLE_DATA[w.id]||{})[p.nick]).length,0);
+  const front9=holeStats.filter(h=>h.hole<=9).map(hCell).join('');
+  const back9=holeStats.filter(h=>h.hole>=10).map(hCell).join('');
+  el.innerHTML='<div style="padding:10px 16px 4px;font-size:0.75rem;color:var(--muted)">Byggir á '+totalRounds+' hringjum · Net stig · <span style="color:#4ade80">gr\xe6r = h\xf3pur yfir par</span> · <span style="color:var(--red)">rau\xf0ur = h\xf3pur undir par</span></div>'
+    +'<div class="hole-grid"><div class="hole-section-hdr">Fyrri 9</div>'+front9+'<div class="hole-section-hdr">Seinni 9</div>'+back9+'</div>';
+}
+
+
+// ============================================================
 // 🏆  RENDER 2026 STANDINGS
 // ============================================================
 let _filter26 = 'all';
@@ -1091,6 +1210,7 @@ function render26() {
   renderStatCards();
   updateHeaderSub();
   renderGross26();
+  renderGroupHoles();
   renderBikar();
 
   if (WEEKS_2026.length === 0) {
@@ -1101,6 +1221,8 @@ function render26() {
   if (_filter26 === 'all') {
     const standing = calcStandings(SCORES_2026, PLAYERS).filter(p=>p.rounds>0);
     const leader   = standing[0]?.best8 || 0;
+    const winsMap26={};
+    WEEKS_2026.forEach(w=>{const res=PLAYERS.map(p=>({nick:p.nick,pts:(SCORES_2026[p.nick]||{})[w.id]})).filter(x=>x.pts!==undefined).sort((a,b)=>b.pts-a.pts);if(res.length){const top=res[0].pts;res.filter(x=>x.pts===top).forEach(x=>{winsMap26[x.nick]=(winsMap26[x.nick]||0)+1;});}});
 
     // Movement since last round
     const moveMap = {};
@@ -1137,6 +1259,7 @@ function render26() {
     h += '<th class="th-sort td-r" style="width:28px">#</th>';
     h += th('nick','Leikmaður','th-sort');
     WEEKS_2026.forEach(w => { h += th(w.id, w.label, 'td-r wk-col'); });
+    h += '<th class="td-r spark-col">Trend</th>';
     h += '<th class="td-r">Bestu 8</th>';
     h += '</tr></thead><tbody>';
 
@@ -1155,12 +1278,13 @@ function render26() {
 
       h += `<tr>
         <td style="text-align:center" class="rank${r<=3?' podium':''}">${r}</td>
-        <td>${mvHtml}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a></td>`;
+        <td>${mvHtml}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a>${playerBadges(p.nick,winsMap26)}</td>`;
       allScores.forEach((pts,idx) => {
         const cnt = pts!==null && cntIdx.has(idx);
         h += pts!==null ? `<td class="td-r wk-col ${cnt?'score-counting':''}">${pts}</td>`
                         : '<td class="td-r wk-col score-dns">—</td>';
       });
+      h += `<td class="td-r spark-col">${sparkSvg(p.nick)}</td>`;
       h += `<td class="td-r pts">${p.best8||'—'} <span class="gap-inf">(${gapVal})</span></td></tr>`;
     });
     h += '</tbody></table></div>';
