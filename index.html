@@ -1277,10 +1277,14 @@ function render26() {
 
     // Sort
     const rankMap = {}; standing.forEach((p,i)=>{ rankMap[p.nick]=i+1; });
-    // Always sort by best-8 pts descending
-    const sorted  = standing.slice().sort((a,b) =>
-      ((b.best8||0)-(a.best8||0)) || a.nick.localeCompare(b.nick)
-    );
+    // Sort by selected column
+    const sorted = standing.slice().sort((a,b) => {
+      if (_sort26 === 'nick') return _sortDir26 * a.nick.localeCompare(b.nick);
+      if (_sort26 === 'pts')  return _sortDir26 * ((a.best8||0)-(b.best8||0)) || a.nick.localeCompare(b.nick);
+      const av = (SCORES_2026[a.nick]||{})[_sort26]??-1;
+      const bv = (SCORES_2026[b.nick]||{})[_sort26]??-1;
+      return _sortDir26*(av-bv) || ((b.best8||0)-(a.best8||0));
+    });
 
     // Sort-header helper
     function th(col, label, cls) {
@@ -1294,7 +1298,7 @@ function render26() {
     h += th('nick','Leikmaður','th-sort');
     WEEKS_2026.forEach(w => { h += th(w.id, w.label, 'td-r wk-col'); });
     h += '<th class="td-r spark-col">Trend</th>';
-    h += '<th class="td-r">Bestu 8</th>';
+    h += th('pts','Bestu 8','td-r');
     h += '</tr></thead><tbody>';
 
     sorted.forEach(p => {
@@ -1471,7 +1475,16 @@ function renderBikar() {
   const el = document.getElementById('bikar-content');
   if (!el) return;
   const nRounds = WEEKS_2026.length;
-  const standing = calcStandings(SCORES_2026, PLAYERS).filter(p=>p.rounds>0);
+  // Lock seedings to qualifying rounds (V1–V4) — not affected by later rounds
+  const qualWeeks = new Set(WEEKS_2026.slice(0, BIKAR_ROUNDS_NEEDED).map(w => w.id));
+  const qualScores = {};
+  PLAYERS.forEach(p => {
+    const s = SCORES_2026[p.nick] || {};
+    const filt = {};
+    for (const wk in s) if (qualWeeks.has(wk)) filt[wk] = s[wk];
+    if (Object.keys(filt).length) qualScores[p.nick] = filt;
+  });
+  const standing = calcStandings(qualScores, PLAYERS).filter(p=>p.rounds>0);
   const seeds = Array.from({length:8}, (_,i) => standing[i]||null);
   const preliminary = nRounds < BIKAR_ROUNDS_NEEDED;
 
