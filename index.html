@@ -1074,22 +1074,25 @@ function renderStatCards() {
     }
   }
 
-  // Fæst högg: only players who have played the max number of rounds, sorted ascending
+  // Fæst högg: sum gross of best-8 rounds (by stableford), not the 8 lowest-gross rounds
   const grossSums = [];
   PLAYERS.forEach(p => {
-    const rg = [];
+    const scoreMap = SCORES_2026[p.nick] || {};
+    const wkPairs = [];
     WEEKS_2026.forEach(w => {
+      const pts = scoreMap[w.id];
       const hd = (HOLE_DATA[w.id]||{})[p.nick];
-      if (!hd||!hd.s) return;
-      rg.push(hd.s.reduce((a,b)=>a+b,0));
+      if (pts === undefined || !hd || !hd.s) return;
+      wkPairs.push({ pts, gross: hd.s.reduce((a,b)=>a+b,0) });
     });
-    if (!rg.length) return;
-    rg.sort((a,b)=>a-b);
-    const gross = rg.slice(0,BEST_OF).reduce((a,b)=>a+b,0);
-    grossSums.push({ nick: p.nick, gross, rounds: rg.length });
+    if (!wkPairs.length) return;
+    wkPairs.sort((a,b) => b.pts - a.pts); // best stableford rounds first
+    const gross = wkPairs.slice(0,BEST_OF).reduce((a,b)=>a+b.gross,0);
+    grossSums.push({ nick: p.nick, gross, rounds: wkPairs.length });
   });
   const maxRoundsGross = grossSums.length ? Math.max(...grossSums.map(x=>x.rounds)) : 0;
-  const grossFiltered = grossSums.filter(x=>x.rounds===maxRoundsGross).sort((a,b)=>a.gross-b.gross);
+  const minRoundsNeeded = Math.min(BEST_OF, maxRoundsGross);
+  const grossFiltered = grossSums.filter(x=>x.rounds>=minRoundsNeeded).sort((a,b)=>a.gross-b.gross);
   const topGross = grossFiltered.slice(0,5);
   const grossSubLabel = maxRoundsGross >= BEST_OF ? 'högg · bestu 8' : `högg · ${maxRoundsGross} vikur`;
   const grossCard = topGross.length ? card('⛳', 'Fæst högg, Bestu 8 hringir', wkBadge,
@@ -1430,14 +1433,16 @@ function renderGross26() {
   // Compute gross per round per player
   const rows = [];
   PLAYERS.forEach(p => {
+    const scoreMap = SCORES_2026[p.nick] || {};
     const rounds = [];
     WEEKS_2026.forEach(w => {
+      const pts = scoreMap[w.id];
       const hd = (HOLE_DATA[w.id]||{})[p.nick];
-      if (!hd||!hd.s) return;
-      rounds.push({ wId: w.id, gross: hd.s.reduce((a,b)=>a+b,0) });
+      if (pts === undefined || !hd||!hd.s) return;
+      rounds.push({ wId: w.id, gross: hd.s.reduce((a,b)=>a+b,0), pts });
     });
     if (!rounds.length) return;
-    rounds.sort((a,b)=>a.gross-b.gross); // ascending
+    rounds.sort((a,b)=>b.pts-a.pts); // best stableford rounds first
     const counting = rounds.slice(0, BEST_OF);
     const total    = counting.reduce((t,r)=>t+r.gross, 0);
     const cntIds   = new Set(counting.map(r=>r.wId));
@@ -1453,14 +1458,16 @@ function renderGross26() {
     const prevWeeks = WEEKS_2026.slice(0,-1);
     const prevRows = [];
     PLAYERS.forEach(p => {
+      const scoreMap = SCORES_2026[p.nick] || {};
       const rds = [];
       prevWeeks.forEach(w => {
+        const pts = scoreMap[w.id];
         const hd = (HOLE_DATA[w.id]||{})[p.nick];
-        if (!hd||!hd.s) return;
-        rds.push({ wId: w.id, gross: hd.s.reduce((a,b)=>a+b,0) });
+        if (pts === undefined || !hd||!hd.s) return;
+        rds.push({ wId: w.id, gross: hd.s.reduce((a,b)=>a+b,0), pts });
       });
       if (!rds.length) return;
-      rds.sort((a,b)=>a.gross-b.gross);
+      rds.sort((a,b)=>b.pts-a.pts); // best stableford rounds first
       const cnt = rds.slice(0,BEST_OF);
       prevRows.push({ nick: p.nick, rounds: rds, total: cnt.reduce((t,r)=>t+r.gross,0) });
     });
