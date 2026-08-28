@@ -441,6 +441,37 @@
       color: var(--text);
     }
 
+    /* ── Holutölfræði toggle ── */
+    .holustats-toggle {
+      display: inline-block; background: transparent;
+      border: 1px solid var(--border); color: var(--muted);
+      font-size: 0.75rem; padding: 6px 20px; border-radius: 20px;
+      cursor: pointer; transition: all .2s; margin: 16px auto 4px;
+    }
+    .holustats-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    .hm-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(155px,1fr));
+      gap: 8px; padding: 6px 0;
+    }
+    .hm-card {
+      background: rgba(255,255,255,.04); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px;
+    }
+    .hm-hole-hdr {
+      font-size: .82rem; font-weight: 800; color: var(--gold);
+      margin-bottom: 7px; display: flex; justify-content: space-between;
+    }
+    .hm-par { font-size: .7rem; color: var(--muted); font-weight: 400; }
+    .hm-row { display: flex; align-items: center; gap: 5px; font-size: .77rem; margin-bottom: 3px; }
+    .hm-medal { width: 16px; flex-shrink: 0; }
+    .hm-name { flex: 1; color: var(--text); }
+    .hm-avg { font-weight: 700; color: var(--text); }
+    .hm-rounds { color: var(--muted); font-size: .68rem; }
+    .birdie-tbl { width: 100%; border-collapse: collapse; font-size: .84rem; }
+    .birdie-tbl th { color: var(--muted); font-weight: 600; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+    .birdie-tbl td { padding: 5px 8px; border-bottom: 1px solid rgba(255,255,255,.04); }
+    .birdie-tbl tr:last-child td { border-bottom: none; }
+
     /* ── Mín síða button ── */
     .my-page-btn {
       background: transparent;
@@ -591,6 +622,11 @@
       </div>
       <div id="bikar-content"></div>
     </div>
+
+    <div style="text-align:center">
+      <button class="holustats-toggle" id="holustats-btn" onclick="toggleHoluStats()">▼ Holutölfræði</button>
+    </div>
+    <div id="holustats-26" style="display:none"></div>
 
   </div>
 
@@ -2103,6 +2139,92 @@ function showSeason(yr) {
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.textContent.includes(yr))
   );
+}
+
+// ============================================================
+// 👑  HOLUTÖLFRÆÐI — Holumeistari + Fuglar
+// ============================================================
+function buildHoluStats() {
+  const el = document.getElementById('holustats-26');
+  if (!el) return;
+  const weeks = WEEKS_2026.filter(w => w.course === HOME_COURSE);
+
+  // ── 1. Holumeistari ──
+  const phd = {}; // phd[nick][holeIdx] = [pts…]
+  weeks.forEach(w => {
+    const wd = HOLE_DATA[w.id];
+    if (!wd) return;
+    Object.entries(wd).forEach(([nick, d]) => {
+      if (!phd[nick]) phd[nick] = Array.from({length:18}, ()=>[]);
+      d.p.forEach((pts,i) => phd[nick][i].push(pts));
+    });
+  });
+
+  const medals = ['👑','🥈','🥉'];
+  let hmHTML = '<div class="hm-grid">';
+  for (let h = 0; h < 18; h++) {
+    const rankings = [];
+    Object.entries(phd).forEach(([nick, holes]) => {
+      const arr = holes[h];
+      if (arr.length >= 3) {
+        rankings.push({nick, avg: arr.reduce((a,b)=>a+b,0)/arr.length, n: arr.length});
+      }
+    });
+    rankings.sort((a,b) => b.avg - a.avg);
+    hmHTML += `<div class="hm-card"><div class="hm-hole-hdr">Hola ${h+1}<span class="hm-par">Par ${COURSE_PARS[h]}</span></div>`;
+    rankings.slice(0,3).forEach((r,i) => {
+      hmHTML += `<div class="hm-row"><span class="hm-medal">${medals[i]}</span><span class="hm-name">${r.nick}</span><span class="hm-avg">${r.avg.toFixed(2)}</span><span class="hm-rounds">${r.n}x</span></div>`;
+    });
+    hmHTML += '</div>';
+  }
+  hmHTML += '</div>';
+
+  // ── 2. Fuglar og örnar ──
+  const birdies = Array(18).fill(0);
+  const eagles  = Array(18).fill(0);
+  weeks.forEach(w => {
+    const wd = HOLE_DATA[w.id];
+    if (!wd) return;
+    Object.values(wd).forEach(d => {
+      d.s.forEach((g,i) => {
+        if (g <= COURSE_PARS[i]-2) eagles[i]++;
+        else if (g === COURSE_PARS[i]-1) birdies[i]++;
+      });
+    });
+  });
+  const order = [...Array(18).keys()].sort((a,b) =>
+    (eagles[b]*2 + birdies[b]) - (eagles[a]*2 + birdies[a])
+  );
+
+  let bgHTML = '<table class="birdie-tbl"><thead><tr><th>Hola</th><th>Par</th><th>🦅 Örn+</th><th>🐦 Fugl</th><th>Samtals</th></tr></thead><tbody>';
+  order.forEach(i => {
+    const tot = eagles[i] + birdies[i];
+    if (!tot) return;
+    bgHTML += `<tr><td><strong>H${i+1}</strong></td><td>${COURSE_PARS[i]}</td><td>${eagles[i]||'–'}</td><td>${birdies[i]||'–'}</td><td><strong>${tot}</strong></td></tr>`;
+  });
+  bgHTML += '</tbody></table>';
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="card-header">👑 Holumeistari 2026</div>
+      <div class="season-meta"><span class="meta-item">Meðaltal stableford punkta á holu · mín. 3 hringir</span></div>
+      ${hmHTML}
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="card-header">🐦 Fuglar og Örnar 2026</div>
+      <div class="season-meta"><span class="meta-item">Allar vikur á Hvaleyrarvelli · raðað eftir heildartölu</span></div>
+      ${bgHTML}
+    </div>`;
+}
+
+function toggleHoluStats() {
+  const el  = document.getElementById('holustats-26');
+  const btn = document.getElementById('holustats-btn');
+  if (!el) return;
+  const opening = el.style.display === 'none';
+  el.style.display = opening ? '' : 'none';
+  btn.textContent = opening ? '▲ Fela holutölfræði' : '▼ Holutölfræði';
+  if (opening && !el.dataset.built) { buildHoluStats(); el.dataset.built = '1'; }
 }
 
 // ── Init ──
