@@ -615,7 +615,7 @@
     </div>
 
     <div class="card" id="bikar-card">
-      <div class="card-header">🏆 Bikar 2026</div>
+      <div class="card-header" onclick="toggleHoluStats()" style="cursor:default">🏆 Bikar 2026</div>
       <div class="season-meta">
         <span class="meta-item">Þeir 8 efstu eftir 4 hringi komast áfram</span>
         <span class="meta-item">Sæti 1 v 8 · 2 v 7 · 3 v 6 · 4 v 5</span>
@@ -623,9 +623,6 @@
       <div id="bikar-content"></div>
     </div>
 
-    <div style="text-align:center">
-      <button class="holustats-toggle" id="holustats-btn" onclick="toggleHoluStats()">▼ Holutölfræði</button>
-    </div>
     <div id="holustats-26" style="display:none"></div>
 
   </div>
@@ -2147,7 +2144,7 @@ function showSeason(yr) {
 function buildHoluStats() {
   const el = document.getElementById('holustats-26');
   if (!el) return;
-  const weeks = WEEKS_2026.filter(w => w.course === HOME_COURSE);
+  const weeks = WEEKS_2026.filter(w => w.course === 'Hvaleyrarvöllur');
 
   // ── 1. Holumeistari ──
   const phd = {}; // phd[nick][holeIdx] = [pts…]
@@ -2218,12 +2215,10 @@ function buildHoluStats() {
 }
 
 function toggleHoluStats() {
-  const el  = document.getElementById('holustats-26');
-  const btn = document.getElementById('holustats-btn');
+  const el = document.getElementById('holustats-26');
   if (!el) return;
   const opening = el.style.display === 'none';
   el.style.display = opening ? '' : 'none';
-  btn.textContent = opening ? '▲ Fela holutölfræði' : '▼ Holutölfræði';
   if (opening && !el.dataset.built) { buildHoluStats(); el.dataset.built = '1'; }
 }
 
