@@ -623,10 +623,22 @@
       <div id="bikar-content"></div>
     </div>
 
+    <div class="card" style="margin-top:0">
+      <div class="card-header">⚔️ Meistaramót Swingers 2026 – Ryder Cup</div>
+      <div class="season-meta">
+        <span class="meta-item">R1: <strong>Vestmannaeyjavöllur</strong></span>
+        <span class="meta-item">R2: <strong>Golfklúbbur Hellu</strong></span>
+        <span class="meta-item">Snið: <strong>Better Ball + Singles Match Play</strong></span>
+      </div>
+      <div id="meistara-content"></div>
+    </div>
+
+    <!-- HOLUTÖLFRÆÐI: FÓLGIÐ TÍMABUNDIÐ — opna með því að taka út comment hér að neðan
     <div style="text-align:center;margin:8px 0 16px">
       <button id="holustats-btn" class="holustats-toggle" onclick="toggleHoluStats()">▼ Holutölfræði</button>
     </div>
     <div id="holustats-26" style="display:none"></div>
+    -->
 
   </div>
 
@@ -715,6 +727,52 @@ const SCORES_2026 = {
   "Maggi":     {V2:32, V3:30, V4:26, V6:30, V7:33, V8:34, V9:21, V10:35, V11:37, V12:36},
   "Rósant":    {V1:34, V2:27, V3:37, V4:26, V5:28, V6:30, V7:23, V9:23, V10:32, V11:35, V12:30},
   "Matti":     {V1:33, V3:38, V4:28, V5:37, V6:33, V7:34, V9:23, V10:35, V11:37, V12:36, V13:37},
+};
+
+// ============================================================
+// 🏆  MEISTARAMÓT SWINGERS 2026
+// ============================================================
+const MEISTARA_2026 = {
+  rounds: [
+    {
+      id: "R1", label: "R1 – 29.8.2026", course: "Vestmannaeyjavöllur", par: 70,
+      format: "Better Ball Match Play",
+      score: { reds: 1, blues: 2 },
+      matches: [
+        { reds: ["Biggi","Þorvaldur"], blues: ["Gummi","Ægir"],          result: "2&1", winner: "blues" },
+        { reds: ["Böddi","Hebbi"],     blues: ["Gísli","Pétur"],         result: "4&2", winner: "blues" },
+        { reds: ["Matti","Helgi"],     blues: ["Rósant","Sigurgeir M."], result: "2UP", winner: "reds"  },
+      ],
+      stableford: {
+        Matti:38, Gummi:33, Biggi:33, Ægir:32, Hebbi:32,
+        Gísli:31, Rósant:30, Böddi:29, Pétur:29, Þorvaldur:27, Helgi:27
+      }
+    },
+    {
+      id: "R2", label: "R2 – 30.8.2026", course: "Golfklúbbur Hellu", par: 70,
+      format: "Singles Match Play",
+      score: { reds: 2, blues: 4 },
+      matches: [
+        { reds: ["Helgi"],     blues: ["Gummi"],        result: "8&6", winner: "blues"  },
+        { reds: ["Biggi"],     blues: ["Rósant"],       result: "2&1", winner: "blues"  },
+        { reds: ["Þorvaldur"], blues: ["Sigurgeir M."], result: "2&1", winner: "blues"  },
+        { reds: ["Böddi"],     blues: ["Gísli"],        result: "2UP", winner: "reds"   },
+        { reds: ["Hebbi"],     blues: ["Pétur"],        result: "AS",  winner: "halved" },
+        { reds: ["Matti"],     blues: ["Ægir"],         result: "AS",  winner: "halved" },
+      ],
+      stableford: {
+        Gummi:34, Rósant:32, Biggi:30, Böddi:30, Pétur:29,
+        Gísli:27, Matti:26, Hebbi:26, Þorvaldur:26, Ægir:21, Helgi:20
+      }
+    },
+  ],
+  // Heildarskor: Blues 6 : Reds 3
+  totalScore: { reds: 3, blues: 6 },
+  // Combined stableford (R1 + R2, members only)
+  combined: {
+    Gummi:67, Matti:64, Biggi:63, Rósant:62, Böddi:59,
+    Hebbi:58, Gísli:58, Pétur:58, Ægir:53, Þorvaldur:53, Helgi:47
+  }
 };
 
 // ============================================================
@@ -1581,6 +1639,7 @@ function render26() {
   renderGross26();
   renderGroupHoles();
   renderBikar();
+  renderMeistara();
 
   if (WEEKS_2026.length === 0) {
     el.innerHTML = '<div class="empty"><h3>T\xedmabilið hefst br\xe1\xf0um</h3><p>Engar vikur hafa verið spila\xf0 enn.</p></div>';
@@ -2133,12 +2192,112 @@ function showWk(season, wkId) {
 // 🔀  SEASON SWITCHER
 // ============================================================
 function showSeason(yr) {
-  document.getElementById('view-2026').style.display = yr==='2026' ? '' : 'none';
-  document.getElementById('view-2025').style.display = yr==='2025' ? '' : 'none';
+  document.getElementById('view-2026').style.display  = yr==='2026' ? '' : 'none';
+  document.getElementById('view-2025').style.display  = yr==='2025' ? '' : 'none';
   document.getElementById('header-sub').style.display = yr==='2026' ? '' : 'none';
   document.querySelectorAll('.tab-btn').forEach(b =>
     b.classList.toggle('active', b.textContent.includes(yr))
   );
+}
+
+// ============================================================
+// 🏆  MEISTARAMÓT RENDERER
+// ============================================================
+function renderMeistara() {
+  const el = document.getElementById('meistara-content');
+  if (!el) return;
+  let h = '';
+
+  // ── Overall scoreboard ──
+  const tot = MEISTARA_2026.totalScore;
+  h += `<div style="padding:16px 20px 8px">
+    <div style="display:flex;align-items:center;gap:0;border-radius:12px;overflow:hidden;max-width:420px;margin-bottom:6px">
+      <div style="flex:1;background:#8b1a1a;color:#fff;text-align:center;padding:14px 0">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.07em;opacity:.8">TEAM REDS</div>
+        <div style="font-size:2.8rem;font-weight:900;line-height:1">${tot.reds}</div>
+        <div style="font-size:0.65rem;opacity:.65">Biggi · Þorvaldur · Böddi · Hebbi · Matti · Helgi</div>
+      </div>
+      <div style="flex:1;background:#0f2d6e;color:#fff;text-align:center;padding:14px 0">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:.07em;opacity:.8">TEAM BLUES</div>
+        <div style="font-size:2.8rem;font-weight:900;line-height:1">${tot.blues}</div>
+        <div style="font-size:0.65rem;opacity:.65">Gummi · Ægir · Gísli · Pétur · Rósant · Sigurgeir</div>
+      </div>
+    </div>
+    <div style="font-size:0.72rem;color:var(--muted)">Heildarskor eftir tvo daga</div>
+  </div>`;
+
+  // ── Each round ──
+  MEISTARA_2026.rounds.forEach(rnd => {
+    const {reds, blues} = rnd.score;
+    h += `<div style="padding:0 20px 4px">
+      <div style="border-top:1px solid var(--border);padding-top:12px;margin-top:8px">
+        <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:2px">${rnd.label}</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px">${rnd.course} · ${rnd.format}</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <div style="background:rgba(139,26,26,.3);border:1px solid #8b1a1a;border-radius:8px;padding:5px 14px;font-weight:800;color:#f87171">Reds ${reds}</div>
+          <div style="background:rgba(15,45,110,.35);border:1px solid #1a6ec0;border-radius:8px;padding:5px 14px;font-weight:800;color:#93c5fd">Blues ${blues}</div>
+        </div>`;
+
+    h += `<div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px">`;
+    rnd.matches.forEach(m => {
+      const rW = m.winner==='reds', bW = m.winner==='blues', hv = m.winner==='halved';
+      const rStyle = `background:${rW?'rgba(139,26,26,.25)':'rgba(255,255,255,.03)'};border:1px solid ${rW?'#8b1a1a':'var(--border)'};`;
+      const bStyle = `background:${bW?'rgba(15,45,110,.3)':'rgba(255,255,255,.03)'};border:1px solid ${bW?'#1a6ec0':'var(--border)'};`;
+      h += `<div style="display:grid;grid-template-columns:1fr auto 1fr;border-radius:7px;overflow:hidden;font-size:.83rem">
+        <div style="${rStyle}padding:7px 10px;text-align:left">${rW?'🔴 ':hv?'':''}${m.reds.join(' + ')}</div>
+        <div style="background:rgba(255,255,255,.05);padding:7px 11px;text-align:center;font-weight:700;color:var(--gold);white-space:nowrap">${m.result}</div>
+        <div style="${bStyle}padding:7px 10px;text-align:right">${m.blues.join(' + ')}${bW?' 🔵':hv?' —':''}</div>
+      </div>`;
+    });
+    h += `</div>`;
+
+    // Individual stableford for this round
+    const entries = Object.entries(rnd.stableford).sort((a,b)=>b[1]-a[1]);
+    h += `<div style="font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.06em;margin-bottom:5px">STABLEFORD NET</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:5px;margin-bottom:4px">`;
+    entries.forEach(([nick,pts],i) => {
+      const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}.`;
+      h += `<div style="background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:6px;padding:5px 10px;display:flex;align-items:center;gap:6px;font-size:.83rem">
+        <span style="width:20px;flex-shrink:0">${medal}</span>
+        <span style="flex:1">${nick}</span>
+        <span style="font-weight:800;color:var(--gold-light)">${pts}</span>
+      </div>`;
+    });
+    h += `</div></div></div>`;
+  });
+
+  // ── Combined stableford table ──
+  const comb = Object.entries(MEISTARA_2026.combined).sort((a,b)=>b[1]-a[1]);
+  const maxPts = comb[0][1];
+  h += `<div style="padding:0 20px 20px">
+    <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:10px">
+      <div style="font-weight:700;font-size:.9rem;color:var(--text);margin-bottom:2px">🏆 Meistaramótsmeistarinn 2026</div>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:10px">R1 + R2 · Aðeins meðlimir</div>
+      <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+        <thead><tr>
+          <th style="padding:6px 8px;text-align:left;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);">#</th>
+          <th style="padding:6px 8px;text-align:left;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);">Leikmaður</th>
+          <th style="padding:6px 8px;text-align:right;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);">R1</th>
+          <th style="padding:6px 8px;text-align:right;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);">R2</th>
+          <th style="padding:6px 8px;text-align:right;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);">Samtals</th>
+        </tr></thead><tbody>`;
+  comb.forEach(([nick, total], i) => {
+    const r1 = MEISTARA_2026.rounds[0].stableford[nick] || '–';
+    const r2 = MEISTARA_2026.rounds[1].stableford[nick] || '–';
+    const isWinner = total === maxPts;
+    const rowBg = isWinner ? 'background:rgba(217,119,6,.1);' : (i%2===1?'background:rgba(255,255,255,.02);':'');
+    const medal = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+    h += `<tr style="${rowBg}border-bottom:1px solid #21262d">
+      <td style="padding:8px 8px;color:var(--muted);font-size:.82rem">${i+1}.</td>
+      <td style="padding:8px 8px;font-weight:${isWinner?'800':'600'};color:${isWinner?'var(--gold-light)':'var(--text)'}">${medal} ${nick}</td>
+      <td style="padding:8px 8px;text-align:right;color:var(--muted)">${r1}</td>
+      <td style="padding:8px 8px;text-align:right;color:var(--muted)">${r2}</td>
+      <td style="padding:8px 8px;text-align:right;font-weight:800;color:${isWinner?'var(--gold-light)':'var(--text)'}">${total}</td>
+    </tr>`;
+  });
+  h += `</tbody></table></div></div>`;
+
+  el.innerHTML = h;
 }
 
 // ============================================================
