@@ -633,12 +633,7 @@
       <div id="meistara-content"></div>
     </div>
 
-    <!-- HOLUTÖLFRÆÐI: FÓLGIÐ TÍMABUNDIÐ — opna með því að taka út comment hér að neðan
-    <div style="text-align:center;margin:8px 0 16px">
-      <button id="holustats-btn" class="holustats-toggle" onclick="toggleHoluStats()">▼ Holutölfræði</button>
-    </div>
     <div id="holustats-26" style="display:none"></div>
-    -->
 
   </div>
 
@@ -709,25 +704,26 @@ const WEEKS_2026 = [
   {id:"V12", label:"V12", date:"18.8.2026", course:"Hvaleyrarvöllur"},
   {id:"V13", label:"V13", date:"27.8.2026", course:"Hvaleyrarvöllur"},
   {id:"V14", label:"V14", date:"4.9.2026",  course:"Hvaleyrarvöllur"},
+  {id:"V15", label:"V15", date:"10.9.2026", course:"Hvaleyrarvöllur"},
 ];
 
 const SCORES_2026 = {
   "Biggi":     {V1:19, V2:26, V3:35, V4:31, V5:32, V8:26, V9:23, V10:32, V11:32, V12:31, V13:31},
-  "Heisi":     {V1:25, V2:28, V3:31, V4:34, V5:38, V6:32, V8:40, V9:36, V10:28, V12:36, V13:35},
-  "Helgi":     {V1:18, V2:28, V3:36, V4:24, V5:30, V6:34, V7:30, V8:29, V9:20, V12:34, V13:27, V14:1},
+  "Heisi":     {V1:25, V2:28, V3:31, V4:34, V5:38, V6:32, V8:40, V9:36, V10:28, V12:36, V13:35, V15:33},
+  "Helgi":     {V1:18, V2:28, V3:36, V4:24, V5:30, V6:34, V7:30, V8:29, V9:20, V12:34, V13:27, V14:1, V15:34},
   "Kiddi":     {V1:38, V3:23, V4:27, V6:29, V7:29, V10:29, V11:40, V13:23},
-  "Öddi":      {V1:26, V2:28, V3:24, V5:28, V6:32, V7:28, V8:28, V9:21, V10:18, V12:33, V13:35, V14:28},
-  "Pétur":     {V1:29, V2:23, V4:16, V5:23, V6:22, V7:25, V8:19, V9:18, V10:25, V11:23, V13:19},
-  "Þorvaldur": {V1:33, V3:26, V4:32, V5:30, V6:23, V8:23, V10:40, V12:35, V13:27},
-  "Valdi":     {V1:33, V2:21, V3:27, V5:38, V6:32, V7:31, V10:29, V13:39, V14:9},
-  "Böddi":     {V1:36, V2:33, V3:28, V4:35, V5:32, V6:32, V7:24, V8:31, V9:27, V10:32, V11:36, V12:38, V13:38},
-  "Ægir":      {V1:30, V2:34, V3:31, V4:23, V5:28, V8:35, V9:37, V10:40, V11:35, V12:35, V13:29, V14:37},
+  "Öddi":      {V1:26, V2:28, V3:24, V5:28, V6:32, V7:28, V8:28, V9:21, V10:18, V12:33, V13:35, V14:28, V15:39},
+  "Pétur":     {V1:29, V2:23, V4:16, V5:23, V6:22, V7:25, V8:19, V9:18, V10:25, V11:23, V13:19, V15:27},
+  "Þorvaldur": {V1:33, V3:26, V4:32, V5:30, V6:23, V8:23, V10:40, V12:35, V13:27, V15:33},
+  "Valdi":     {V1:33, V2:21, V3:27, V5:38, V6:32, V7:31, V10:29, V13:39, V14:9, V15:37},
+  "Böddi":     {V1:36, V2:33, V3:28, V4:35, V5:32, V6:32, V7:24, V8:31, V9:27, V10:32, V11:36, V12:38, V13:38, V15:31},
+  "Ægir":      {V1:30, V2:34, V3:31, V4:23, V5:28, V8:35, V9:37, V10:40, V11:35, V12:35, V13:29, V14:37, V15:36},
   "Gísli":     {V1:34, V2:36, V4:31, V5:31, V6:41, V7:30, V8:27, V9:33, V12:37, V13:32},
-  "Gummi":     {V1:31, V2:33, V3:34, V5:25, V6:29, V7:28, V8:29, V9:23, V10:29, V11:36, V13:34, V14:27},
-  "Hebbi":     {V1:32, V2:35, V3:33, V4:27, V5:33, V6:30, V8:32, V9:28, V11:38, V12:32, V13:30, V14:37},
-  "Maggi":     {V2:32, V3:30, V4:26, V6:30, V7:33, V8:34, V9:21, V10:35, V11:37, V12:36, V14:31},
+  "Gummi":     {V1:31, V2:33, V3:34, V5:25, V6:29, V7:28, V8:29, V9:23, V10:29, V11:36, V13:34, V14:27, V15:30},
+  "Hebbi":     {V1:32, V2:35, V3:33, V4:27, V5:33, V6:30, V8:32, V9:28, V11:38, V12:32, V13:30, V14:37, V15:43},
+  "Maggi":     {V2:32, V3:30, V4:26, V6:30, V7:33, V8:34, V9:21, V10:35, V11:37, V12:36, V14:31, V15:31},
   "Rósant":    {V1:34, V2:27, V3:37, V4:26, V5:28, V6:30, V7:23, V9:23, V10:32, V11:35, V12:30},
-  "Matti":     {V1:33, V3:38, V4:28, V5:37, V6:33, V7:34, V9:23, V10:35, V11:37, V12:36, V13:37, V14:30},
+  "Matti":     {V1:33, V3:38, V4:28, V5:37, V6:33, V7:34, V9:23, V10:35, V11:37, V12:36, V13:37, V14:30, V15:35},
 };
 
 // ============================================================
@@ -881,6 +877,20 @@ const HOLE_DATA = {
     "Gummi":     {s:[6,5,6,3,5,3,5,5,4,4,6,3,9,5,5,7,3,6], p:[2,2,0,2,2,2,2,2,3,2,1,2,0,1,2,1,2,1]},
     "Þorvaldur":     {s:[8,7,6,6,6,4,7,4,5,6,6,4,8,6,7,8,4,7], p:[0,1,1,0,2,2,1,3,3,1,1,2,1,1,1,1,2,0]},
     "Pétur":     {s:[9,6,6,4,8,3,8,7,6,7,5,7,9,4,6,9,5,8], p:[0,2,2,2,0,3,0,1,2,0,3,0,0,3,2,0,2,0]},
+  },
+  "V15": {
+    "Hebbi":     {s:[6,5,5,3,5,2,4,6,6,4,5,3,6,5,5,5,4,5], p:[2,2,2,3,2,4,4,1,1,3,2,3,2,2,2,4,2,2]},
+    "Öddi":      {s:[6,6,5,5,4,3,6,6,5,5,4,3,7,4,4,6,6,4], p:[2,1,2,1,4,3,2,1,2,2,3,3,1,3,3,3,0,3]},
+    "Valdi":     {s:[7,6,4,5,5,4,7,4,4,4,4,6,6,5,5,7,3,5], p:[1,1,3,1,3,2,1,3,3,3,3,0,2,2,2,2,3,2]},
+    "Ægir":      {s:[5,7,4,4,5,4,8,4,4,4,4,3,5,6,6,7,3,7], p:[3,0,3,2,2,2,0,3,3,3,3,3,3,1,1,1,3,0]},
+    "Matti":     {s:[6,5,4,4,4,3,6,5,4,3,4,3,6,4,5,7,5,4], p:[2,2,2,1,3,2,1,1,3,3,3,2,2,2,2,1,0,3]},
+    "Helgi":     {s:[8,9,5,3,4,4,8,5,7,4,5,4,7,6,7,7,4,7], p:[1,0,2,3,4,2,0,3,1,3,3,3,2,1,1,2,2,1]},
+    "Heisi":     {s:[6,5,4,3,5,5,5,6,5,6,7,4,6,6,6,5,4,5], p:[2,2,3,3,2,1,3,1,2,1,0,2,2,1,1,3,2,2]},
+    "Þorvaldur": {s:[7,6,5,3,6,4,7,7,5,5,6,6,6,7,5,7,3,5], p:[1,2,2,3,2,2,1,0,3,2,1,0,3,0,3,2,3,3]},
+    "Böddi":     {s:[5,4,4,5,6,4,6,5,4,5,6,5,8,4,5,5,3,6], p:[3,3,3,0,1,1,1,2,3,1,1,1,0,2,2,3,3,1]},
+    "Maggi":     {s:[7,5,5,5,4,5,6,6,7,4,5,4,8,5,7,5,4,6], p:[1,2,2,1,4,1,2,1,0,3,2,2,1,2,0,4,2,1]},
+    "Gummi":     {s:[6,6,4,4,5,4,7,5,5,5,4,5,6,5,5,4,3,6], p:[2,1,2,1,2,1,0,2,2,1,3,1,2,1,2,4,2,1]},
+    "Pétur":     {s:[9,6,5,4,8,4,7,6,6,5,5,7,9,9,6,7,6,6], p:[0,2,3,2,0,2,2,2,2,2,3,0,0,0,2,2,1,2]},
   },
   "V14": {
     "Ægir":  {s:[6,5,6,4,7,4,6,4,4,4,4,4,6,5,5,5,6,5], p:[2,2,1,2,0,2,2,3,3,3,3,2,2,2,2,4,0,2]},
@@ -2348,28 +2358,91 @@ function buildHoluStats() {
   }
   hmHTML += '</div>';
 
-  // ── 2. Fuglar og örnar ──
-  const birdies = Array(18).fill(0);
-  const eagles  = Array(18).fill(0);
+  // ── 2. Leikmanna yfirlit — holur sem leikmaður vinnur + meðal/holu ──
+  // Rank all players by overall avg pts/hole for top-3 medals
+  const _pavgs = [];
+  PLAYERS.forEach(p => {
+    const pd = phd[p.nick];
+    if (!pd) return;
+    let tp = 0, tn = 0;
+    pd.forEach(arr => { tp += arr.reduce((a,b)=>a+b,0); tn += arr.length; });
+    if (tn > 0) _pavgs.push({nick: p.nick, avg: tp/tn});
+  });
+  _pavgs.sort((a,b) => b.avg - a.avg);
+  const psRankMap = {};
+  _pavgs.slice(0,3).forEach((r,i) => { psRankMap[r.nick] = medals[i]; });
+
+  let psHTML = '<div class="hm-grid">';
+  PLAYERS.forEach(p => {
+    const pData = phd[p.nick];
+    if (!pData) return;
+    const owned = [];
+    let totalPts = 0, totalN = 0;
+    for (let h = 0; h < 18; h++) {
+      const arr = pData[h];
+      if (!arr.length) continue;
+      totalPts += arr.reduce((a,b)=>a+b,0);
+      totalN   += arr.length;
+      if (arr.length < 3) continue;
+      const myA = arr.reduce((a,b)=>a+b,0) / arr.length;
+      let best = true;
+      Object.entries(phd).forEach(([n2, holes]) => {
+        if (n2 === p.nick) return;
+        const a2 = holes[h];
+        if (a2.length >= 3 && a2.reduce((a,b)=>a+b,0)/a2.length > myA) best = false;
+      });
+      if (best) owned.push(h+1);
+    }
+    const avgStr   = totalN > 0 ? (totalPts/totalN).toFixed(2) : '–';
+    const ownedStr = owned.length ? owned.map(h=>`H${h}`).join(', ') : '–';
+    const rankMedal = psRankMap[p.nick] || '';
+    psHTML += `<div class="hm-card">
+      <div class="hm-hole-hdr">${rankMedal ? `<span style="margin-right:4px">${rankMedal}</span>` : ''}${p.nick}<span class="hm-par">${avgStr} pt/holu</span></div>
+      <div class="hm-row" style="font-size:0.78rem;padding:4px 8px;color:var(--muted);gap:4px">
+        <span style="flex-shrink:0">👑</span><span>${ownedStr}</span>
+      </div>
+    </div>`;
+  });
+  psHTML += '</div>';
+
+  // ── 3. Fuglar (birdie = par-1) með nöfnum — örnar fjarlægðir ──
+  const birdieMap = Array.from({length:18}, () => ({}));
   weeks.forEach(w => {
     const wd = HOLE_DATA[w.id];
     if (!wd) return;
-    Object.values(wd).forEach(d => {
+    Object.entries(wd).forEach(([nick, d]) => {
       d.s.forEach((g,i) => {
-        if (g <= COURSE_PARS[i]-2) eagles[i]++;
-        else if (g === COURSE_PARS[i]-1) birdies[i]++;
+        if (g === COURSE_PARS[i]-1) birdieMap[i][nick] = (birdieMap[i][nick]||0) + 1;
       });
     });
   });
-  const order = [...Array(18).keys()].sort((a,b) =>
-    (eagles[b]*2 + birdies[b]) - (eagles[a]*2 + birdies[a])
+  // Top-3 birdie players overall (for star marker)
+  const _btot = {};
+  birdieMap.forEach(map => Object.entries(map).forEach(([n,c]) => { _btot[n] = (_btot[n]||0)+c; }));
+  const birdieTopNicks = new Set(
+    Object.entries(_btot).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([n])=>n)
   );
 
-  let bgHTML = '<table class="birdie-tbl"><thead><tr><th>Hola</th><th>Par</th><th>🦅 Örn+</th><th>🐦 Fugl</th><th>Samtals</th></tr></thead><tbody>';
-  order.forEach(i => {
-    const tot = eagles[i] + birdies[i];
-    if (!tot) return;
-    bgHTML += `<tr><td><strong>H${i+1}</strong></td><td>${COURSE_PARS[i]}</td><td>${eagles[i]||'–'}</td><td>${birdies[i]||'–'}</td><td><strong>${tot}</strong></td></tr>`;
+  // All 18 holes, sorted by birdie count desc
+  const birdieOrder = [...Array(18).keys()].sort((a,b) => {
+    const sa = Object.values(birdieMap[a]).reduce((x,y)=>x+y,0);
+    const sb = Object.values(birdieMap[b]).reduce((x,y)=>x+y,0);
+    return sb - sa;
+  });
+
+  let bgHTML = '<table class="birdie-tbl"><thead><tr><th>Hola</th><th>Par</th><th>🐦</th><th>Leikmenn</th></tr></thead><tbody>';
+  birdieOrder.forEach(i => {
+    const map = birdieMap[i];
+    const tot = Object.values(map).reduce((a,b)=>a+b,0);
+    if (!tot) {
+      bgHTML += '<tr style="opacity:0.4"><td><strong>H'+(i+1)+'</strong></td><td>'+COURSE_PARS[i]+'</td><td>–</td><td style="font-size:0.8rem;color:var(--muted)">–</td></tr>';
+      return;
+    }
+    const names = Object.entries(map)
+      .sort((a,b)=>b[1]-a[1])
+      .map(([n,c]) => (birdieTopNicks.has(n) ? '⭐' : '') + n + (c>1 ? ' ('+c+')' : ''))
+      .join(', ');
+    bgHTML += '<tr><td><strong>H'+(i+1)+'</strong></td><td>'+COURSE_PARS[i]+'</td><td><strong>'+tot+'</strong></td><td style="font-size:0.8rem;color:var(--muted)">'+names+'</td></tr>';
   });
   bgHTML += '</tbody></table>';
 
@@ -2380,8 +2453,13 @@ function buildHoluStats() {
       ${hmHTML}
     </div>
     <div class="card" style="margin-top:12px">
-      <div class="card-header">🐦 Fuglar og Örnar 2026</div>
-      <div class="season-meta"><span class="meta-item">Allar vikur á Hvaleyrarvelli · raðað eftir heildartölu</span></div>
+      <div class="card-header">🏌️ Leikmanna yfirlit</div>
+      <div class="season-meta"><span class="meta-item">Holur sem leikmaðurinn vinnur (besti meðaltalið) · meðal stableford á holu</span></div>
+      ${psHTML}
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="card-header">🐦 Fuglasmiðar 2026</div>
+      <div class="season-meta"><span class="meta-item">Allar vikur á Hvaleyrarvelli · fugl (par−1) á hverri holu</span></div>
       ${bgHTML}
     </div>`;
 }
@@ -2398,5 +2476,28 @@ function toggleHoluStats() {
 render26();
 render25();
 </script>
+
+<!-- Holutölfræði leyndardómur-punktur -->
+<script>
+var _holaOpen = false;
+function toggleHoluDot() {
+  toggleHoluStats();
+  _holaOpen = !_holaOpen;
+  var dot = document.getElementById('holu-dot');
+  if (dot) {
+    dot.style.background = _holaOpen ? '#d97706' : '#6e7681';
+    dot.style.opacity = _holaOpen ? '1' : '0.6';
+  }
+}
+</script>
+<button id="holu-dot" onclick="toggleHoluDot()" title="Holutölfræði" style="
+  position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
+  width:10px; height:10px; border-radius:50%;
+  background:#6e7681; border:none; cursor:pointer;
+  opacity:0.6; transition:opacity .2s, background .2s;
+  padding:0; z-index:9999;
+" onmouseenter="this.style.opacity='1'"
+   onmouseleave="this.style.opacity=_holaOpen?'1':'0.6'"
+></button>
 </body>
 </html>
