@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swingers · Lokahóf 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A227;--gold-l:#F5E6A3;--gold-d:#8A6A10;
+  --silver:#C0C0C0;--bronze:#CD7F32;
+  --bg:#050D07;--muted:rgba(255,255,255,.42);
+}
+html,body{width:100%;height:100vh;background:var(--bg);overflow:hidden;
+  font-family:'Montserrat','Arial',sans-serif;color:#fff;user-select:none}
+
+/* SLIDES */
+.slide{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:clamp(16px,3vw,50px);
+  opacity:0;pointer-events:none;
+  transition:opacity .65s ease,transform .65s ease;transform:translateY(14px)}
+.slide.on{opacity:1;pointer-events:all;transform:translateY(0)}
+
+/* NAV */
+.nav-wrap{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:6px;z-index:900}
+.nbtn{width:40px;height:40px;border-radius:50%;
+  border:1.5px solid rgba(201,162,39,.3);background:rgba(201,162,39,.07);
+  color:var(--gold);font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s}
+.nbtn:hover{background:rgba(201,162,39,.22);border-color:var(--gold)}
+
+/* SLIDE MENU */
+.smenu-btn{position:fixed;right:20px;top:50%;transform:translateY(-50%);
+  width:38px;height:38px;border-radius:50%;
+  border:1.5px solid rgba(201,162,39,.3);background:rgba(0,0,0,.55);
+  color:var(--gold);font-size:1rem;cursor:pointer;z-index:950;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;backdrop-filter:blur(4px)}
+.smenu-btn:hover{background:rgba(201,162,39,.2);border-color:var(--gold)}
+.smenu-panel{position:fixed;right:66px;top:50%;
+  transform:translateY(-50%) translateX(10px);
+  background:rgba(8,6,2,.93);border:1px solid rgba(201,162,39,.25);
+  border-radius:12px;padding:8px 0;z-index:940;min-width:210px;
+  backdrop-filter:blur(10px);
+  opacity:0;pointer-events:none;
+  transition:opacity .22s,transform .22s}
+.smenu-panel.open{opacity:1;pointer-events:auto;
+  transform:translateY(-50%) translateX(0)}
+.smenu-item{display:block;padding:7px 16px;cursor:pointer;
+  color:rgba(255,255,255,.65);font-size:.76rem;letter-spacing:.04em;
+  border-left:2px solid transparent;transition:all .16s}
+.smenu-item:hover{color:#fff;background:rgba(201,162,39,.1)}
+.smenu-item.on{color:var(--gold);border-left-color:var(--gold);font-weight:600}
+.smenu-num{display:inline-block;width:22px;color:rgba(201,162,39,.45);
+  font-size:.7rem;font-variant-numeric:tabular-nums}
+
+/* COMMON */
+.eyebrow{font-size:clamp(.7rem,1.4vw,.88rem);letter-spacing:.38em;color:var(--gold);
+  text-transform:uppercase;font-weight:600;margin-bottom:9px;text-align:center}
+.h1{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.9rem,6vw,4.5rem);font-weight:900;line-height:1.06;
+  text-align:center;color:#fff}
+.rule{width:72px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto}
+.sub{font-size:clamp(.78rem,1.7vw,1rem);color:var(--muted);
+  letter-spacing:.12em;text-align:center;font-weight:300;line-height:1.5}
+
+/* ===== S0: TITLE ===== */
+#s0{background:var(--bg)}
+.grid-bg{position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(201,162,39,.033) 60px),
+    repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(201,162,39,.033) 60px)}
+.glow-ring{position:absolute;width:58vmin;height:58vmin;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(18,66,28,.55) 0%,transparent 72%)}
+.main-t{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(4rem,14vw,10.5rem);font-weight:900;letter-spacing:.1em;
+  background:linear-gradient(135deg,var(--gold-d) 0%,var(--gold) 28%,var(--gold-l) 52%,var(--gold) 76%,var(--gold-d) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;text-transform:uppercase;animation:glow 3.5s ease-in-out infinite;
+  position:relative;z-index:1}
+@keyframes glow{0%,100%{filter:drop-shadow(0 0 22px rgba(201,162,39,.48))}
+  50%{filter:drop-shadow(0 0 55px rgba(201,162,39,.95))}}
+.main-sub{font-size:clamp(.9rem,3vw,1.8rem);letter-spacing:.52em;
+  color:rgba(245,230,163,.7);font-weight:300;text-transform:uppercase;
+  margin-top:12px;position:relative;z-index:1}
+.main-course{font-size:clamp(.66rem,1.4vw,.88rem);letter-spacing:.3em;
+  color:rgba(201,162,39,.4);text-transform:uppercase;
+  margin-top:7px;position:relative;z-index:1}
+.spin{animation:spin 9s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== S1: DUGLEGASTI ===== */
+#s1{background:radial-gradient(ellipse at 50% 42%,#0F2018 0%,var(--bg) 65%)}
+.prow{display:flex;gap:clamp(12px,2.8vw,36px);justify-content:center;
+  flex-wrap:wrap;margin-top:22px}
+.pcard{display:flex;flex-direction:column;align-items:center;gap:9px}
+.pp{width:clamp(65px,8.5vw,125px);height:clamp(65px,8.5vw,125px);
+  border-radius:50%;object-fit:cover;object-position:center 35%;
+  border:2.5px solid var(--gold);box-shadow:0 0 20px rgba(201,162,39,.22);transition:transform .3s}
+.pp:hover{transform:scale(1.06)}
+.pn{font-size:clamp(.62rem,1.4vw,.82rem);font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;text-align:center}
+.ps{font-size:clamp(.64rem,1.2vw,.78rem);color:rgba(201,162,39,.75);letter-spacing:.06em}
+
+/* ===== S3: BESTI HRINGUR ===== */
+#s3{background:radial-gradient(ellipse at 50% 35%,#1E1400 0%,var(--bg) 65%)}
+.hero-wrap{display:flex;align-items:center;
+  gap:clamp(24px,5vw,68px);margin-top:18px;flex-wrap:wrap;justify-content:center}
+.hero-img{width:clamp(125px,16vw,220px);height:clamp(125px,16vw,220px);
+  object-fit:cover;object-position:center 35%;border-radius:12px;
+  border:2px solid rgba(201,162,39,.38);
+  box-shadow:0 20px 55px rgba(0,0,0,.65),0 0 36px rgba(201,162,39,.14)}
+.hero-num{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(5rem,16vw,11.5rem);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-unit{font-size:clamp(1rem,3vw,2rem);color:rgba(245,230,163,.62);
+  letter-spacing:.25em;text-transform:uppercase;font-weight:300;margin-top:-6px}
+.hero-name-lbl{font-size:clamp(1rem,3vw,2rem);font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+.hero-meta{font-size:clamp(.6rem,1.3vw,.78rem);color:var(--muted);letter-spacing:.12em;margin-top:4px}
+
+/* ===== S6: FUGLAMEISTARI ===== */
+#s6{background:radial-gradient(ellipse at 50% 38%,#0A1C0A 0%,var(--bg) 65%)}
+.fugla-podium{display:flex;align-items:flex-end;justify-content:center;
+  gap:clamp(14px,3.5vw,50px);margin-top:18px}
+.fp-card{display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:clamp(12px,2vw,22px) clamp(14px,2.5vw,28px);border-radius:12px;
+  border:1.5px solid rgba(201,162,39,.12)}
+.fp-card.elevated{transform:translateY(-16px)}
+.fp-card.gold-b{background:rgba(201,162,39,.07);border-color:rgba(201,162,39,.3)}
+.fp-card.silver-b{background:rgba(192,192,192,.05);border-color:rgba(192,192,192,.2)}
+.fp-card.bronze-b{background:rgba(205,127,50,.05);border-color:rgba(205,127,50,.2)}
+.fp-medal{font-size:clamp(1.4rem,3.5vw,2.2rem);line-height:1}
+.fp-photo{width:clamp(80px,10vw,140px);height:clamp(80px,10vw,140px);
+  border-radius:50%;object-fit:cover;object-position:center 35%;border:2.5px solid rgba(201,162,39,.45)}
+.fp-card.gold-b .fp-photo{border-color:var(--gold);box-shadow:0 0 28px rgba(201,162,39,.35)}
+.fp-card.silver-b .fp-photo{border-color:var(--silver)}
+.fp-card.bronze-b .fp-photo{border-color:var(--bronze)}
+.fp-name{font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  font-size:clamp(.8rem,2vw,1.1rem)}
+.fp-count{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2.5rem,7vw,5rem);font-weight:900;line-height:1}
+.fp-card.gold-b .fp-count{
+  background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.fp-card.silver-b .fp-count{color:var(--silver)}
+.fp-card.bronze-b .fp-count{color:var(--bronze)}
+.fp-label{font-size:clamp(.55rem,1.2vw,.72rem);letter-spacing:.22em;
+  text-transform:uppercase;color:var(--muted)}
+
+/* ===== S4: HOLUMEISTARI ===== */
+#s4{background:radial-gradient(ellipse at 50% 40%,#0A150A 0%,var(--bg) 65%);
+  justify-content:flex-start;padding-top:clamp(14px,2.5vh,36px)}
+.holu-grid{display:grid;grid-template-columns:repeat(6,1fr);
+  gap:clamp(5px,1vw,10px);width:100%;max-width:1400px;margin-top:10px}
+.hc{display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 5px;background:rgba(201,162,39,.05);
+  border:1px solid rgba(201,162,39,.12);border-radius:8px;text-align:center;
+  opacity:0;transform:scale(0.82) translateY(10px);
+  transition:opacity .45s ease,transform .45s ease;pointer-events:none}
+.hc.vis{opacity:1;transform:scale(1) translateY(0);pointer-events:all}
+.hc.medal-gold{border:2.5px solid var(--gold);background:rgba(201,162,39,.1)}
+.hc.medal-silver{border:2.5px solid var(--silver);background:rgba(192,192,192,.07)}
+.hc.medal-bronze{border:2.5px solid var(--bronze);background:rgba(205,127,50,.08)}
+.hc.gold-glow{box-shadow:0 0 20px rgba(201,162,39,.45)}
+.hc-hdr{font-size:clamp(.64rem,1.1vw,.76rem);color:var(--gold);
+  font-weight:700;letter-spacing:.1em;text-transform:uppercase;line-height:1.2}
+.hc-photo{width:clamp(36px,4.5vw,52px);height:clamp(36px,4.5vw,52px);
+  border-radius:50%;object-fit:cover;object-position:center 35%;border:1.5px solid rgba(201,162,39,.4)}
+.hc-avatar{width:clamp(36px,4.5vw,52px);height:clamp(36px,4.5vw,52px);
+  border-radius:50%;background:rgba(201,162,39,.12);
+  border:1.5px solid rgba(201,162,39,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:clamp(.9rem,1.5vw,1.2rem);color:var(--gold)}
+.hc-name{font-size:clamp(.62rem,1.1vw,.76rem);font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:#fff}
+.hc-avg{font-size:clamp(.68rem,1.2vw,.82rem);font-weight:700;color:var(--gold);line-height:1.1}
+.hc-vs{font-size:clamp(.56rem,.95vw,.68rem);color:rgba(255,255,255,.35);line-height:1.1}
+.hc-diff{font-size:clamp(.56rem,.95vw,.68rem);color:#5cbd5c;font-weight:600}
+
+/* ===== S9: STIGATAFLAN ===== */
+#s9{background:radial-gradient(ellipse at 50% 42%,#0A180A 0%,var(--bg) 65%)}
+.stbl{width:min(650px,88vw);border-collapse:collapse;margin-top:12px}
+.stbl thead tr{border-bottom:1px solid rgba(201,162,39,.35)}
+.stbl thead td{padding:4px 8px;font-size:clamp(.64rem,1.2vw,.76rem);
+  color:rgba(201,162,39,.6);text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.stbl tbody tr{border-bottom:1px solid rgba(201,162,39,.07)}
+.stbl tbody td{padding:4px 8px;font-size:clamp(.65rem,1.3vw,.82rem)}
+.rk{color:rgba(201,162,39,.48);width:32px;font-weight:600;font-variant-numeric:tabular-nums}
+.nm{color:#fff;font-weight:500}
+.sc{color:var(--gold);font-weight:700;text-align:right;font-variant-numeric:tabular-nums;width:56px}
+.av{color:rgba(245,230,163,.6);text-align:right;font-variant-numeric:tabular-nums;
+  font-size:clamp(.68rem,1.2vw,.82rem);width:70px}
+.rd{color:rgba(255,255,255,.35);text-align:right;font-size:clamp(.66rem,1.1vw,.78rem);width:58px}
+.stbl-teaser{margin-top:12px;font-size:clamp(.68rem,1.3vw,.82rem);
+  color:rgba(201,162,39,.38);letter-spacing:.26em;text-transform:uppercase;text-align:center}
+
+/* ===== S2: SEKTARKÓNGURINN ===== */
+#s2{background:radial-gradient(ellipse at 50% 40%,#1A1200 0%,var(--bg) 65%)}
+.sekt-list{display:flex;flex-direction:column;gap:clamp(5px,1.2vw,10px);
+  margin-top:14px;width:min(460px,90vw)}
+.sekt-row{display:flex;align-items:center;gap:clamp(8px,2vw,16px);
+  padding:clamp(7px,1.2vw,12px) clamp(10px,2vw,18px);border-radius:10px;
+  border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);
+  transition:opacity .4s ease,transform .4s ease}
+.sekt-row.sekt-hidden{opacity:0;transform:translateX(-20px);pointer-events:none}
+.sekt-row.first{border-color:rgba(201,162,39,.52);background:rgba(201,162,39,.10)}
+.sekt-pos{font-size:clamp(.7rem,1.5vw,.9rem);font-weight:700;min-width:1.6em;
+  text-align:right;color:rgba(255,255,255,.32)}
+.sekt-row.first .sekt-pos{color:var(--gold)}
+.sekt-icon{font-size:clamp(1rem,2.2vw,1.4rem)}
+.sekt-name{font-size:clamp(.88rem,2vw,1.2rem);font-weight:700;flex:1}
+.sekt-row.first .sekt-name{color:var(--gold)}
+.sekt-amt{font-size:clamp(.82rem,1.8vw,1.05rem);font-weight:700;
+  color:rgba(255,255,255,.55);white-space:nowrap}
+.sekt-row.first .sekt-amt{color:var(--gold)}
+
+/* ===== S11: BRONZE ===== */
+#s11{background:radial-gradient(ellipse at 50% 35%,#1A0E00 0%,var(--bg) 65%)}
+.pod-img{width:clamp(140px,20vw,270px);height:clamp(140px,20vw,270px);
+  object-fit:cover;object-position:center 35%;border-radius:10px;display:block;margin:16px auto}
+.bronze-frm{border:3px solid var(--bronze);box-shadow:0 0 48px rgba(205,127,50,.28),0 20px 60px rgba(0,0,0,.7)}
+.silver-frm{border:3px solid var(--silver);box-shadow:0 0 48px rgba(192,192,192,.32),0 20px 60px rgba(0,0,0,.7)}
+.rank-lbl{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.2rem,3.5vw,2.5rem);font-weight:700;letter-spacing:.12em;text-align:center}
+.bronze-c{color:var(--bronze)}.silver-c{color:var(--silver)}.gold-c{color:var(--gold)}
+.w-name{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2.8rem,9vw,6.5rem);font-weight:900;text-align:center;
+  line-height:1;color:#fff;margin:5px 0}
+.w-score{font-size:clamp(.8rem,2.2vw,1.3rem);color:rgba(245,230,163,.58);
+  letter-spacing:.3em;font-weight:300;text-transform:uppercase;text-align:center}
+
+/* ===== S12: SILVER ===== */
+#s12{background:radial-gradient(ellipse at 50% 35%,#0C0C18 0%,var(--bg) 65%)}
+.vs-row{display:flex;align-items:center;
+  gap:clamp(16px,4vw,52px);margin-top:16px;flex-wrap:wrap;justify-content:center}
+.vs-card{display:flex;flex-direction:column;align-items:center;gap:11px}
+.vs-img{width:clamp(100px,14vw,195px);height:clamp(100px,14vw,195px);
+  object-fit:cover;object-position:center 35%;border-radius:10px;
+  border:2px solid rgba(201,162,39,.45);box-shadow:0 14px 46px rgba(0,0,0,.6)}
+.vs-name{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(1.4rem,4vw,2.8rem);font-weight:900;text-align:center}
+.vs-sc{font-size:clamp(.58rem,1.2vw,.76rem);color:rgba(201,162,39,.7);
+  letter-spacing:.2em;text-transform:uppercase}
+.vs-div{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(2rem,6.5vw,4.8rem);color:rgba(201,162,39,.2);font-weight:900;flex-shrink:0}
+.drama-line{margin-top:20px;font-size:clamp(.58rem,1.4vw,.82rem);
+  color:rgba(255,255,255,.28);letter-spacing:.3em;text-transform:uppercase;
+  text-align:center;animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.45;transform:scale(.98)}50%{opacity:1;transform:scale(1.02)}}
+
+/* ===== S13: CHAMPION ===== */
+#s13{background:radial-gradient(ellipse at 50% 30%,#2A1700 0%,#0E0600 45%,var(--bg) 70%);overflow:hidden}
+#confettiCanvas{position:absolute;inset:0;pointer-events:none;z-index:0}
+.champ-inner{position:relative;z-index:1;text-align:center}
+.champ-eye{font-size:clamp(.58rem,1.3vw,.8rem);letter-spacing:.5em;
+  text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:9px}
+.champ-q{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(5rem,18vw,14rem);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l),var(--gold),var(--gold-d));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:glow 2.2s ease-in-out infinite}
+.champ-hint{font-size:clamp(.6rem,1.3vw,.78rem);color:rgba(201,162,39,.32);
+  letter-spacing:.3em;text-transform:uppercase;margin-top:9px}
+.champ-note{font-size:clamp(.62rem,1.2vw,.78rem);color:rgba(255,255,255,.16);
+  letter-spacing:.18em;text-transform:uppercase;margin-top:22px}
+
+/* ===== S5: RYDER CUP ===== */
+#s5{background:radial-gradient(ellipse at 30% 40%,#001520 0%,#0A0500 50%,var(--bg) 75%)}
+.rt-faces{display:flex;gap:clamp(4px,1vw,8px);justify-content:center;margin-top:5px;flex-wrap:wrap}
+.rt-face{width:clamp(26px,3.2vw,40px);height:clamp(26px,3.2vw,40px);
+  border-radius:50%;object-fit:cover;object-position:center 35%;border:1.5px solid currentColor}
+.rt-blues .rt-face{border-color:rgba(59,130,246,.7)}
+.rt-reds .rt-face{border-color:rgba(239,68,68,.7)}
+.fun-grid{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(10px,2vw,22px);width:min(900px,90vw);margin-top:14px}
+.fun-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:clamp(12px,2vw,22px);display:flex;flex-direction:column;
+  align-items:center;gap:6px;text-align:center}
+.fc-ico{font-size:clamp(1.6rem,4vw,2.6rem);line-height:1}
+.fc-cat{font-size:clamp(.48rem,1vw,.62rem);letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(201,162,39,.55);font-weight:600;margin-bottom:2px}
+.fc-who{font-size:clamp(.9rem,2.2vw,1.3rem);font-weight:700;color:#fff;line-height:1.1}
+.fc-val{font-size:clamp(.62rem,1.3vw,.8rem);color:rgba(245,230,163,.55);margin-top:2px}
+
+/* ===== S8: MEISTARAHELGI ===== */
+#s8{background:radial-gradient(ellipse at 50% 35%,#1C1000 0%,var(--bg) 65%)}
+.race-wrap{width:min(820px,90vw);margin-top:8px}
+#raceCanvas{width:100%;border-radius:6px}
+
+/* ===== S7: BIKAR ===== */
+#s7{background:radial-gradient(ellipse at 50% 40%,#0D0D1A 0%,var(--bg) 65%)}
+.ryder-score{display:flex;align-items:center;justify-content:center;
+  gap:clamp(18px,5vw,60px);margin:10px 0 4px}
+.ryder-team{display:flex;flex-direction:column;align-items:center;gap:4px}
+.rt-pts{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(3.5rem,12vw,8rem);font-weight:900;line-height:1}
+.rt-blues .rt-pts{color:#3b82f6}.rt-reds .rt-pts{color:#ef4444}
+.rt-label{font-size:clamp(.55rem,1.3vw,.78rem);letter-spacing:.3em;
+  text-transform:uppercase;font-weight:600}
+.rt-blues .rt-label{color:#93c5fd}.rt-reds .rt-label{color:#fca5a5}
+.rt-names{font-size:clamp(.64rem,1.2vw,.78rem);color:rgba(255,255,255,.38);
+  letter-spacing:.06em;line-height:1.5;margin-top:3px}
+.ryder-sep{font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,4rem);color:rgba(255,255,255,.1);font-weight:900}
+.ryder-rounds{display:flex;gap:clamp(8px,2vw,20px);justify-content:center;
+  flex-wrap:wrap;margin-top:6px}
+.rr-card{padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,.1);
+  text-align:center;background:rgba(255,255,255,.03);min-width:110px}
+.rr-label{font-size:clamp(.62rem,1.1vw,.76rem);color:rgba(255,255,255,.35);
+  letter-spacing:.18em;text-transform:uppercase}
+.rr-sc{font-size:clamp(.9rem,2.2vw,1.3rem);font-weight:700;margin-top:2px}
+.rr-fmt{font-size:clamp(.60rem,1vw,.72rem);color:rgba(255,255,255,.25);margin-top:2px}
+
+/* ===== S10: BEST-8 KEPPNIN ===== */
+#s10{background:radial-gradient(ellipse at 50% 40%,#1A1200 0%,var(--bg) 65%)}
+.meistara-podium{display:flex;align-items:flex-end;justify-content:center;
+  gap:clamp(10px,3vw,36px);margin-top:14px}
+.mp-card{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.mp-photo{width:clamp(70px,9vw,115px);height:clamp(70px,9vw,115px);
+  border-radius:50%;object-fit:cover;object-position:center 35%;display:block}
+.mp-medal{font-size:clamp(1.4rem,3.5vw,2.2rem);line-height:1}
+.mp-name{font-size:clamp(.85rem,2vw,1.2rem);font-weight:700}
+.mp-pts{font-size:clamp(.75rem,1.6vw,1rem);color:var(--gold);font-weight:600}
+.mp-detail{font-size:clamp(.48rem,.9vw,.62rem);color:rgba(255,255,255,.35);margin-top:2px}
+.mp-card.first .mp-photo{width:clamp(90px,13vw,160px);height:clamp(90px,13vw,160px);
+  border:2.5px solid var(--gold);box-shadow:0 0 28px rgba(201,162,39,.5)}
+.mp-card.second .mp-photo{border:2px solid var(--silver)}
+.mp-card.third .mp-photo{border:2px solid var(--bronze)}
+
+.bracket-outer{display:flex;gap:clamp(4px,1.2vw,12px);align-items:center;
+  justify-content:center;margin-top:6px;overflow:visible;flex-shrink:1;min-width:0}
+.bracket-col{display:flex;flex-direction:column;gap:clamp(5px,1.2vw,10px);align-items:center;min-width:0}
+.bracket-col-label{font-size:clamp(.52rem,.9vw,.64rem);letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(201,162,39,.42);margin-bottom:2px;white-space:nowrap}
+
+/* Match card wraps both players + score as one unit */
+.bm-pair{display:flex;flex-direction:column;gap:0;
+  border:1px solid rgba(255,255,255,.14);border-radius:8px;
+  overflow:hidden;background:rgba(255,255,255,.03);
+  min-width:clamp(64px,7.5vw,90px);width:clamp(64px,7.5vw,90px)}
+
+/* Player rows inside a card */
+.bm{padding:clamp(4px,.7vw,7px) clamp(6px,1vw,11px);
+  text-align:center;font-size:clamp(.55rem,1vw,.7rem);font-weight:600;white-space:nowrap;
+  border-radius:0;border:none;border-bottom:1px solid rgba(255,255,255,.07)}
+.bm:last-child{border-bottom:none}
+.bm.won{background:rgba(201,162,39,.1);color:var(--gold)}
+.bm.lost{color:rgba(255,255,255,.25);background:transparent}
+.bm.tbd{color:rgba(255,255,255,.28);font-style:italic}
+.bm.champion{background:rgba(201,162,39,.18);color:var(--gold);
+  box-shadow:0 0 18px rgba(201,162,39,.3)}
+.bracket-arrow{color:rgba(201,162,39,.28);font-size:clamp(.7rem,1.4vw,1rem);
+  flex-shrink:0;align-self:center}
+
+/* Score strip between the two players */
+.bm-score{font-size:clamp(.44rem,.72vw,.58rem);color:rgba(201,162,39,.9);
+  text-align:center;padding:1px 4px;letter-spacing:.04em;font-weight:700;
+  background:rgba(201,162,39,.08);
+  border-top:1px solid rgba(201,162,39,.18);
+  border-bottom:1px solid rgba(201,162,39,.18)}
+
+.bikar-note{font-size:clamp(.56rem,1vw,.7rem);color:rgba(201,162,39,.35);
+  letter-spacing:.12em;text-transform:uppercase;margin-top:8px;text-align:center}
+.bm-seed{font-size:.75em;color:rgba(201,162,39,.4);margin-right:2px}
+.bm-final-vs{font-size:clamp(.44rem,.72vw,.58rem);color:rgba(201,162,39,.9);
+  text-align:center;padding:1px 4px;letter-spacing:.04em;font-weight:700;
+  background:rgba(201,162,39,.08);
+  border-top:1px solid rgba(201,162,39,.18);
+  border-bottom:1px solid rgba(201,162,39,.18)}
+.bm.finalist{background:rgba(201,162,39,.07);color:rgba(255,255,255,.75)}
+.bm.hebbi{border-color:var(--gold);border-width:2px;background:rgba(201,162,39,.28);
+  color:#fff;text-shadow:0 0 8px rgba(201,162,39,.9);
+  box-shadow:0 0 18px rgba(201,162,39,.65),0 0 36px rgba(201,162,39,.2),inset 0 0 10px rgba(201,162,39,.15);
+  font-weight:800}
+.bikar-hero{display:flex;flex-direction:column;align-items:center;gap:5px;
+  flex-shrink:0;position:relative;z-index:1}
+.bikar-hero img{width:clamp(64px,9vw,110px);height:clamp(64px,9vw,110px);
+  object-fit:cover;object-position:center 20%;border-radius:50%;
+  border:2px solid var(--gold);
+  box-shadow:0 0 28px rgba(201,162,39,.7),0 0 56px rgba(201,162,39,.22)}
+.bikar-hero-name{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(.85rem,2vw,1.3rem);color:var(--gold);font-weight:700;letter-spacing:.05em}
+.bikar-hero-sub{font-size:clamp(.5rem,.9vw,.64rem);color:rgba(201,162,39,.6);
+  letter-spacing:.16em;text-transform:uppercase}
+.bikar-layout{display:flex;align-items:center;justify-content:center;
+  gap:clamp(8px,2vw,22px);width:100%;max-width:100%;overflow:hidden}
+
+/* ===== COUNTDOWN ===== */
+.cd-num{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(9rem,28vw,20rem);font-weight:900;line-height:1;
+  background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:cdPulse 1s ease-out forwards}
+@keyframes cdPulse{
+  0%{transform:scale(1.6);opacity:0}
+  25%{opacity:1}
+  75%{transform:scale(1);opacity:1}
+  100%{transform:scale(.7);opacity:0}}
+
+/* ===== S0: TITLE PLAYERS ===== */
+.title-players{display:flex;flex-wrap:wrap;justify-content:center;
+  gap:clamp(5px,1.2vw,10px);margin-top:14px;max-width:min(960px,90vw)}
+.tp-item{display:flex;flex-direction:column;align-items:center;gap:3px}
+.tp-photo{width:clamp(36px,4.2vw,54px);height:clamp(36px,4.2vw,54px);
+  border-radius:50%;object-fit:cover;
+  border:1.5px solid rgba(201,162,39,.4);
+  transition:transform .25s,border-color .25s}
+.tp-photo:hover{transform:scale(1.12);border-color:var(--gold)}
+.tp-name{font-size:clamp(.36rem,.75vw,.5rem);letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(201,162,39,.5);font-weight:600;
+  text-align:center;white-space:nowrap}
+
+/* ===== LOGO ===== */
+.logo-corner{position:fixed;top:16px;right:20px;z-index:950;
+  display:flex;align-items:center;gap:9px;pointer-events:none}
+.logo-corner img{width:clamp(34px,4.5vw,52px);height:clamp(34px,4.5vw,52px);
+  object-fit:cover;object-position:center 30%;border-radius:50%;
+  border:1.5px solid rgba(201,162,39,.4);
+  filter:drop-shadow(0 1px 6px rgba(0,0,0,.55))}
+.logo-corner-text{display:flex;flex-direction:column;align-items:flex-end;line-height:1.15}
+.logo-corner-text .lct1{font-family:'Playfair Display',Georgia,serif;
+  font-size:clamp(.62rem,1.3vw,.82rem);font-weight:700;
+  color:var(--gold);letter-spacing:.08em}
+.logo-corner-text .lct2{font-size:clamp(.58rem,1.1vw,.70rem);
+  color:rgba(201,162,39,.5);letter-spacing:.16em;text-transform:uppercase}
+.logo-hero{width:clamp(90px,14vw,180px);height:clamp(90px,14vw,180px);
+  object-fit:cover;object-position:center 30%;border-radius:50%;position:relative;z-index:1;
+  border:3px solid var(--gold);
+  box-shadow:0 0 40px rgba(201,162,39,.55),0 0 80px rgba(201,162,39,.2);
+  margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<!-- S0: TITLE -->
+<div class="slide on" id="s0">
+  <div class="grid-bg"></div>
+  <div class="glow-ring"></div>
+  <img src="SwingersLogo.jpg" class="logo-hero" alt="Swingers Logo">
+  <div class="main-t">SWINGERS</div>
+  <div class="main-sub">Lokahóf 2026</div>
+  <div class="rule"></div>
+  <div class="title-players">
+    <!-- Icelandic alphabetical order: B Bö G H K M P R S V Þ Æ Ö -->
+    <!-- object-position reset for new photos; send screenshot to fine-tune -->
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Biggi.jpg" alt="Biggi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Biggi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Böddi.jpg" alt="Böddi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Böddi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Gísli.jpg" alt="Gísli" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Gísli</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Gummi.jpg" alt="Gummi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Gummi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Hebbi.jpg" alt="Hebbi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Hebbi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Heisi.jpg" alt="Heisi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Heisi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Helgi.jpg" alt="Helgi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Helgi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Kiddi.jpg" alt="Kiddi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Kiddi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Maggi.jpg" alt="Maggi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Maggi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Matti.jpg" alt="Matti" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Matti</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Pétur.jpg" alt="Pétur" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Pétur</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Rósant.jpg" alt="Rósant" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Rósant</div></div>
+<div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Valdi.jpg" alt="Valdi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Valdi</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Þorvaldur.jpg" alt="Þorvaldur" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Þorvaldur</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Ægir.jpg" alt="Ægir" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Ægir</div></div>
+    <div class="tp-item"><img class="tp-photo" src="KylfingarMyndir/Öddi.jpg" alt="Öddi" style="object-position:center 35%" onerror="this.style.display='none'"><div class="tp-name">Öddi</div></div>
+  </div>
+</div>
+
+<!-- S1: DUGLEGASTI -->
+<div class="slide" id="s1">
+  <div class="eyebrow">🏅 Sérstök verðlaun</div>
+  <div class="h1">Duglegasti Kylfingurinn</div>
+  <div class="rule"></div>
+  <div class="sub">Þrír kylfingarar mættu á <strong style="color:var(--gold)">15 af 17</strong> leikdögum</div>
+  <div class="prow">
+    <div class="pcard">
+      <img src="KylfingarMyndir/Öddi.jpg" class="pp" alt="Öddi">
+      <div class="pn">Öddi</div><div class="ps">15 leikdagar</div>
+    </div>
+    <div class="pcard">
+      <img src="KylfingarMyndir/Ægir.jpg" class="pp" alt="Ægir">
+      <div class="pn">Ægir</div><div class="ps">15 leikdagar</div>
+    </div>
+    <div class="pcard">
+      <img src="KylfingarMyndir/Hebbi.jpg" class="pp" alt="Hebbi">
+      <div class="pn">Hebbi</div><div class="ps">15 leikdagar</div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: SEKTARKÓNGURINN -->
+<div class="slide" id="s2">
+  <div class="eyebrow">💰 Sektakeppni 2026</div>
+  <div class="h1">Sektarkóngurinn</div>
+  <div class="rule"></div>
+  <div style="text-align:center;margin:10px 0 18px;
+    font-size:clamp(1rem,2.4vw,1.5rem);font-weight:700;
+    color:var(--gold);letter-spacing:.04em;line-height:1.5">
+    Millifærið NÚNA<br>
+    <span style="font-size:clamp(.85rem,2vw,1.25rem);color:#fff;font-weight:600">
+      Banki 0370-13-025731 &nbsp;·&nbsp; kt. 240468-4099
+    </span>
+  </div>
+  <div class="sekt-list">
+    <div class="sekt-row first sekt-hidden" data-sekt="1">
+      <span class="sekt-pos">1</span>
+      <span class="sekt-icon">👑</span>
+      <span class="sekt-name">Pétur</span>
+      <span class="sekt-amt">5.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="2">
+      <span class="sekt-pos">2</span>
+      <span class="sekt-icon">🥈</span>
+      <span class="sekt-name">Biggi</span>
+      <span class="sekt-amt">4.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="3">
+      <span class="sekt-pos">3</span>
+      <span class="sekt-icon">🥉</span>
+      <span class="sekt-name">Gísli</span>
+      <span class="sekt-amt">3.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="3">
+      <span class="sekt-pos">3</span>
+      <span class="sekt-icon">🥉</span>
+      <span class="sekt-name">Örn</span>
+      <span class="sekt-amt">3.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="3">
+      <span class="sekt-pos">3</span>
+      <span class="sekt-icon">🥉</span>
+      <span class="sekt-name">Helgi</span>
+      <span class="sekt-amt">3.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="3">
+      <span class="sekt-pos">3</span>
+      <span class="sekt-icon">🥉</span>
+      <span class="sekt-name">Valdi</span>
+      <span class="sekt-amt">3.000 kr</span>
+    </div>
+    <div class="sekt-row sekt-hidden" data-sekt="3">
+      <span class="sekt-pos">3</span>
+      <span class="sekt-icon">🥉</span>
+      <span class="sekt-name">Heiðar</span>
+      <span class="sekt-amt">3.000 kr</span>
+    </div>
+    <div class="sekt-row">
+      <span class="sekt-pos">8</span>
+      <span class="sekt-icon"></span>
+      <span class="sekt-name">Böddi</span>
+      <span class="sekt-amt">2.000 kr</span>
+    </div>
+    <div class="sekt-row">
+      <span class="sekt-pos">8</span>
+      <span class="sekt-icon"></span>
+      <span class="sekt-name">Þorvaldur</span>
+      <span class="sekt-amt">2.000 kr</span>
+    </div>
+    <div class="sekt-row">
+      <span class="sekt-pos">8</span>
+      <span class="sekt-icon"></span>
+      <span class="sekt-name">Gummi</span>
+      <span class="sekt-amt">2.000 kr</span>
+    </div>
+    <div class="sekt-row">
+      <span class="sekt-pos">11</span>
+      <span class="sekt-icon"></span>
+      <span class="sekt-name">Ægir</span>
+      <span class="sekt-amt">1.000 kr</span>
+    </div>
+    <div class="sekt-row" style="opacity:.45">
+      <span class="sekt-pos">12</span>
+      <span class="sekt-icon"></span>
+      <span class="sekt-name">Matti · Maggi · Rósant · Hebbi · Kiddi</span>
+      <span class="sekt-amt">0 kr</span>
+    </div>
+  </div>
+</div>
+
+<!-- S3: BESTI HRINGUR -->
+<div class="slide" id="s3">
+  <div class="eyebrow">🏌️ Sérstök verðlaun</div>
+  <div class="h1">Besti Hringur Tímabilsins</div>
+  <div class="rule"></div>
+  <div class="hero-wrap">
+    <img src="KylfingarMyndir/Hebbi.jpg" class="hero-img" alt="Hebbi">
+    <div>
+      <div class="hero-name-lbl">Hebbi</div>
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div class="hero-num">43</div>
+        <div class="hero-unit">stig</div>
+      </div>
+      <div class="hero-meta">V15 &nbsp;·&nbsp; 10. september 2026</div>
+      <div class="hero-meta">Hvaleyrarvöllur</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: HOLUMEISTARI -->
+<div class="slide" id="s4">
+  <div class="eyebrow" style="margin-bottom:4px">⛳ Sérstök verðlaun</div>
+  <div class="h1" style="font-size:clamp(1.6rem,4.5vw,3.2rem)">Holumeistari 2026</div>
+  <div class="rule" style="margin:8px auto"></div>
+  <div class="sub" style="font-size:clamp(.66rem,1.3vw,.82rem);margin-bottom:6px">
+    Meðaltal stiga á hverri holu &nbsp;·&nbsp; Hæstu meðaltal vs. meðaltal allra
+  </div>
+  <div class="holu-grid" id="holuGrid"></div>
+  <div id="holuProgress" style="margin-top:8px;font-size:clamp(.64rem,1.2vw,.76rem);
+    letter-spacing:.28em;color:rgba(201,162,39,.4);text-transform:uppercase;
+    text-align:center;min-height:1.4em;transition:opacity .4s">
+    Ýttu á → til að birta
+  </div>
+</div>
+
+<!-- S5: RYDER CUP -->
+<div class="slide" id="s5">
+  <div class="eyebrow">⚔️ Meistarahelgi 2026</div>
+  <div class="h1">Ryder Cup</div>
+  <div class="rule"></div>
+  <div class="ryder-score">
+    <div class="ryder-team rt-blues">
+      <div class="rt-pts">6</div>
+      <div class="rt-label">Blái liðið</div>
+      <div class="rt-faces">
+        <img class="rt-face" src="KylfingarMyndir/Gummi.jpg" alt="Gummi" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Ægir.jpg" alt="Ægir" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Gísli.jpg" alt="Gísli" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Pétur.jpg" alt="Pétur" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Rósant.jpg" alt="Rósant" onerror="this.style.display='none'">
+      </div>
+      <div class="rt-names">Gummi · Ægir · Gísli · Pétur · Rósant · Siggi M</div>
+    </div>
+    <div class="ryder-sep">–</div>
+    <div class="ryder-team rt-reds">
+      <div class="rt-pts">3</div>
+      <div class="rt-label">Rauði liðið</div>
+      <div class="rt-faces">
+        <img class="rt-face" src="KylfingarMyndir/Biggi.jpg" alt="Biggi" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Þorvaldur.jpg" alt="Þorvaldur" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Böddi.jpg" alt="Böddi" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Hebbi.jpg" alt="Hebbi" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Matti.jpg" alt="Matti" onerror="this.style.display='none'">
+        <img class="rt-face" src="KylfingarMyndir/Helgi.jpg" alt="Helgi" onerror="this.style.display='none'">
+      </div>
+      <div class="rt-names">Biggi · Þorvaldur · Böddi · Hebbi · Matti · Helgi</div>
+    </div>
+  </div>
+  <div class="ryder-rounds">
+    <div class="rr-card">
+      <div class="rr-label">Umferð 1</div>
+      <div class="rr-sc" style="color:#93c5fd">2 – 1</div>
+      <div class="rr-fmt">Vestmannaeyjar · Better Ball</div>
+    </div>
+    <div class="rr-card">
+      <div class="rr-label">Umferð 2</div>
+      <div class="rr-sc" style="color:#93c5fd">4 – 2</div>
+      <div class="rr-fmt">Hella · Singles Match Play</div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: FUGLAMEISTARI -->
+<div class="slide" id="s6">
+  <div class="eyebrow">🦅 Sérstök verðlaun</div>
+  <div class="h1">Fuglameistari 2026</div>
+  <div class="rule"></div>
+  <div class="sub" style="margin-bottom:6px">Flestir fuglar á tímabilinu &nbsp;·&nbsp; 1 högg undir par</div>
+  <div class="fugla-podium">
+    <!-- 2nd -->
+    <div class="fp-card silver-b">
+      <div class="fp-medal">🥈</div>
+      <img src="KylfingarMyndir/Gummi.jpg" class="fp-photo" alt="Gummi">
+      <div class="fp-name">Gummi</div>
+      <div class="fp-count" style="color:var(--silver)">11</div>
+      <div class="fp-label">fuglar</div>
+    </div>
+    <!-- 1st -->
+    <div class="fp-card gold-b elevated">
+      <div class="fp-medal">🥇</div>
+      <img src="KylfingarMyndir/Matti.jpg" class="fp-photo" alt="Matti">
+      <div class="fp-name">Matti</div>
+      <div class="fp-count">14</div>
+      <div class="fp-label">fuglar</div>
+    </div>
+    <!-- 3rd -->
+    <div class="fp-card bronze-b">
+      <div class="fp-medal">🥉</div>
+      <img src="KylfingarMyndir/Böddi.jpg" class="fp-photo" alt="Böddi">
+      <div class="fp-name">Böddi</div>
+      <div class="fp-count">10</div>
+      <div class="fp-label">fuglar</div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: BIKAR BRACKET -->
+<div class="slide" id="s7">
+  <canvas id="bikarConfetti" style="position:absolute;inset:0;pointer-events:none;z-index:0"></canvas>
+  <div class="eyebrow">🏆 Bikar Swingers 2026</div>
+  <div class="h1">Bikarinn</div>
+  <div class="rule"></div>
+  <div class="bikar-layout">
+    <div class="bracket-outer" style="margin-top:0">
+      <!-- 8 manna -->
+      <div class="bracket-col">
+        <div class="bracket-col-label">8 manna</div>
+        <div class="bm-pair">
+          <div class="bm lost"><span class="bm-seed">[1]</span>Böddi</div>
+          <div class="bm-score">AS (SD)</div>
+          <div class="bm won"><span class="bm-seed">[8]</span>Gísli</div>
+        </div>
+        <div class="bm-pair">
+          <div class="bm lost"><span class="bm-seed">[4]</span>Ægir</div>
+          <div class="bm-score">3og2</div>
+          <div class="bm won"><span class="bm-seed">[5]</span>Heisi</div>
+        </div>
+        <div class="bm-pair">
+          <div class="bm won hebbi"><span class="bm-seed">[2]</span>Hebbi</div>
+          <div class="bm-score">3og2</div>
+          <div class="bm lost"><span class="bm-seed">[7]</span>Helgi</div>
+        </div>
+        <div class="bm-pair">
+          <div class="bm lost"><span class="bm-seed">[3]</span>Rósant</div>
+          <div class="bm-score">6og4</div>
+          <div class="bm won"><span class="bm-seed">[6]</span>Biggi</div>
+        </div>
+      </div>
+      <div class="bracket-arrow">→</div>
+      <!-- 4 manna -->
+      <div class="bracket-col">
+        <div class="bracket-col-label">4 manna</div>
+        <div class="bm-pair">
+          <div class="bm won">Gísli</div>
+          <div class="bm-score">1UP</div>
+          <div class="bm lost">Heisi</div>
+        </div>
+        <div class="bm-pair">
+          <div class="bm won hebbi">Hebbi</div>
+          <div class="bm-score">2og1</div>
+          <div class="bm lost">Biggi</div>
+        </div>
+      </div>
+      <div class="bracket-arrow">→</div>
+      <!-- Úrslitaleikur -->
+      <div class="bracket-col">
+        <div class="bracket-col-label">Úrslitaleikur</div>
+        <div>
+          <div class="bm-pair">
+            <div class="bm lost">Gísli</div>
+            <div class="bm-final-vs">3og2</div>
+            <div class="bm won hebbi">Hebbi</div>
+          </div>
+          <div class="bikar-note" style="margin-top:10px">🏆 Hebbi vann 3&amp;2</div>
+        </div>
+      </div>
+    </div>
+    <!-- Champion portrait -->
+    <div class="bikar-hero">
+      <img src="KylfingarMyndir/Hebbi.jpg" alt="Hebbi" onerror="this.style.display='none'">
+      <div class="bikar-hero-name">Hebbi</div>
+      <div class="bikar-hero-sub">Bikarmeistari 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: MEISTARAHELGI TOP 3 -->
+<div class="slide" id="s8">
+  <div class="eyebrow">🏆 Meistarahelgi 2026 · Heildarstig</div>
+  <div class="h1">Topp 3</div>
+  <div class="rule"></div>
+  <div class="sub" style="margin-bottom:12px">Samanlögð stableford stig · 2 hringir</div>
+  <div class="meistara-podium">
+    <!-- 2nd: Matti 64 -->
+    <div class="mp-card second">
+      <div class="mp-medal">🥈</div>
+      <img src="KylfingarMyndir/Matti.jpg" class="mp-photo" alt="Matti"
+        onerror="this.outerHTML='<div class=hc-avatar>M</div>'">
+      <div class="mp-name">Matti</div>
+      <div class="mp-pts">64 stig</div>
+    </div>
+    <!-- 1st: Gummi 67 -->
+    <div class="mp-card first">
+      <div class="mp-medal">🥇</div>
+      <img src="KylfingarMyndir/Gummi.jpg" class="mp-photo" alt="Gummi"
+        onerror="this.outerHTML='<div class=hc-avatar>G</div>'">
+      <div class="mp-name">Gummi</div>
+      <div class="mp-pts">67 stig</div>
+    </div>
+    <!-- 3rd: Biggi 63 -->
+    <div class="mp-card third">
+      <div class="mp-medal">🥉</div>
+      <img src="KylfingarMyndir/Biggi.jpg" class="mp-photo" alt="Biggi"
+        onerror="this.outerHTML='<div class=hc-avatar>B</div>'">
+      <div class="mp-name">Biggi</div>
+      <div class="mp-pts">63 stig</div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: STIGATAFLAN -->
+<div class="slide" id="s9">
+  <div class="eyebrow">📊 Heildarstigakeppni 2026</div>
+  <div class="h1">Stigataflan</div>
+  <div class="rule"></div>
+  <div class="sub" style="font-size:clamp(.68rem,1.3vw,.82rem);margin-bottom:2px">
+    Bestu 8 hringir &nbsp;·&nbsp; V1–V17
+  </div>
+  <table class="stbl">
+    <thead>
+      <tr>
+        <td class="rk"></td>
+        <td class="nm"></td>
+        <td class="sc">Stig</td>
+        <td class="av">Meðaltal</td>
+        <td class="rd">Hringir</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="rk">6.</td><td class="nm">Gísli</td><td class="sc">275</td><td class="av">34.4</td><td class="rd">11</td></tr>
+      <tr><td class="rk">7.</td><td class="nm">Valdi</td><td class="sc">274</td><td class="av">34.2</td><td class="rd">12</td></tr>
+      <tr><td class="rk">8.</td><td class="nm">Maggi</td><td class="sc">269</td><td class="av">33.6</td><td class="rd">13</td></tr>
+      <tr><td class="rk">9.</td><td class="nm">Helgi</td><td class="sc">258</td><td class="av">32.2</td><td class="rd">14</td></tr>
+      <tr><td class="rk">10.</td><td class="nm">Biggi</td><td class="sc">258</td><td class="av">32.2</td><td class="rd">12</td></tr>
+      <tr><td class="rk">11.</td><td class="nm">Gummi</td><td class="sc">257</td><td class="av">32.1</td><td class="rd">14</td></tr>
+      <tr><td class="rk">12.</td><td class="nm">Þorvaldur</td><td class="sc">256</td><td class="av">32.0</td><td class="rd">10</td></tr>
+      <tr><td class="rk">13.</td><td class="nm">Rósant</td><td class="sc">254</td><td class="av">31.8</td><td class="rd">12</td></tr>
+      <tr><td class="rk">14.</td><td class="nm">Öddi</td><td class="sc">253</td><td class="av">31.6</td><td class="rd">15</td></tr>
+      <tr><td class="rk">15.</td><td class="nm">Kiddi</td><td class="sc">253</td><td class="av">31.6</td><td class="rd">9</td></tr>
+      <tr><td class="rk">16.</td><td class="nm">Pétur</td><td class="sc">208</td><td class="av">26.0</td><td class="rd">14</td></tr>
+    </tbody>
+  </table>
+  <div class="stbl-teaser">⬆ &nbsp; Topp 5 birtur síðar &nbsp; ⬆</div>
+</div>
+
+<!-- S10: BEST-8 TOP 5 CHART -->
+<div class="slide" id="s10">
+  <div class="eyebrow">📈 Heildarstigakeppni 2026</div>
+  <div class="h1">Bardagi á toppnum</div>
+  <div class="rule"></div>
+  <div class="sub" style="margin-bottom:6px">Bestu 8 hringir · V1–V17 · Topp 5</div>
+  <div class="race-wrap">
+    <canvas id="raceCanvas" height="300"></canvas>
+  </div>
+</div>
+
+<!-- S11: 3RD PLACE -->
+<div class="slide" id="s11">
+  <div class="eyebrow">🥉 Heildarstigakeppni 2026</div>
+  <div class="rule"></div>
+  <div class="rank-lbl bronze-c">Þriðja sætið</div>
+  <img src="KylfingarMyndir/Heisi.jpg" class="pod-img bronze-frm" alt="Heisi">
+  <div class="w-name">Heisi</div>
+  <div class="w-score">285 &nbsp;stig &nbsp;·&nbsp; meðaltal 35.6</div>
+</div>
+
+<!-- S12: 2ND PLACE -->
+<div class="slide" id="s12">
+  <div class="eyebrow">🥈 Heildarstigakeppni 2026</div>
+  <div class="rule"></div>
+  <div class="rank-lbl silver-c">Annað sætið</div>
+  <img src="KylfingarMyndir/Matti.jpg" class="pod-img silver-frm" alt="Matti">
+  <div class="w-name">Matti</div>
+  <div class="w-score">291 &nbsp;stig &nbsp;·&nbsp; meðaltal 36.4</div>
+</div>
+
+<!-- S13: CHAMPION -->
+<div class="slide" id="s13">
+  <canvas id="confettiCanvas"></canvas>
+  <div class="champ-inner" id="champInner">
+    <div class="champ-eye">🏆 &nbsp; Sigurvegari Swingers 2026 &nbsp; 🏆</div>
+    <div class="rule"></div>
+    <img src="KylfingarMyndir/Ægir.jpg" alt="Ægir"
+      style="width:clamp(100px,16vw,200px);height:clamp(100px,16vw,200px);
+             object-fit:cover;object-position:center 25%;border-radius:50%;
+             border:4px solid var(--gold);
+             box-shadow:0 0 50px rgba(201,162,39,.8),0 0 100px rgba(201,162,39,.35);
+             display:block;margin:0 auto 8px"
+      onerror="this.style.display='none'">
+    <div class="champ-q" id="champName">Ægir</div>
+    <div class="champ-hint">Sigurvegari Swingers 2026</div>
+    <div class="champ-note">Ægir 292 &nbsp;·&nbsp; Matti 291 &nbsp;|&nbsp; 1 stig mun</div>
+  </div>
+  <div id="cdOverlay" style="display:none;position:absolute;inset:0;
+    align-items:center;justify-content:center;z-index:10;background:var(--bg)">
+    <div class="cd-num" id="cdNum"></div>
+  </div>
+</div>
+
+<!-- S14: ALL WINNERS SUMMARY -->
+<div class="slide" id="s14">
+  <div class="eyebrow">🏅 Swingers 2026</div>
+  <div class="h1" style="font-size:clamp(1.6rem,4vw,2.8rem)">Verðlaunahafar 2026</div>
+  <div class="rule"></div>
+
+  <!-- Efsta lína: Sigurvegari + Bikarinn -->
+  <div style="display:flex;gap:clamp(10px,2vw,20px);justify-content:center;width:100%;max-width:700px;margin-top:12px">
+    <div style="flex:1;max-width:260px;background:rgba(201,162,39,.14);border:2px solid rgba(201,162,39,.55);
+      border-radius:12px;padding:clamp(10px,1.8vw,18px);display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="font-size:clamp(.52rem,.9vw,.66rem);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700">🏆 Sigurvegari 2026</div>
+      <img src="KylfingarMyndir/Ægir.jpg" alt="Ægir" style="width:clamp(60px,9vw,100px);height:clamp(60px,9vw,100px);object-fit:cover;border-radius:50%;border:2.5px solid var(--gold);box-shadow:0 0 24px rgba(201,162,39,.4)">
+      <div style="font-weight:800;font-size:clamp(.9rem,1.8vw,1.3rem);color:var(--gold-light)">Ægir</div>
+    </div>
+    <div style="flex:1;max-width:260px;background:rgba(201,162,39,.09);border:1.5px solid rgba(201,162,39,.38);
+      border-radius:12px;padding:clamp(10px,1.8vw,18px);display:flex;flex-direction:column;align-items:center;gap:6px">
+      <div style="font-size:clamp(.52rem,.9vw,.66rem);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700">🏆 Bikarinn</div>
+      <img src="KylfingarMyndir/Hebbi.jpg" alt="Hebbi" style="width:clamp(60px,9vw,100px);height:clamp(60px,9vw,100px);object-fit:cover;border-radius:50%;border:2px solid rgba(201,162,39,.6)">
+      <div style="font-weight:800;font-size:clamp(.9rem,1.8vw,1.3rem);color:var(--gold-light)">Hebbi</div>
+    </div>
+  </div>
+
+  <!-- Neðri lína: 4 smærri kassar -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(6px,1.2vw,12px);width:100%;max-width:700px;margin-top:clamp(8px,1.4vw,14px)">
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+      border-radius:10px;padding:clamp(6px,1vw,11px);display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:clamp(.44rem,.78vw,.58rem);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700">🦅 Fuglameistari</div>
+      <img src="KylfingarMyndir/Matti.jpg" alt="Matti" style="width:clamp(32px,5vw,56px);height:clamp(32px,5vw,56px);object-fit:cover;border-radius:50%;border:1px solid rgba(255,255,255,.18)">
+      <div style="font-weight:700;font-size:clamp(.66rem,1.2vw,.86rem)">Matti</div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+      border-radius:10px;padding:clamp(6px,1vw,11px);display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:clamp(.44rem,.78vw,.58rem);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700">⭐ Besti Hringur</div>
+      <img src="KylfingarMyndir/Hebbi.jpg" alt="Hebbi" style="width:clamp(32px,5vw,56px);height:clamp(32px,5vw,56px);object-fit:cover;border-radius:50%;border:1px solid rgba(255,255,255,.18)">
+      <div style="font-weight:700;font-size:clamp(.66rem,1.2vw,.86rem)">Hebbi</div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+      border-radius:10px;padding:clamp(6px,1vw,11px);display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:clamp(.44rem,.78vw,.58rem);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700">🏌️ Meistarahelgi</div>
+      <img src="KylfingarMyndir/Gummi.jpg" alt="Gummi" style="width:clamp(32px,5vw,56px);height:clamp(32px,5vw,56px);object-fit:cover;border-radius:50%;border:1px solid rgba(255,255,255,.18)">
+      <div style="font-weight:700;font-size:clamp(.66rem,1.2vw,.86rem)">Gummi</div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);
+      border-radius:10px;padding:clamp(6px,1vw,11px);display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:clamp(.44rem,.78vw,.58rem);letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);font-weight:700">💰 Sektarkóngur</div>
+      <img src="KylfingarMyndir/Pétur.jpg" alt="Pétur" style="width:clamp(32px,5vw,56px);height:clamp(32px,5vw,56px);object-fit:cover;border-radius:50%;border:1px solid rgba(255,255,255,.18)">
+      <div style="font-weight:700;font-size:clamp(.66rem,1.2vw,.86rem)">Pétur</div>
+    </div>
+  </div>
+</div>
+
+<!-- CORNER LOGO (all slides) -->
+<div class="logo-corner">
+  <div class="logo-corner-text">
+    <span class="lct1">Swingers</span>
+    <span class="lct2">Lokahóf 2026</span>
+  </div>
+  <img src="SwingersLogo.jpg" alt="Swingers">
+</div>
+
+<!-- LINK TO DASHBOARD -->
+<a href="index.html" style="position:fixed;top:18px;left:20px;z-index:950;
+  color:rgba(201,162,39,.45);font-size:.68rem;letter-spacing:.1em;text-decoration:none;
+  font-family:'Montserrat',sans-serif;text-transform:uppercase;
+  transition:color .2s"
+  onmouseover="this.style.color='rgba(201,162,39,.9)'"
+  onmouseout="this.style.color='rgba(201,162,39,.45)'">← Mælaborð</a>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <button class="nbtn" id="btnPrev" onclick="go(-1)">&#8592;</button>
+  <button class="nbtn" id="btnNext" onclick="go(1)">&#8594;</button>
+</div>
+
+<!-- SLIDE MENU -->
+<button class="smenu-btn" id="smenuBtn" onclick="toggleMenu()" title="Glæruyfirlit">☰</button>
+<div class="smenu-panel" id="smenuPanel"></div>
+
+<script>
+// ===== HOLE MASTER DATA =====
+// group = reveal order (1=first/least holes, 5=last/most holes)
+// Group 1: 1 hola  → Öddi, Ægir, Helgi, Maggi
+// Group 2: 2 holur → Hebbi
+// Group 3: 3 holur → Heisi
+// Group 4: 4 holur → Matti
+// Group 5: 5 holur → Gísli  ← birtur síðast
+const HOLES = [
+  {h:1,  par:5, nick:"Matti",  avg:2.46, overall:1.52, group:4},
+  {h:2,  par:4, nick:"Gísli",  avg:2.70, overall:1.68, group:5},
+  {h:3,  par:4, nick:"Gísli",  avg:2.50, overall:1.70, group:5},
+  {h:4,  par:3, nick:"Heisi",  avg:2.25, overall:1.78, group:3},
+  {h:5,  par:4, nick:"Öddi",   avg:2.57, overall:2.00, group:1},
+  {h:6,  par:3, nick:"Ægir",   avg:2.57, overall:1.78, group:1},
+  {h:7,  par:5, nick:"Heisi",  avg:2.17, overall:1.65, group:3},
+  {h:8,  par:4, nick:"Helgi",  avg:2.23, overall:1.90, group:1},
+  {h:9,  par:4, nick:"Matti",  avg:2.31, overall:1.68, group:4},
+  {h:10, par:4, nick:"Hebbi",  avg:2.79, overall:1.65, group:2},
+  {h:11, par:4, nick:"Gísli",  avg:2.70, overall:1.83, group:5},
+  {h:12, par:3, nick:"Gísli",  avg:2.20, overall:1.60, group:5},
+  {h:13, par:5, nick:"Maggi",  avg:2.33, overall:1.72, group:1},
+  {h:14, par:4, nick:"Heisi",  avg:2.08, overall:1.37, group:3},
+  {h:15, par:4, nick:"Matti",  avg:2.38, overall:1.68, group:4},
+  {h:16, par:5, nick:"Hebbi",  avg:2.36, overall:1.55, group:2},
+  {h:17, par:3, nick:"Gísli",  avg:2.30, overall:1.57, group:5},
+  {h:18, par:4, nick:"Matti",  avg:2.77, overall:1.67, group:4},
+];
+
+const GROUP_LABELS = [
+  '',
+  '1 hola ·  Öddi · Ægir · Helgi · Maggi',
+  '2 holur ·  Hebbi',
+  '3 holur ·  Heisi',
+  '4 holur ·  Matti',
+  '🏆  5 holur ·  Gísli',
+];
+const HOLU_TOTAL = 5;
+
+// Build hole cards
+const grid = document.getElementById('holuGrid');
+HOLES.forEach(hd => {
+  const diff = (hd.avg - hd.overall).toFixed(2);
+  const imgPath = 'KylfingarMyndir/' + hd.nick + '.jpg';
+  const card = document.createElement('div');
+  const medalClass = {3:'medal-bronze', 4:'medal-silver', 5:'medal-gold'}[hd.group] || '';
+  card.className = 'hc' + (medalClass ? ' ' + medalClass : '');
+  card.setAttribute('data-group', hd.group);
+  card.innerHTML =
+    '<div class="hc-hdr">H' + hd.h + ' &nbsp;·&nbsp; Par ' + hd.par + '</div>' +
+    '<img class="hc-photo" src="' + imgPath + '" alt="' + hd.nick + '" ' +
+      'onerror="this.outerHTML=\'<div class=hc-avatar>' + hd.nick.charAt(0) + '</div>\'">' +
+    '<div class="hc-name">' + hd.nick + '</div>' +
+    '<div class="hc-avg">' + hd.avg.toFixed(2) + ' pt</div>' +
+    '<div class="hc-vs">vs ' + hd.overall.toFixed(2) + ' meðaltal</div>' +
+    '<div class="hc-diff">+' + diff + ' ↑</div>';
+  grid.appendChild(card);
+});
+
+// ===== HOLUMEISTARI REVEAL =====
+let holuStep = 0;
+const progEl = document.getElementById('holuProgress');
+
+function revealGroup(g) {
+  const isLast = (g === HOLU_TOTAL);
+  const cards = document.querySelectorAll('#holuGrid [data-group="' + g + '"]');
+  cards.forEach((card, i) => {
+    setTimeout(() => {
+      card.classList.add('vis');
+      if (isLast) card.classList.add('gold-glow');
+    }, i * 140);
+  });
+  progEl.textContent = GROUP_LABELS[g];
+  progEl.style.color = isLast ? 'rgba(201,162,39,.75)' : 'rgba(201,162,39,.4)';
+}
+
+function hideGroup(g) {
+  document.querySelectorAll('#holuGrid [data-group="' + g + '"]').forEach(c => {
+    c.classList.remove('vis', 'gold-glow');
+  });
+  progEl.textContent = g > 1 ? GROUP_LABELS[g - 1] : 'Ýttu á → til að birta';
+  progEl.style.color = 'rgba(201,162,39,.4)';
+}
+
+function resetHolu() {
+  holuStep = 0;
+  document.querySelectorAll('#holuGrid .hc').forEach(c => c.classList.remove('vis','gold-glow'));
+  progEl.textContent = 'Ýttu á → til að birta';
+  progEl.style.color = 'rgba(201,162,39,.4)';
+}
+
+// ===== BEST-8 RACE CHART DATA (top 5) =====
+const RACE_LABELS = ['V1','V2','V3','V4','V5','V6','V7','V8','V9','V10','V11','V12','V13','V14','V15','V16','V17'];
+const RACE_MATTI  = [33, 33, 71, 99, 136, 169, 203, 203, 226, 261, 275, 283, 287, 287, 289, 289, 291];
+const RACE_AEGIR  = [30, 64, 95, 118, 146, 146, 146, 181, 218, 258, 270, 277, 277, 284, 289, 289, 292];
+const RACE_HEISI  = [25, 53, 84, 118, 156, 188, 188, 228, 264, 267, 267, 275, 282, 282, 284, 284, 285];
+const RACE_HEBBI  = [32, 67, 100, 127, 160, 190, 190, 222, 250, 250, 261, 265, 265, 272, 283, 283, 284];
+const RACE_BODDI  = [36, 69, 97, 132, 164, 196, 220, 251, 254, 259, 267, 274, 280, 280, 280, 280, 280];
+
+// Derive weekly ranking (1 = best score). Stable tie-break by player index.
+function computeRanks(datasets) {
+  const n = datasets[0].length;
+  const ranks = datasets.map(() => []);
+  for (let w = 0; w < n; w++) {
+    const order = datasets
+      .map((d, pi) => ({ pi, score: d[w] }))
+      .sort((a, b) => b.score - a.score || a.pi - b.pi);
+    order.forEach(({ pi }, rank) => ranks[pi].push(rank + 1));
+  }
+  return ranks;
+}
+const [RANK_MATTI, RANK_AEGIR, RANK_HEISI, RANK_HEBBI, RANK_BODDI] = computeRanks(
+  [RACE_MATTI, RACE_AEGIR, RACE_HEISI, RACE_HEBBI, RACE_BODDI]
+);
+
+function drawRaceChart() {
+  const cvs = document.getElementById('raceCanvas');
+  if (!cvs) return;
+  const W = cvs.parentElement.offsetWidth || 700;
+  const H = 300;
+  cvs.width = W; cvs.height = H;
+  const ctx = cvs.getContext('2d');
+  const PAD = {t:30,r:24,b:52,l:54};
+  const cW = W - PAD.l - PAD.r, cH = H - PAD.t - PAD.b;
+  const n = RACE_LABELS.length;
+
+  function px(i) { return PAD.l + i * cW / (n - 1); }
+  // Rank 1 at top, rank 5 at bottom
+  function py(rank) { return PAD.t + (rank - 1) / 4 * cH; }
+
+  // Grid lines + ordinal labels
+  ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1;
+  ['1.','2.','3.','4.','5.'].forEach((label, idx) => {
+    const r = idx + 1;
+    ctx.beginPath(); ctx.moveTo(PAD.l, py(r)); ctx.lineTo(PAD.l + cW, py(r)); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,.3)';
+    ctx.font = `bold ${Math.round(W*0.022)}px Montserrat,Arial,sans-serif`;
+    ctx.textAlign = 'right';
+    ctx.fillText(label, PAD.l - 6, py(r) + 5);
+  });
+
+  // X axis labels
+  ctx.fillStyle = 'rgba(255,255,255,.35)';
+  ctx.textAlign = 'center';
+  ctx.font = `${Math.round(W*0.02)}px Montserrat,Arial,sans-serif`;
+  RACE_LABELS.forEach((l, i) => {
+    if (i % 2 === 0 || i === n - 1)
+      ctx.fillText(l, px(i), H - PAD.b + 18);
+  });
+
+  function drawLine(data, color, lw=2.2) {
+    ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.setLineDash([]);
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.beginPath();
+    data.forEach((v, i) => i === 0 ? ctx.moveTo(px(i), py(v)) : ctx.lineTo(px(i), py(v)));
+    ctx.stroke();
+  }
+  function drawDots(data, color, r=3) {
+    data.forEach((v, i) => {
+      ctx.beginPath(); ctx.arc(px(i), py(v), r, 0, Math.PI * 2);
+      ctx.fillStyle = color; ctx.fill();
+    });
+  }
+
+  // Draw bottom-placed first so leaders render on top
+  drawLine(RANK_BODDI, '#a78bfa', 1.8);
+  drawLine(RANK_HEBBI, '#34d399', 1.8);
+  drawLine(RANK_HEISI, '#f97316', 1.8);
+  drawLine(RANK_AEGIR, '#60a5fa', 2.4);
+  drawLine(RANK_MATTI, '#C9A227', 2.8);
+  drawDots(RANK_BODDI, '#a78bfa', 2.5);
+  drawDots(RANK_HEBBI, '#34d399', 2.5);
+  drawDots(RANK_HEISI, '#f97316', 2.5);
+  drawDots(RANK_AEGIR, '#60a5fa', 3);
+  drawDots(RANK_MATTI, '#C9A227', 3.5);
+
+  // Legend — final standing
+  const players = [
+    [RANK_MATTI, '#C9A227', 'Matti  #1'],
+    [RANK_AEGIR, '#60a5fa', 'Ægir   #2'],
+    [RANK_HEISI, '#f97316', 'Heisi  #3'],
+    [RANK_HEBBI, '#34d399', 'Hebbi  #4'],
+    [RANK_BODDI, '#a78bfa', 'Böddi  #5'],
+  ];
+  const ly = H - 12;
+  const fs = Math.round(W * 0.022);
+  ctx.font = `600 ${fs}px Montserrat,Arial,sans-serif`;
+  const step = cW / (players.length - 1);
+  players.forEach(([,c,name], idx) => {
+    const lx = PAD.l + idx * step * 0.96;
+    ctx.fillStyle = c;
+    ctx.fillRect(lx, ly - 9, 14, 3);
+    ctx.fillStyle = 'rgba(255,255,255,.7)';
+    ctx.textAlign = 'left';
+    ctx.fillText(name, lx + 17, ly);
+  });
+}
+
+// ===== NAVIGATION =====
+const TOTAL = 15;
+let cur = 0;
+function gotoSlide(n){
+  const prev=cur;
+  document.getElementById('s'+cur).classList.remove('on');
+  cur=Math.max(0,Math.min(n,TOTAL-1));
+  if(cur===4 && prev!==4) resetHolu();
+  if(cur===10) setTimeout(drawRaceChart, 400);
+  document.getElementById('s'+cur).classList.add('on');
+  document.getElementById('btnPrev').style.opacity=cur===0?'0.3':'1';
+  document.getElementById('btnNext').style.opacity=cur===TOTAL-1?'0.3':'1';
+  if(cur===2 && prev!==2){ sektStep=0; document.querySelectorAll('#s2 [data-sekt]').forEach(el=>el.classList.add('sekt-hidden')); }
+  if(cur===13) startChampionSequence();
+  if(cur===7) launchBikarConfetti();
+  updateMenuHighlight();
+}
+let sektStep = 0;
+const SEKT_TOTAL = 3;
+function sektReveal(rank){ document.querySelectorAll('#s2 [data-sekt="'+rank+'"]').forEach(el=>el.classList.remove('sekt-hidden')); }
+function sektHide(rank){ document.querySelectorAll('#s2 [data-sekt="'+rank+'"]').forEach(el=>el.classList.add('sekt-hidden')); }
+
+// SLIDE MENU
+const SLIDE_NAMES = [
+  'Lokahóf 2026','Duglegasti Kylfingurinn','Sektarkóngurinn',
+  'Besti Hringur','Fuglameistari','Holumeistari',
+  'Ryder Cup','Meistarahelgi','Bikarinn',
+  'Stigataflan','Bardagi á toppnum',
+  '3. sæti','Drama','Sigurvegari','Verðlaunahafar'
+];
+const smenuPanel = document.getElementById('smenuPanel');
+SLIDE_NAMES.forEach((name, i) => {
+  const el = document.createElement('div');
+  el.className = 'smenu-item' + (i===0 ? ' on' : '');
+  el.innerHTML = `<span class="smenu-num">${i+1}</span>${name}`;
+  el.onclick = () => { gotoSlide(i); toggleMenu(false); };
+  smenuPanel.appendChild(el);
+});
+function updateMenuHighlight(){
+  document.querySelectorAll('.smenu-item').forEach((el,i)=>{
+    el.classList.toggle('on', i===cur);
+  });
+}
+function toggleMenu(force){
+  const open = force!==undefined ? force : !smenuPanel.classList.contains('open');
+  smenuPanel.classList.toggle('open', open);
+  if(open) updateMenuHighlight();
+}
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#smenuPanel') && !e.target.closest('#smenuBtn'))
+    toggleMenu(false);
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') toggleMenu(false); });
+
+function go(d){
+  if(cur===4){
+    if(d===1 && holuStep < HOLU_TOTAL){
+      holuStep++;
+      revealGroup(holuStep);
+      document.getElementById('btnNext').style.opacity='1';
+      return;
+    }
+    if(d===-1 && holuStep>0){
+      hideGroup(holuStep);
+      holuStep--;
+      return;
+    }
+  }
+  if(cur===2){
+    if(d===1 && sektStep < SEKT_TOTAL){
+      sektStep++;
+      sektReveal(4 - sektStep); // step1→rank3, step2→rank2, step3→rank1
+      return;
+    }
+    if(d===-1 && sektStep > 0){
+      sektHide(4 - sektStep);
+      sektStep--;
+      return;
+    }
+  }
+  gotoSlide(cur+d);
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1)}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
+});
+let tx0=0;
+document.addEventListener('touchstart',e=>{tx0=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx0;if(Math.abs(dx)>40)go(dx<0?1:-1)});
+document.getElementById('btnPrev').style.opacity='0.3';
+
+// ===== COUNTDOWN → CHAMPION =====
+let champDone = false;
+function startChampionSequence() {
+  if (champDone) { launchConfetti(); return; }
+  const overlay = document.getElementById('cdOverlay');
+  const numEl = document.getElementById('cdNum');
+  overlay.style.display = 'flex';
+  const counts = [3,2,1];
+  let i = 0;
+  function tick() {
+    if (cur !== 13) { overlay.style.display = 'none'; return; }
+    numEl.textContent = counts[i];
+    // Re-trigger animation by cloning
+    numEl.style.animation = 'none'; void numEl.offsetWidth; numEl.style.animation = '';
+    playBeep(i === counts.length - 1);
+    i++;
+    if (i < counts.length) {
+      setTimeout(tick, 1050);
+    } else {
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        champDone = true;
+        launchConfetti();
+      }, 1050);
+    }
+  }
+  tick();
+}
+
+// ===== BIKAR CONFETTI =====
+let bikarRunning=false;
+function launchBikarConfetti(){
+  if(bikarRunning)return; bikarRunning=true;
+  const cvs=document.getElementById('bikarConfetti');
+  const ctx=cvs.getContext('2d');
+  cvs.width=window.innerWidth; cvs.height=window.innerHeight;
+  const COLS=['#C9A227','#F5E6A3','#ffffff','#8A6A10','#E8C96E','#3a8a3a'];
+  const pp=Array.from({length:90},()=>mkBP());
+  function mkBP(){return{
+    x:Math.random()*cvs.width, y:-Math.random()*cvs.height*.4,
+    vx:(Math.random()-.5)*1.5, vy:Math.random()*2.2+0.8,
+    c:COLS[Math.floor(Math.random()*COLS.length)],
+    w:Math.random()*9+3, h:Math.random()*4+2,
+    r:Math.random()*360, rs:(Math.random()-.5)*5
+  }}
+  let t=0;
+  (function fr(){
+    if(cur!==7){bikarRunning=false;ctx.clearRect(0,0,cvs.width,cvs.height);return}
+    t++;
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    const fade=t>180?Math.max(0,1-(t-180)/60):1;
+    ctx.globalAlpha=fade;
+    pp.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.r+=p.rs;
+      if(p.y>cvs.height+10){Object.assign(p,mkBP());p.y=-10;}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+    });
+    ctx.globalAlpha=1;
+    if(t<240) requestAnimationFrame(fr);
+    else{bikarRunning=false;ctx.clearRect(0,0,cvs.width,cvs.height);}
+  })();
+}
+
+// ===== CONFETTI =====
+let running=false;
+function launchConfetti(){
+  if(running)return; running=true;
+  const cvs=document.getElementById('confettiCanvas');
+  const ctx=cvs.getContext('2d');
+  cvs.width=window.innerWidth; cvs.height=window.innerHeight;
+  const COLS=['#C9A227','#F5E6A3','#ffffff','#8A6A10','#E8C96E','#3a8a3a'];
+  const pp=Array.from({length:140},()=>mkP());
+  function mkP(){return{
+    x:Math.random()*cvs.width,y:-Math.random()*cvs.height*.5,
+    vx:(Math.random()-.5)*1.8,vy:Math.random()*2.6+1,
+    c:COLS[Math.floor(Math.random()*COLS.length)],
+    w:Math.random()*10+4,h:Math.random()*5+2,
+    r:Math.random()*360,rs:(Math.random()-.5)*6
+  }}
+  (function fr(){
+    if(cur!==13){running=false;ctx.clearRect(0,0,cvs.width,cvs.height);return}
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    pp.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.r+=p.rs;
+      if(p.y>cvs.height+10){Object.assign(p,mkP());p.y=-10;}
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);
+      ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();
+    });
+    requestAnimationFrame(fr);
+  })();
+}
+window.addEventListener('resize',()=>{
+  const c=document.getElementById('confettiCanvas');
+  if(c){c.width=window.innerWidth;c.height=window.innerHeight}
+  const b=document.getElementById('bikarConfetti');
+  if(b){b.width=window.innerWidth;b.height=window.innerHeight}
+});
+
+// ===== WEB AUDIO: FUNK MUSIC & COUNTDOWN =====
+let audioCtx = null;
+let musicPlaying = false;
+let musicNodes = [];
+let schedTimer = null;
+let nextStep = 0;
+let stepIdx = 0;
+let masterGain = null;
+
+const FUNK_BPM = 108;
+const S16 = 60 / FUNK_BPM / 4; // one 16th note in seconds
+
+// 32-step (2-bar) Am funk groove — [bass_hz, chord_stab, hihat]
+const FUNK = [
+  // --- bar 1 ---
+  [110.00,0,1],[0,0,0],[82.41,0,1],[110.00,0,1],       // beat 1
+  [98.00,1,0],[110.00,0,1],[0,0,0],[0,0,1],              // beat 2 + stab
+  [130.81,0,1],[0,0,0],[110.00,0,1],[82.41,1,1],         // beat 3 + stab
+  [0,0,0],[98.00,0,1],[110.00,0,1],[0,0,0],               // beat 4
+  // --- bar 2 (variation) ---
+  [110.00,0,1],[0,0,0],[82.41,0,1],[0,0,1],               // beat 1
+  [130.81,1,0],[130.81,0,1],[98.00,0,0],[110.00,0,1],    // beat 2 + stab
+  [73.42,0,1],[0,0,0],[82.41,0,1],[110.00,1,1],           // beat 3 + stab
+  [98.00,0,0],[0,0,1],[110.00,0,1],[0,0,0],                // beat 4
+];
+
+// Melody hits (step index → freq Hz), A-minor pentatonic
+const MEL = {
+  0:659.26, 2:587.33, 5:523.25, 8:659.26,
+  12:587.33, 15:440.00, 16:783.99, 18:659.26,
+  20:587.33, 24:523.25, 28:587.33, 30:659.26
+};
+
+// Am7 chord for stabs: A3 C4 E4 G4
+const AM7 = [220.00, 261.63, 329.63, 392.00];
+
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function schedFunk() {
+  if (!musicPlaying) return;
+  const ctx = getAudioCtx();
+  while (nextStep < ctx.currentTime + 0.15) {
+    const t = nextStep;
+    const si = stepIdx % FUNK.length;
+    const [bassHz, stab, hat] = FUNK[si];
+
+    // Funky bass (triangle + sub sine for warmth, with pitch envelope)
+    if (bassHz > 0) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(bassHz * 1.018, t);
+      osc.frequency.exponentialRampToValueAtTime(bassHz, t + 0.04);
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.52, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.001, t + S16 * 1.7);
+      osc.connect(g); g.connect(masterGain);
+      osc.start(t); osc.stop(t + S16 * 1.8);
+
+      const sub = ctx.createOscillator();
+      const sg = ctx.createGain();
+      sub.type = 'sine';
+      sub.frequency.value = bassHz / 2;
+      sg.gain.setValueAtTime(0.22, t);
+      sg.gain.exponentialRampToValueAtTime(0.001, t + S16 * 1.3);
+      sub.connect(sg); sg.connect(masterGain);
+      sub.start(t); sub.stop(t + S16 * 1.4);
+    }
+
+    // Chord stab — sawtooth through bandpass filter (wah feel)
+    if (stab) {
+      AM7.forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const filt = ctx.createBiquadFilter();
+        const g = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.value = freq;
+        filt.type = 'bandpass';
+        filt.frequency.setValueAtTime(550, t);
+        filt.frequency.exponentialRampToValueAtTime(2400, t + S16 * 0.55);
+        filt.Q.value = 3.5;
+        const vol = [0.075, 0.068, 0.058, 0.048][i];
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(vol, t + 0.01);
+        g.gain.exponentialRampToValueAtTime(0.001, t + S16 * 1.9);
+        osc.connect(filt); filt.connect(g); g.connect(masterGain);
+        osc.start(t); osc.stop(t + S16 * 2);
+      });
+    }
+
+    // Hi-hat — 3 detuned sines = metallic click
+    if (hat) {
+      [8000, 10500, 13200].forEach(f => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = f;
+        g.gain.setValueAtTime(0.024, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.032);
+        o.connect(g); g.connect(masterGain);
+        o.start(t); o.stop(t + 0.036);
+      });
+    }
+
+    // Melody (sine, sits above the groove)
+    const melHz = MEL[si];
+    if (melHz) {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = melHz;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.10, t + 0.016);
+      g.gain.setValueAtTime(0.09, t + S16 * 1.5);
+      g.gain.exponentialRampToValueAtTime(0.001, t + S16 * 2.4);
+      osc.connect(g); g.connect(masterGain);
+      osc.start(t); osc.stop(t + S16 * 2.5);
+    }
+
+    nextStep += S16;
+    stepIdx++;
+  }
+  schedTimer = setTimeout(schedFunk, 50);
+}
+
+function startDramaticMusic() {
+  if (musicPlaying) return;
+  try {
+    const ctx = getAudioCtx();
+    if (ctx.state === 'suspended') ctx.resume();
+    musicPlaying = true;
+    stepIdx = 0;
+    nextStep = ctx.currentTime + 0.1;
+
+    masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+    masterGain.gain.linearRampToValueAtTime(0.78, ctx.currentTime + 2);
+    masterGain.connect(ctx.destination);
+    musicNodes.push(masterGain);
+
+    schedFunk();
+  } catch(e) { musicPlaying = false; }
+}
+
+function stopMusic() {
+  musicPlaying = false;
+  clearTimeout(schedTimer);
+  try {
+    musicNodes.forEach(n => { try { if(n.stop) n.stop(); } catch(e){} });
+  } catch(e){}
+  musicNodes = [];
+  masterGain = null;
+}
+
+function playBeep(isLast) {
+  try {
+    const ctx = getAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = isLast ? 880 : 440;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02);
+    gain.gain.linearRampToValueAtTime(0, ctx.currentTime + (isLast ? 0.7 : 0.2));
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + (isLast ? 0.75 : 0.28));
+  } catch(e){}
+}
+
+// Start music on first user gesture
+document.addEventListener('click', () => { if (!musicPlaying) startDramaticMusic(); }, {once: true});
+document.addEventListener('keydown', () => { if (!musicPlaying) startDramaticMusic(); }, {once: true});
+</script>
+</body>
+</html>

@@ -125,7 +125,7 @@
       border-collapse: collapse;
     }
     .standings-table th {
-      padding: 9px 16px;
+      padding: 9px 8px;
       text-align: left;
       font-size: 0.72rem;
       color: var(--muted);
@@ -139,42 +139,48 @@
     .standings-table th.td-r { text-align: center; }
 
     /* ── Bikar bracket ── */
-    .bk-wrap { display:flex; overflow-x:auto; gap:0; padding:28px 20px 28px; align-items:flex-start; }
-    .bk-col  { display:flex; flex-direction:column; }
-    .bk-col-hdr { text-align:center; font-size:0.68rem; color:var(--muted); text-transform:uppercase;
-                  letter-spacing:.07em; padding:0 8px 14px; font-weight:700; white-space:nowrap; }
-    .bk-body { position:relative; flex-shrink:0; }
-    .bk-match { position:absolute; left:0; right:0;
-                background:var(--surface2); border:1px solid var(--border); border-radius:8px; overflow:hidden; min-width:165px; }
-    .bk-player { display:flex; align-items:center; gap:7px; padding:9px 13px; font-size:0.85rem;
-                 font-weight:600; border-bottom:1px solid var(--border); min-height:38px; box-sizing:border-box; }
+    .bk-wrap { display:flex; gap:6px; padding:20px 16px 24px; align-items:center; justify-content:center; flex-wrap:wrap; }
+    .bk-col  { display:flex; flex-direction:column; gap:8px; align-items:center; }
+    .bk-col-hdr { text-align:center; font-size:0.6rem; color:var(--muted); text-transform:uppercase;
+                  letter-spacing:.1em; padding:0 4px 8px; font-weight:700; white-space:nowrap; }
+    /* Match pair card */
+    .bk-pair { display:flex; flex-direction:column; border:1px solid rgba(255,255,255,.13);
+               border-radius:9px; overflow:hidden; min-width:130px; max-width:170px; }
+    .bk-player { display:flex; align-items:center; gap:6px; padding:7px 10px; font-size:0.82rem;
+                 font-weight:600; border-bottom:1px solid rgba(255,255,255,.07); box-sizing:border-box; }
     .bk-player:last-child { border-bottom:none; }
-    .bk-player.bk-win  { color:#4ade80; background:rgba(52,211,153,.10); }
-    .bk-player.bk-lose { color:#4a5568; text-decoration:line-through; }
+    .bk-player.bk-win  { color:var(--gold-light); background:rgba(201,162,39,.12); }
+    .bk-player.bk-lose { color:rgba(255,255,255,.22); background:transparent; text-decoration:line-through; }
     .bk-player.bk-tbd  { color:var(--muted); font-style:italic; font-weight:400; }
-    .bk-divider { display:flex; align-items:center; justify-content:center; padding:2px 13px;
-                  font-size:0.68rem; color:var(--muted); border-bottom:1px solid var(--border);
-                  min-height:22px; background:var(--bg); }
-    .bk-seed { font-size:0.63rem; color:var(--muted); min-width:18px; }
-    .bk-conn { position:relative; flex-shrink:0; }
+    .bk-divider { display:flex; align-items:center; justify-content:center; padding:2px 8px;
+                  font-size:0.62rem; font-weight:700; color:rgba(201,162,39,.85);
+                  background:rgba(201,162,39,.08); border-bottom:1px solid rgba(255,255,255,.07); }
+    .bk-seed { font-size:0.6rem; color:rgba(201,162,39,.45); min-width:16px; }
+    .bk-arrow { color:rgba(201,162,39,.35); font-size:1rem; padding:0 2px; flex-shrink:0; }
     .bk-trophy-col { display:flex; flex-direction:column; justify-content:center; align-items:center;
-                     min-width:120px; padding:0 14px; }
-    .bk-trophy-icon { font-size:2.6rem; }
-    .bk-trophy-name { font-size:0.95rem; font-weight:800; color:var(--gold-light); margin-top:8px; text-align:center; }
-    .bk-trophy-tbd  { font-size:0.75rem; color:var(--muted); font-style:italic; margin-top:6px; }
+                     gap:4px; padding:0 10px; }
+    .bk-trophy-icon { font-size:2.2rem; }
+    .bk-trophy-name { font-size:0.9rem; font-weight:800; color:var(--gold-light); text-align:center; }
+    .bk-trophy-tbd  { font-size:0.72rem; color:var(--muted); font-style:italic; }
     .bk-prelim-note { text-align:center; padding:10px 20px 4px; font-size:0.75rem;
                       color:var(--gold); font-style:italic; letter-spacing:.03em; }
+    /* Hebbi's path highlight */
+    .bk-pair.bk-highlight { border-color:rgba(201,162,39,.45); box-shadow:0 0 0 1px rgba(201,162,39,.18); }
+    .bk-pair.bk-highlight .bk-divider { background:rgba(201,162,39,.14); color:var(--gold-light); font-size:0.68rem; }
+    .bk-path-label { font-size:0.55rem; text-transform:uppercase; letter-spacing:.12em;
+                     color:rgba(201,162,39,.55); font-weight:700; padding-bottom:3px; text-align:center; }
     .standings-table td {
-      padding: 11px 16px;
+      padding: 9px 8px;
       border-bottom: 1px solid #21262d;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       vertical-align: middle;
     }
     .standings-table tr:last-child td { border-bottom: none; }
     .standings-table tbody tr:hover td { background: #1c2128; }
     .td-r { text-align: center; }
 
-    .rank { color: var(--muted); font-size: 0.82rem; width: 32px; }
+    .rank { color: var(--muted); font-size: 0.82rem; width: 24px; }
+    .name-col { max-width: 88px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .rank.podium { color: var(--gold-light); font-weight: 800; }
     .player-link {
       color: var(--text);
@@ -290,6 +296,7 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
       margin-bottom: 20px;
+      align-items: start;
     }
     @media (max-width: 760px) { .stat-cards-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 480px) { .stat-cards-grid { grid-template-columns: 1fr; } }
@@ -398,6 +405,26 @@
     .sig-week-featured .sig-name { font-size: 1rem; }
     .sig-week-featured .sig-pts  { font-size: 1.15rem; }
 
+    /* ── Sigurvegara strip ── */
+    .winners-strip {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      padding: 10px 0 14px;
+    }
+    .win-chip {
+      display: flex; align-items: center; gap: 5px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 4px 10px;
+      font-size: 0.75rem; white-space: nowrap;
+    }
+    .win-chip.latest {
+      border-color: rgba(217,119,6,.6);
+      background: rgba(217,119,6,.09);
+    }
+    .win-chip-wk  { color: var(--muted); font-size: 0.63rem; font-weight: 700; min-width: 20px; }
+    .win-chip-name { font-weight: 700; }
+    .win-chip-pts  { color: var(--gold-light); font-size: 0.68rem; font-weight: 600; }
+    .win-chip-tie  { font-size: 0.6rem; color: var(--muted); }
+
     /* ── Fróðleikur vikunnar ── */
     .funfact {
       background: linear-gradient(135deg, rgba(217,119,6,.12) 0%, rgba(251,191,36,.06) 100%);
@@ -499,19 +526,21 @@
       margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 8px;
-      height: 42px;
+      gap: 5px;
+      height: 40px;
       overflow-x: auto;
+      scrollbar-width: none;
     }
-    .hs-weeks { display: flex; gap: 5px; align-items: center; flex-shrink: 0; }
+    .header-sub-inner::-webkit-scrollbar { display: none; }
+    .hs-weeks { display: flex; gap: 3px; align-items: center; flex-shrink: 0; }
     .hs-wbtn {
       background: transparent;
       border: 1px solid var(--border);
       color: var(--muted);
-      padding: 3px 12px;
-      border-radius: 12px;
+      padding: 2px 7px;
+      border-radius: 10px;
       cursor: pointer;
-      font-size: 0.77rem;
+      font-size: 0.7rem;
       font-weight: 500;
       white-space: nowrap;
       transition: all 0.13s;
@@ -570,6 +599,7 @@
     <img src="SwingersLogo.jpg" class="logo" alt="Swingers logo">
     <span class="site-title">Swingers</span>
     <a href="player.html?p=Gummi" class="my-page-btn">Mín síða</a>
+    <a href="Lokahof2026.html" target="_blank" class="my-page-btn" style="border-color:var(--gold);margin-left:6px">🏆 Lokahóf 2026</a>
     <div class="season-tabs">
       <button class="tab-btn active" onclick="showSeason('2026')">2026</button>
       <button class="tab-btn"        onclick="showSeason('2025')">2025</button>
@@ -589,6 +619,7 @@
 
   <!-- ═══════════════════════════════ 2026 ═══════════════════════════════ -->
   <div id="view-2026">
+    <div id="winners-strip-26"></div>
     <div id="stat-cards-26" class="stat-cards-grid"></div>
     <div id="funfact-26"></div>
     <div class="card">
@@ -633,7 +664,7 @@
       <div id="meistara-content"></div>
     </div>
 
-    <div id="holustats-26" style="display:none"></div>
+    <div id="holustats-26"></div>
 
   </div>
 
@@ -712,7 +743,7 @@ const WEEKS_2026 = [
 const SCORES_2026 = {
   "Biggi":     {V1:19, V2:26, V3:35, V4:31, V5:32, V8:26, V9:23, V10:32, V11:32, V12:31, V13:31, V17:34},
   "Heisi":     {V1:25, V2:28, V3:31, V4:34, V5:38, V6:32, V8:40, V9:36, V10:28, V12:36, V13:35, V15:33, V17:33},
-  "Helgi":     {V1:18, V2:28, V3:36, V4:24, V5:30, V6:34, V7:30, V8:29, V9:20, V12:34, V13:27, V14:1, V15:34, V16:16, V17:31},
+  "Helgi":     {V1:18, V2:28, V3:36, V4:24, V5:30, V6:34, V7:30, V8:29, V9:20, V12:34, V13:27, V15:34, V16:16, V17:31},
   "Kiddi":     {V1:38, V3:23, V4:27, V6:29, V7:29, V10:29, V11:40, V13:23, V17:38},
   "Öddi":      {V1:26, V2:28, V3:24, V5:28, V6:32, V7:28, V8:28, V9:21, V10:18, V12:33, V13:35, V14:28, V15:39, V16:16, V17:30},
   "Pétur":     {V1:29, V2:23, V4:16, V5:23, V6:22, V7:25, V8:19, V9:18, V10:25, V11:23, V13:19, V15:27, V16:28, V17:28},
@@ -792,6 +823,22 @@ const HOLE_DATA = {
     "Ægir":      {s:[6,6,6,3,5,3,6,6,7,5,4,5,8,6,5,8,6,5], p:[2,1,1,3,2,3,2,1,0,2,3,1,0,1,2,0,0,2]},
     "Öddi":      {s:[7,6,6,4,5,4,6,5,5,7,7,6,8,7,7,9,6,7], p:[1,1,1,2,3,2,2,2,2,0,0,0,0,0,0,0,0,0]},
     "Helgi":     {s:[8,6,5,6,4,3,9,7,5,7,8,7,9,7,8,9,6,8], p:[1,2,2,0,4,3,0,1,3,0,0,0,0,0,0,0,0,0]},
+  },
+  "V17": {
+    "Biggi":    {s:[6,5,5,4,4,3,4,6,5,4,4,6,6,5,7,6,3,5], p:[2,2,2,1,3,2,4,1,2,2,3,0,2,1,0,2,3,2]},
+    "Heisi":    {s:[7,5,6,4,5,4,6,4,4,5,5,4,5,7,5,8,3,5], p:[1,2,1,2,2,1,2,3,3,2,2,2,3,0,2,0,3,2]},
+    "Helgi":    {s:[9,6,5,5,6,9,5,6,6,5,7,4,5,6,7,9,3,6], p:[0,2,2,1,2,0,3,2,2,2,1,3,4,1,1,0,3,2]},
+    "Kiddi":    {s:[6,5,4,3,5,3,4,5,3,4,4,3,7,5,5,5,4,5], p:[2,2,2,2,2,2,3,2,4,2,3,2,1,1,2,3,1,2]},
+    "Öddi":     {s:[7,6,7,4,5,5,8,5,5,4,5,4,6,5,5,8,4,5], p:[1,1,0,2,3,1,0,2,2,3,2,2,2,2,2,1,2,2]},
+    "Pétur":    {s:[9,6,6,4,7,5,7,6,7,6,8,7,6,5,6,8,3,7], p:[0,2,2,2,1,1,2,2,1,1,0,0,3,3,2,1,4,1]},
+    "Valdi":    {s:[6,8,6,4,5,4,5,5,5,7,4,6,6,6,6,6,3,5], p:[2,0,1,2,2,2,3,2,2,0,3,0,2,1,1,3,3,2]},
+    "Ægir":     {s:[7,6,5,4,8,3,4,4,5,5,4,3,6,5,5,6,4,6], p:[1,1,2,2,0,3,4,3,2,2,3,3,2,2,2,2,2,1]},
+    "Gísli":    {s:[8,7,4,3,6,4,7,7,5,5,6,6,8,7,6,7,7,7], p:[1,1,4,3,2,2,1,1,3,2,2,1,1,0,2,2,0,1]},
+    "Gummi":    {s:[8,7,6,4,4,3,5,4,3,5,4,4,6,6,5,5,4,5], p:[0,0,0,1,3,2,2,3,4,1,3,1,2,0,2,3,1,2]},
+    "Hebbi":    {s:[7,5,6,4,5,3,8,5,7,4,5,4,4,5,5,6,2,7], p:[1,2,1,2,2,2,0,2,0,3,2,2,4,2,2,2,4,0]},
+    "Maggi":    {s:[9,7,4,4,7,3,6,4,6,6,5,7,7,8,7,6,4,6], p:[0,0,3,2,1,3,2,3,1,1,2,0,2,0,0,3,2,1]},
+    "Rósant":   {s:[9,7,7,4,6,4,8,4,5,6,5,3,6,6,5,7,6,6], p:[0,1,0,2,2,2,0,3,2,1,2,3,3,1,3,2,0,1]},
+    "Matti":    {s:[6,4,5,5,4,3,5,4,5,5,5,3,5,4,4,5,4,5], p:[2,3,1,0,3,2,2,2,2,1,2,2,3,2,3,3,1,2]},
   },
   "V1": {
     "Kiddi":     {s:[5,4,4,4,4,3,5,4,4,3,6,3,6,4,4,7,6,4], p:[3,3,2,1,3,2,2,2,3,3,1,2,2,2,3,1,0,3]},
@@ -1232,38 +1279,31 @@ function renderStatCards() {
     .sort((a,b)=>(b[1].birdies+b[1].eagles*2)-(a[1].birdies+a[1].eagles*2))
     .slice(0,5).map(([nick,d])=>({nick,birdies:d.birdies,eagles:d.eagles}));
 
-  // Sigurvegari
-  const sigurvegariRows = WEEKS_2026.slice().reverse().map((w,i) => {
-    const res = weekResults(w.id);
-    if (!res.length) return '';
-    const topPts = res[0].pts;
-    const winners = res.filter(r => r.pts === topPts);
-    const featured = i === 0 ? 'sig-week-featured' : '';
-    if (featured) {
-      // Featured (latest) week: stacked layout, slightly larger
-      const winnersHtml = winners.map((win, wi) => `
-        <div class="sig-winner" style="${wi>0?'margin-top:4px':''}">
-          <span class="sig-medal">${wi===0?'🥇':'🤝'}</span>
-          <span class="sig-name">${plink(win.nick)}</span>
-          <span class="sig-pts">${win.pts} <span class="sig-stig">pkt.</span></span>
-        </div>`).join('');
-      return `<div class="sig-week ${featured}">
-        <div class="sig-week-meta">${w.label} \xb7 ${w.date}</div>
-        ${winnersHtml}
+  // Sigurvegara strip (full-width horizontal chips)
+  const allSigWeeks = WEEKS_2026.slice(); // chronological V1→V17
+  const latestWkId  = WEEKS_2026.length ? WEEKS_2026[WEEKS_2026.length-1].id : null;
+  const stripEl = document.getElementById('winners-strip-26');
+  if (stripEl) {
+    const chips = allSigWeeks.map(w => {
+      const res = weekResults(w.id);
+      if (!res.length) return '';
+      const topPts = res[0].pts;
+      const winners = res.filter(r => r.pts === topPts);
+      const isLatest = w.id === latestWkId;
+      const nameStr = winners.map(wi => wi.nick).join(' · ');
+      const tieHtml = winners.length > 1 ? `<span class="win-chip-tie"> (${winners.length})</span>` : '';
+      return `<div class="win-chip${isLatest?' latest':''}">
+        <span class="win-chip-wk">${w.label}</span>
+        <span class="win-chip-name">${nameStr}</span>${tieHtml}
+        <span class="win-chip-pts">${topPts} pkt</span>
       </div>`;
-    }
-    // Non-featured: compact single-line (meta left, winner right)
-    const firstWin = winners[0];
-    const tieNote  = winners.length > 1 ? ` <span style="font-size:0.6rem;color:var(--muted)">(+${winners.length-1})</span>` : '';
-    return `<div class="sig-week">
-      <span class="sig-week-meta">${w.label} \xb7 ${w.date}</span>
-      <div class="sig-winner">
-        <span class="sig-medal">🥇</span>
-        <span class="sig-name">${plink(firstWin.nick)}${tieNote}</span>
-        <span class="sig-pts">${firstWin.pts} <span class="sig-stig">pkt.</span></span>
-      </div>
-    </div>`;
-  }).join('');
+    }).join('');
+    stripEl.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin:14px 0 0;padding:0 2px">
+      <span style="font-size:.7rem;font-weight:700;color:var(--muted);letter-spacing:.08em;white-space:nowrap">🏆 SIGURVEGARI VIKU</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
+    <div class="winners-strip">${chips || '<span style="color:var(--muted);font-size:.8rem">Engar vikur enn</span>'}</div>`;
+  }
 
   // Hreyfingar dagsins
   let movementCard = '';
@@ -1408,9 +1448,36 @@ function renderStatCards() {
     }
   }
 
+  // ── Fjöldi hringja / mæting ─────────────────────────────────
+  const totalDataPts = PLAYERS.reduce((sum, p) =>
+    sum + WEEKS_2026.filter(w => (SCORES_2026[p.nick]||{})[w.id] !== undefined).length, 0);
+  const possiblePts  = PLAYERS.length * WEEKS_2026.length;
+  const attendancePct = possiblePts > 0 ? Math.round(totalDataPts / possiblePts * 100) : 0;
+  const attendanceCard = card('📅', 'Fjöldi hringja', wkBadge,
+    `<div class="sc-row" style="align-items:baseline;gap:6px">
+      <span class="sc-val" style="font-size:1.6rem;font-weight:700;color:var(--gold-light)">${totalDataPts}</span>
+      <span class="sc-sub">hringir skráðir</span>
+    </div>
+    <div class="sc-row" style="margin-top:4px">
+      <span class="sc-val" style="font-size:1.15rem">${attendancePct}%</span>
+      <span class="sc-sub">mæting &nbsp;(${totalDataPts}&thinsp;/&thinsp;${possiblePts} mögulegir)</span>
+    </div>`);
+
+  // Bardagi á toppnum
+  const topStand = calcStandings(SCORES_2026, PLAYERS).filter(p=>p.rounds>0).slice(0,4);
+  const bardagiCard = topStand.length >= 2 ? card('⚔️', 'Bardagi á toppnum', wkBadge,
+    topStand.map((p,i)=>{
+      const medal = ['🥇','🥈','🥉','4.'][i] || (i+1)+'.';
+      return `<div class="sc-row">
+        <span class="sc-medal">${medal}</span>
+        <span class="sc-name">${plink(p.nick)}</span>
+        <span class="sc-val">${p.best8} pkt.</span>
+      </div>`;
+    }).join('')) : '';
+
   el.innerHTML = [
-    card('🏆', 'Sigurvegari', wkBadge,
-      sigurvegariRows || EMPTY('Engar vikur enn')),
+    bardagiCard,
+    attendanceCard,
     card('🎯', 'Topp 5 pkt. — bestu 8 vikur', wkBadge,
       rowsList(overall, p=>p.best8+' pkt.', p=>`(${p.rounds} vikur)`)),
     card('⭐', 'H\xe6stu einstaklingar', wkBadge,
@@ -1564,7 +1631,7 @@ function buildFunFact() {
     const tied   = latestRows.filter(x => x.pts === winner.pts);
     emoji    = isPB ? '🎉' : '🏆';
     headline = tied.length > 1
-      ? `Jafntefli um sigur — ${winner.pts} stig`
+      ? `${tied.map(x=>x.nick).join(' og ')} vinna vikuna`
       : `${winner.nick} vann vikuna${isPB ? ' og náði persónulegu meti!' : ''}`;
     detail   = tied.length > 1
       ? `<strong>${tied.map(x=>x.nick).join(' og ')}</strong> deildu sigri með <strong>${winner.pts} stigum</strong> í ${latestW.label}.`
@@ -1718,11 +1785,12 @@ function render26() {
     }
 
     let h = '<div class="scores-wrap"><table class="standings-table"><thead><tr>';
-    h += '<th class="th-sort td-r" style="width:28px">#</th>';
-    h += th('nick','Leikmaður','th-sort');
+    h += '<th class="th-sort td-r" style="width:24px">#</th>';
+    h += th('nick','Nafn','th-sort name-col');
     WEEKS_2026.forEach(w => { h += th(w.id, w.label, 'td-r wk-col'); });
     h += '<th class="td-r spark-col">Trend</th>';
     h += th('pts','Bestu 8','td-r');
+    h += '<th class="td-r" style="width:44px;color:var(--muted)">Fjöldi</th>';
     h += '</tr></thead><tbody>';
 
     sorted.forEach(p => {
@@ -1740,14 +1808,15 @@ function render26() {
 
       h += `<tr>
         <td style="text-align:center" class="rank${r<=3?' podium':''}">${r}</td>
-        <td>${mvHtml}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a>${playerBadges(p.nick,winsMap26)}</td>`;
+        <td class="name-col">${mvHtml}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a>${playerBadges(p.nick,winsMap26)}</td>`;
       allScores.forEach((pts,idx) => {
         const cnt = pts!==null && cntIdx.has(idx);
         h += pts!==null ? `<td class="td-r wk-col ${cnt?'score-counting':''}">${pts}</td>`
                         : '<td class="td-r wk-col score-dns">—</td>';
       });
       h += `<td class="td-r spark-col">${sparkSvg(p.nick)}</td>`;
-      h += `<td class="td-r pts">${p.best8||'—'} <span class="gap-inf">(${gapVal})</span></td></tr>`;
+      h += `<td class="td-r pts">${p.best8||'—'} <span class="gap-inf">(${gapVal})</span></td>`;
+      h += `<td class="td-r" style="color:var(--muted);font-size:.78rem">${p.rounds}</td></tr>`;
     });
     h += '</tbody></table></div>';
     el.innerHTML = h;
@@ -1896,7 +1965,7 @@ const BIKAR_ROUNDS_NEEDED = 4;
 const BIKAR_RESULTS = {
   QF: [[0,1,"AS (SD)"],[0,1,"3og2"],[1,0,"3og2"],[0,1,"6og4"]],
   SF: [[1,0,"1UP"],[1,0,"2og1"]],
-  F:  [null,null],
+  F:  [0,1,"3og2"],
 };
 
 function renderBikar() {
@@ -1935,109 +2004,43 @@ function renderBikar() {
   ];
   const champ = winner(BIKAR_RESULTS.F,sfW[0],sfW[1]);
 
-  // Layout constants (px)
-  const MH = 98;   // match height: 2×38px player + 22px divider
-  const GAP = 14;  // gap between QF matches
-  const TOTAL = 4*MH + 3*GAP; // 392 + 42 = 434
-
-  // Match tops in QF column
-  const qfTop = [0, MH+GAP, 2*(MH+GAP), 3*(MH+GAP)];
-  const qfC   = qfTop.map(t=>t+MH/2);                    // centers
-
-  // SF: centered between pairs
-  const sfC   = [(qfC[0]+qfC[1])/2, (qfC[2]+qfC[3])/2];
-  const sfTop = sfC.map(c=>Math.round(c-MH/2));
-
-  // Final: centered between SFs
-  const fC   = Math.round((sfC[0]+sfC[1])/2);
-  const fTop = Math.round(fC-MH/2);
-
   // ── Player cell ────────────────────────────────────────────
-  function playerCell(player, seed, score, vsScore, preliminary) {
-    if (!player) return `<div class="bk-player bk-tbd"><span class="bk-seed"></span>TBD</div>`;
-    const won  = score!==null && vsScore!==null && score>vsScore;
-    const lost = score!==null && vsScore!==null && score<vsScore;
-    const cls  = won?'bk-win':lost?'bk-lose':'';
-    const seedHtml = seed ? `<span class="bk-seed">[${seed}]</span>` : '<span class="bk-seed"></span>';
-    const nameHtml = `<a class="player-link" href="player.html?p=${encodeURIComponent(player.nick)}">${player.nick}</a>`;
-    return `<div class="bk-player${cls?' '+cls:''}">${seedHtml}${nameHtml}</div>`;
+  function pEl(p, seed, s1, s2, cls) {
+    if (!p) return `<div class="bk-player bk-tbd"><span class="bk-seed"></span>TBD</div>`;
+    const won  = s1!==null&&s2!==null&&s1>s2;
+    const lost = s1!==null&&s2!==null&&s1<s2;
+    const c    = cls||(won?'bk-win':lost?'bk-lose':'');
+    const seedHtml = seed ? `<span class="bk-seed">[${seed}]</span>` : '';
+    return `<div class="bk-player${c?' '+c:''}">${seedHtml}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a></div>`;
   }
 
-  function dividerCell(res) {
+  function hasHebbi(p1,p2) { return (p1&&p1.nick==='Hebbi')||(p2&&p2.nick==='Hebbi'); }
+
+  function matchCard(p1, p2, seed1, seed2, res, dimmed) {
     const [s1,s2,label] = res||[null,null,null];
-    if (s1!==null&&s2!==null) {
-      const txt = label || `${s1} − ${s2}`;
-      return `<div class="bk-divider" style="color:var(--muted)">${txt}</div>`;
-    }
-    return `<div class="bk-divider">vs</div>`;
-  }
-
-  function anonCell(player) {
-    if (!player) return `<div class="bk-player bk-tbd"><span class="bk-seed"></span>TBD</div>`;
-    return `<div class="bk-player"><span class="bk-seed"></span><a class="player-link" href="player.html?p=${encodeURIComponent(player.nick)}">${player.nick}</a></div>`;
-  }
-
-  function match(top, p1, p2, seed1, seed2, res, preliminary) {
-    const [s1,s2] = res||[null,null];
-    const won1 = s1!==null&&s2!==null&&s1>s2, won2 = s1!==null&&s2!==null&&s2>s1;
-    const c1 = won1?'bk-win':won2?'bk-lose':'';
-    const c2 = won2?'bk-win':won1?'bk-lose':'';
-    const s = (seed)=>seed?`<span class="bk-seed">[${seed}]</span>`:'<span class="bk-seed"></span>';
-    function nameEl(p,cls) {
-      if (!p) return `<div class="bk-player bk-tbd">${s('')}TBD</div>`;
-      return `<div class="bk-player${cls?' '+cls:''}">${s(null)}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a></div>`;
-    }
-    function nameElS(p,seed,cls) {
-      if (!p) return `<div class="bk-player bk-tbd">${s(seed)}TBD</div>`;
-      return `<div class="bk-player${cls?' '+cls:''}">${s(seed)}<a class="player-link" href="player.html?p=${encodeURIComponent(p.nick)}">${p.nick}</a></div>`;
-    }
-    const divRow = dividerCell(res);
-    const p1el = seed1!==null ? nameElS(p1,seed1,c1) : nameEl(p1,c1);
-    const p2el = seed2!==null ? nameElS(p2,seed2,c2) : nameEl(p2,c2);
-    const prelim = preliminary ? ' style="opacity:.7"' : '';
-    return `<div class="bk-match" style="top:${top}px"${prelim}>${p1el}${divRow}${p2el}</div>`;
-  }
-
-  // ── Connector helper ────────────────────────────────────────
-  function line(top, left, w, h) {
-    return `<div style="position:absolute;top:${Math.round(top)}px;left:${left}px;width:${w}px;height:${h}px;background:var(--border)"></div>`;
-  }
-  const CW = 36; // connector column width
-  const ARM = 18;
-
-  function connQFtoSF() {
-    let d='';
-    [[0,1,0],[2,3,1]].forEach(([ia,ib,si])=>{
-      const ca=qfC[ia], cb=qfC[ib], mid=sfC[si];
-      d+=line(ca-1,0,ARM,2);
-      d+=line(ca,ARM,2,cb-ca);
-      d+=line(cb-1,0,ARM,2);
-      d+=line(mid-1,ARM,ARM,2);
-    });
-    return `<div class="bk-conn" style="width:${CW}px;height:${TOTAL}px;flex-shrink:0;position:relative">${d}</div>`;
-  }
-  function connSFtoF() {
-    const ca=sfC[0], cb=sfC[1], mid=fC;
-    const d=line(ca-1,0,ARM,2)+line(ca,ARM,2,cb-ca)+line(cb-1,0,ARM,2)+line(mid-1,ARM,ARM,2);
-    return `<div class="bk-conn" style="width:${CW}px;height:${TOTAL}px;flex-shrink:0;position:relative">${d}</div>`;
-  }
-  function connFtoW() {
-    const d=line(fC-1,0,CW,2);
-    return `<div class="bk-conn" style="width:${CW}px;height:${TOTAL}px;flex-shrink:0;position:relative">${d}</div>`;
+    const won1 = s1!==null&&s2!==null&&s1>s2, won2=s1!==null&&s2!==null&&s2>s1;
+    const vs = (s1!==null&&s2!==null) ? (label||`${s1} − ${s2}`) : 'vs';
+    const dim = dimmed ? ' style="opacity:.65"' : '';
+    const hlClass = hasHebbi(p1,p2) ? ' bk-highlight' : '';
+    return `<div class="bk-pair${hlClass}"${dim}>
+      ${pEl(p1,seed1,s1,s2,won1?'bk-win':won2?'bk-lose':'')}
+      <div class="bk-divider">${vs}</div>
+      ${pEl(p2,seed2,s2,s1,won2?'bk-win':won1?'bk-lose':'')}
+    </div>`;
   }
 
   // ── QF column ────────────────────────────────────────────────
-  const qfMatches = qfP.map(([p1,p2],i)=>
-    match(qfTop[i],p1,p2,QF_SEEDS[i][0],QF_SEEDS[i][1],BIKAR_RESULTS.QF[i],preliminary)
+  const qfCards = qfP.map(([p1,p2],i)=>
+    matchCard(p1,p2,QF_SEEDS[i][0],QF_SEEDS[i][1],BIKAR_RESULTS.QF[i],preliminary)
   ).join('');
 
   // ── SF column ────────────────────────────────────────────────
-  const sfMatches = [0,1].map(i=>
-    match(sfTop[i],qfW[i*2],qfW[i*2+1],null,null,BIKAR_RESULTS.SF[i],false)
+  const sfCards = [0,1].map(i=>
+    matchCard(qfW[i*2],qfW[i*2+1],null,null,BIKAR_RESULTS.SF[i],false)
   ).join('');
 
   // ── Final column ──────────────────────────────────────────────
-  const fMatch = match(fTop,sfW[0],sfW[1],null,null,BIKAR_RESULTS.F,false);
+  const fCard = matchCard(sfW[0],sfW[1],null,null,BIKAR_RESULTS.F,false);
 
   // ── Assemble ──────────────────────────────────────────────────
   const prelimNote = preliminary
@@ -2049,26 +2052,32 @@ function renderBikar() {
     ? `<div style="text-align:center;padding:0 0 10px;font-size:0.78rem;color:var(--muted)">${rem} ${rem===1?'hringur':'hringir'} eftir til að forseðlar staðfestist</div>`
     : '';
 
+  const hebbiBadge = champ && champ.nick === 'Hebbi'
+    ? `<div style="text-align:center;padding:0 0 4px;font-size:0.68rem;color:rgba(201,162,39,.6);letter-spacing:.08em">
+        <span style="border:1px solid rgba(201,162,39,.35);border-radius:4px;padding:1px 7px">leið Hebba</span>
+      </div>`
+    : '';
+
   el.innerHTML = `
-    ${prelimNote}${waitNote}
+    ${prelimNote}${waitNote}${hebbiBadge}
     <div class="bk-wrap">
       <div class="bk-col">
         <div class="bk-col-hdr">Fjórðungsúrslit</div>
-        <div class="bk-body" style="height:${TOTAL}px;min-width:170px">${qfMatches}</div>
+        ${qfCards}
       </div>
-      ${connQFtoSF()}
+      <div class="bk-arrow">→</div>
       <div class="bk-col">
         <div class="bk-col-hdr">Hálfleikur</div>
-        <div class="bk-body" style="height:${TOTAL}px;min-width:170px">${sfMatches}</div>
+        ${sfCards}
       </div>
-      ${connSFtoF()}
+      <div class="bk-arrow">→</div>
       <div class="bk-col">
         <div class="bk-col-hdr">Úrslitaleikur</div>
-        <div class="bk-body" style="height:${TOTAL}px;min-width:170px">${fMatch}</div>
+        ${fCard}
       </div>
-      ${connFtoW()}
-      <div class="bk-trophy-col" style="height:${TOTAL}px">
-        <div class="bk-col-hdr" style="padding-bottom:8px">🏆 Bikarinn</div>
+      <div class="bk-arrow">→</div>
+      <div class="bk-trophy-col">
+        <div class="bk-col-hdr" style="padding-bottom:4px">🏆 Bikarinn</div>
         <div class="bk-trophy-icon">🏆</div>
         ${champ
           ? `<div class="bk-trophy-name"><a class="player-link" href="player.html?p=${encodeURIComponent(champ.nick)}">${champ.nick}</a></div>`
@@ -2474,40 +2483,10 @@ function buildHoluStats() {
     </div>`;
 }
 
-function toggleHoluStats() {
-  const el = document.getElementById('holustats-26');
-  if (!el) return;
-  const opening = el.style.display === 'none';
-  el.style.display = opening ? '' : 'none';
-  if (opening && !el.dataset.built) { buildHoluStats(); el.dataset.built = '1'; }
-}
-
 // ── Init ──
 render26();
 render25();
+buildHoluStats();
 </script>
-
-<!-- Holutölfræði leyndardómur-punktur -->
-<script>
-var _holaOpen = false;
-function toggleHoluDot() {
-  toggleHoluStats();
-  _holaOpen = !_holaOpen;
-  var dot = document.getElementById('holu-dot');
-  if (dot) {
-    dot.style.background = _holaOpen ? '#d97706' : '#6e7681';
-    dot.style.opacity = _holaOpen ? '1' : '0.6';
-  }
-}
-</script>
-<button id="holu-dot" onclick="toggleHoluDot()" title="Holutölfræði" style="
-  position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
-  width:10px; height:10px; border-radius:50%;
-  background:#6e7681; border:none; cursor:pointer;
-  opacity:0.6; transition:opacity .2s, background .2s;
-  padding:0; z-index:9999;
-" onmouseenter="this.style.opacity='1'"
-   onmouseleave="this.style.opacity=_holaOpen?'1':'0.6'"
-></button>
 </body>
 </html>
