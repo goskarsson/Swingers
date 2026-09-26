@@ -968,39 +968,39 @@ html,body{width:100%;height:100vh;background:var(--bg);overflow:hidden;
 <script>
 // ===== HOLE MASTER DATA =====
 // group = reveal order (1=first/least holes, 5=last/most holes)
-// Group 1: 1 hola  → Öddi, Ægir, Helgi, Maggi
-// Group 2: 2 holur → Hebbi
-// Group 3: 3 holur → Heisi
-// Group 4: 4 holur → Matti
-// Group 5: 5 holur → Gísli  ← birtur síðast
+// Group 1: 1-2 holur → Öddi, Ægir, Helgi, Maggi
+// Group 2: 2 holur   → Hebbi
+// Group 3: 2 holur   → Heisi
+// Group 4: 4 holur   → Gísli
+// Group 5: 5 holur   → Matti  ← birtur síðast
 const HOLES = [
-  {h:1,  par:5, nick:"Matti",  avg:2.46, overall:1.52, group:4},
-  {h:2,  par:4, nick:"Gísli",  avg:2.70, overall:1.68, group:5},
-  {h:3,  par:4, nick:"Gísli",  avg:2.50, overall:1.70, group:5},
-  {h:4,  par:3, nick:"Heisi",  avg:2.25, overall:1.78, group:3},
-  {h:5,  par:4, nick:"Öddi",   avg:2.57, overall:2.00, group:1},
-  {h:6,  par:3, nick:"Ægir",   avg:2.57, overall:1.78, group:1},
-  {h:7,  par:5, nick:"Heisi",  avg:2.17, overall:1.65, group:3},
-  {h:8,  par:4, nick:"Helgi",  avg:2.23, overall:1.90, group:1},
-  {h:9,  par:4, nick:"Matti",  avg:2.31, overall:1.68, group:4},
-  {h:10, par:4, nick:"Hebbi",  avg:2.79, overall:1.65, group:2},
-  {h:11, par:4, nick:"Gísli",  avg:2.70, overall:1.83, group:5},
-  {h:12, par:3, nick:"Gísli",  avg:2.20, overall:1.60, group:5},
-  {h:13, par:5, nick:"Maggi",  avg:2.33, overall:1.72, group:1},
-  {h:14, par:4, nick:"Heisi",  avg:2.08, overall:1.37, group:3},
-  {h:15, par:4, nick:"Matti",  avg:2.38, overall:1.68, group:4},
-  {h:16, par:5, nick:"Hebbi",  avg:2.36, overall:1.55, group:2},
-  {h:17, par:3, nick:"Gísli",  avg:2.30, overall:1.57, group:5},
-  {h:18, par:4, nick:"Matti",  avg:2.77, overall:1.67, group:4},
+  {h:1,  par:5, nick:"Matti",  avg:2.46, overall:1.48, group:5},
+  {h:2,  par:4, nick:"Gísli",  avg:2.55, overall:1.67, group:4},
+  {h:3,  par:4, nick:"Gísli",  avg:2.64, overall:1.71, group:4},
+  {h:4,  par:3, nick:"Heisi",  avg:2.23, overall:1.77, group:3},
+  {h:5,  par:4, nick:"Öddi",   avg:2.50, overall:2.00, group:1},
+  {h:6,  par:3, nick:"Ægir",   avg:2.64, overall:1.78, group:1},
+  {h:7,  par:5, nick:"Heisi",  avg:2.15, overall:1.66, group:3},
+  {h:8,  par:4, nick:"Helgi",  avg:2.21, overall:1.92, group:1},
+  {h:9,  par:4, nick:"Matti",  avg:2.31, overall:1.71, group:5},
+  {h:10, par:4, nick:"Hebbi",  avg:2.79, overall:1.64, group:2},
+  {h:11, par:4, nick:"Matti",  avg:2.69, overall:1.87, group:5},
+  {h:12, par:3, nick:"Gísli",  avg:2.09, overall:1.60, group:4},
+  {h:13, par:5, nick:"Maggi",  avg:2.42, overall:1.78, group:1},
+  {h:14, par:4, nick:"Öddi",   avg:1.93, overall:1.36, group:1},
+  {h:15, par:4, nick:"Matti",  avg:2.46, overall:1.69, group:5},
+  {h:16, par:5, nick:"Hebbi",  avg:2.36, overall:1.57, group:2},
+  {h:17, par:3, nick:"Gísli",  avg:2.09, overall:1.64, group:4},
+  {h:18, par:4, nick:"Matti",  avg:2.69, overall:1.65, group:5},
 ];
 
 const GROUP_LABELS = [
   '',
-  '1 hola ·  Öddi · Ægir · Helgi · Maggi',
+  '2 holur ·  Öddi · Ægir · Helgi · Maggi',
   '2 holur ·  Hebbi',
-  '3 holur ·  Heisi',
-  '4 holur ·  Matti',
-  '🏆  5 holur ·  Gísli',
+  '2 holur ·  Heisi',
+  '4 holur ·  Gísli',
+  '🏆  5 holur ·  Matti',
 ];
 const HOLU_TOTAL = 5;
 

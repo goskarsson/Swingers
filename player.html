@@ -310,6 +310,11 @@
                   width:1.6em; height:1.6em; line-height:1.6em; text-align:center;
                   color:#dc2626; }
     .rnd-tot{ font-weight:700; background:rgba(75,85,99,.25) !important; }
+    .rnd-avg-row td { border-top:2px solid var(--border); background:rgba(201,162,39,.06) !important; font-size:0.78rem; }
+    .rnd-avg-row:first-child td { border-top:2px solid rgba(201,162,39,.3); }
+    tfoot .rnd-tot { background:rgba(201,162,39,.12) !important; }
+    .rnd-best-hole { outline:1px solid rgba(201,162,39,.55); outline-offset:-1px; }
+    .rnd-best-crown { display:block; font-size:0.55rem; line-height:1; margin-top:1px; }
     .bird-mark { display:block; font-size:9px; line-height:1; margin-top:1px; }
     .hole-section-hdr { grid-column:1/-1; padding:6px 12px; font-size:0.68rem; color:var(--muted);
                         text-transform:uppercase; letter-spacing:.06em; font-weight:700;
@@ -996,6 +1001,25 @@ function renderPlayer(player) {
         t += `<th>H${i+1}<span class="rnd-hdr-sub">Par${par}</span></th>`;
       });
       t += '<th class="rnd-tot">Högg</th><th class="rnd-tot">Stig</th></tr></thead><tbody>';
+      // collect round data for summary rows
+      const _rndData = playerHoleWeeks.map(w => {
+        const hd = HOLE_DATA[w.id][player.nick];
+        return { hd, totS: hd.s.reduce((a,b)=>a+b,0), totP: hd.p.reduce((a,b)=>a+b,0) };
+      });
+      const _best8 = _rndData.slice().sort((a,b)=>b.totP-a.totP).slice(0, BEST_OF);
+
+      // group best average points per hole (all players, all weeks with hole data)
+      const _groupBestPerHole = COURSE_PARS.map((_, hi) => {
+        let best = -Infinity;
+        PLAYERS.forEach(p => {
+          const wks = WEEKS_2026.filter(w => w.course === HOME_COURSE && (HOLE_DATA[w.id]||{})[p.nick]);
+          if (!wks.length) return;
+          const avg = wks.reduce((a,w) => a + HOLE_DATA[w.id][p.nick].p[hi], 0) / wks.length;
+          if (avg > best) best = avg;
+        });
+        return best === -Infinity ? null : best;
+      });
+
       playerHoleWeeks.forEach(w => {
         const hd = HOLE_DATA[w.id][player.nick];
         const totS = hd.s.reduce((a,b)=>a+b,0);
@@ -1011,7 +1035,28 @@ function renderPlayer(player) {
         });
         t += `<td class="rnd-tot">${totS}</td><td class="rnd-tot">${totP}</td></tr>`;
       });
-      t += '</tbody></table></div></div>';
+
+      // summary rows
+      function _summaryRow(label, rounds, showBest) {
+        if (!rounds.length) return '';
+        const n = rounds.length;
+        let r = `<tr class="rnd-avg-row"><td class="rnd-td-lbl" style="font-size:0.65rem;line-height:1.2">${label}</td>`;
+        COURSE_PARS.forEach((_, i) => {
+          const avg = rounds.reduce((a,d)=>a+d.hd.p[i],0)/n;
+          const cls = avg >= 2.5 ? 'rp3' : avg >= 1.8 ? 'rp2' : avg >= 1.0 ? 'rp1' : 'rp0';
+          const isGroupBest = showBest && _groupBestPerHole[i] !== null && avg >= _groupBestPerHole[i] - 0.01;
+          const crown = isGroupBest ? '<span class="rnd-best-crown">👑</span>' : '';
+          r += `<td class="${cls}${isGroupBest?' rnd-best-hole':''}" style="opacity:.9"><span class="rnd-p" style="font-size:0.72rem;font-weight:700">${avg.toFixed(1)}</span>${crown}</td>`;
+        });
+        const avgS = (rounds.reduce((a,d)=>a+d.totS,0)/n).toFixed(1);
+        const avgP = (rounds.reduce((a,d)=>a+d.totP,0)/n).toFixed(1);
+        r += `<td class="rnd-tot" style="font-weight:700">${avgS}</td><td class="rnd-tot" style="font-weight:700;color:var(--gold-light)">${avgP}</td></tr>`;
+        return r;
+      }
+      t += '</tbody><tfoot>' +
+        _summaryRow(`Meðaltal<br>allar (${_rndData.length})`, _rndData, true) +
+        _summaryRow(`Meðaltal<br>bestu ${Math.min(BEST_OF,_rndData.length)}`, _best8, false) +
+        '</tfoot></table></div></div>';
       html += t;
     }
 
